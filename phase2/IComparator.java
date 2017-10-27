@@ -3,8 +3,7 @@
 
 public interface IComparator {
 
-  // Generates report for Driver class to determine if
-  // the plagiarism is detected.
+  // Returns generated report of given prograams to PlagiarismDetector
   String generateReport(String programA, String programB);
 
 }
