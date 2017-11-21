@@ -51,7 +51,7 @@ public class FunctionSignatureTests extends TestCase {
 		String p2="comparator.functionSignature.tests.RBTree2.RedBlack";
 		Layer1Detection detect = new Layer1Detection();
 		float score=detect.comparePrograms(p1, p2);
-		
 		assertEquals(score, 8.33, 0.01);
+		String res=detect.generateReport(p1, p2);
 	}
 }

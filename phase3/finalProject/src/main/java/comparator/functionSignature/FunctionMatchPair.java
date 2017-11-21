@@ -42,13 +42,13 @@ public class FunctionMatchPair {
 	/**
 	 * Prints textual representation of a match pair
 	 */
-	public void textualRepresentation() {
+	public String textualRepresentation() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(fs1.getName());
 		generateArgumentString(sb, fs1);
 		sb.append(fs2.getName());
 		generateArgumentString(sb, fs2);
-		System.out.println(sb);
+		return sb.toString();
 	}
 
 	/**

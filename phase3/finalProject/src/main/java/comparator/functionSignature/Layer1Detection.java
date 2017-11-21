@@ -2,15 +2,86 @@ package comparator.functionSignature;
 import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+
+import comparator.hashcode.IComparator;
 
 /**
  * @author sumeetdubey
  * Class for detecting function signature similarity
  */
 
-public class Layer1Detection {
+public class Layer1Detection implements IComparator{
 //	A set that stores pairs of matching function signatures  
 	private HashSet<FunctionMatchPair> matchPairs=new HashSet<FunctionMatchPair>();
+	
+	/* (non-Javadoc)
+	 * @see comparator.hashcode.IComparator#generateReport(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public String generateReport(String programA, String programB) {
+		StringBuilder sb=new StringBuilder();
+		float score=comparePrograms(programA, programB);
+		Iterator<FunctionMatchPair> it=matchPairs.iterator();
+		while(it.hasNext()) {
+			sb.append(it.next().textualRepresentation());
+			sb.append("\n");
+		}
+		System.out.println(sb.toString());
+		return sb.toString();
+	}
+	
+	/**
+	 * Function for computing similarity score of two classes
+	 * score calculated as number of similar methods divided by total number of methods * 100
+	 * @param c1 - name of class 1
+	 * @param c2 - name of class 2
+	 * @return a score indicating the similarity between methods of given classes
+	 */
+	public float comparePrograms(String c1, String c2) {
+		int cnt;
+		float score;
+		ArrayList<FunctionSignature> fns1=getAllMethods(c1);
+		ArrayList<FunctionSignature> fns2=getAllMethods(c2);
+//		if block to calculate score based on the program with lesser
+//		number of functions
+		if(fns1.size()<fns2.size()) {
+			cnt=compareProgramsHelper(fns1, fns2);
+			score=cnt/fns1.size() * 100;
+		}
+		else {
+			cnt=compareProgramsHelper(fns2, fns1);
+			score=(float)cnt/(float)fns2.size() * 100;
+		}
+		return score;
+	}
+	
+	/**
+	 * Function for comparing each function in 2 classes
+	 * @param fns1 - function signature of class 1
+	 * @param fns2 - function signature of class 2
+	 * @return number of functions with same signature
+	 */
+	private int compareProgramsHelper(ArrayList<FunctionSignature> fns1, ArrayList<FunctionSignature> fns2) {
+		int cnt=0;
+		System.out.println(cnt);
+		for (FunctionSignature fs1: fns1) {
+			boolean matchFound=false;
+			for(FunctionSignature fs2: fns2) {
+				if(fs1.signatureComparison(fs2)) {
+					if(matchFound) {
+						addToMatchPairs(fs1, fs2);
+					}
+					else {
+						addToMatchPairs(fs1, fs2);
+						matchFound=true;
+						cnt++;
+					}
+				}
+			}
+		}
+		return cnt;
+	}
 	
 	/**
 	 * Function for getting all function signatures of a class
@@ -67,57 +138,6 @@ public class Layer1Detection {
 			}
 		}
 		return params;
-	}
-	
-	/**
-	 * function for computing similarity score of two classes
-	 * score calculated as number of similar methods divided by total number of methods * 100
-	 * @param c1 - name of class 1
-	 * @param c2 - name of class 2
-	 * @return a score indicating the similarity between methods of given classes
-	 */
-	public float comparePrograms(String c1, String c2) {
-		int cnt;
-		float score;
-		ArrayList<FunctionSignature> fns1=getAllMethods(c1);
-		ArrayList<FunctionSignature> fns2=getAllMethods(c2);
-//		if block to calculate score based on the program with lesser
-//		number of functions
-		if(fns1.size()<fns2.size()) {
-			cnt=compareProgramsHelper(fns1, fns2);
-			score=cnt/fns1.size() * 100;
-		}
-		else {
-			cnt=compareProgramsHelper(fns2, fns1);
-			score=(float)cnt/(float)fns2.size() * 100;
-		}
-		return score;
-	}
-	
-	/**
-	 * Function for comparing each function in 2 classes
-	 * @param fns1 - function signature of class 1
-	 * @param fns2 - function signature of class 2
-	 * @return number of functions with same signature
-	 */
-	private int compareProgramsHelper(ArrayList<FunctionSignature> fns1, ArrayList<FunctionSignature> fns2) {
-		int cnt=0;
-		for (FunctionSignature fs1: fns1) {
-			boolean matchFound=false;
-			for(FunctionSignature fs2: fns2) {
-				if(fs1.signatureComparison(fs2)) {
-					if(!matchFound) {
-						addToMatchPairs(fs1, fs2);
-						matchFound=true;
-						cnt++;
-					}
-					else {
-						addToMatchPairs(fs1, fs2);
-					}
-				}
-			}
-		}
-		return cnt;
 	}
 
 	/**
