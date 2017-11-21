@@ -3,9 +3,12 @@ package comparator.functionSignature.tests;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import org.junit.Test;
 
+import comparator.functionSignature.FunctionMatchPair;
 import comparator.functionSignature.FunctionSignature;
 import comparator.functionSignature.Layer1Detection;
 import junit.framework.TestCase;
@@ -31,6 +34,11 @@ public class FunctionSignatureTests extends TestCase {
 		String p1="comparator.functionSignature.tests.Sample1";
 		String p2="comparator.functionSignature.tests.Sample2";
 		float score=Layer1Detection.comparePrograms(p1, p2);
+		HashSet<FunctionMatchPair> set = Layer1Detection.getMatchPairs();
+		Iterator<FunctionMatchPair> it=set.iterator();
+		while(it.hasNext()) {
+			it.next().textualRepresentation();
+		}
 		assertEquals(score, 100, 0.01);
 	}
 	

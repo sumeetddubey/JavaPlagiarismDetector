@@ -1,9 +1,7 @@
 package algorithms;
 
 import static org.junit.Assert.*;
-
 import java.util.HashSet;
-
 import org.junit.Test;
 
 public class GreedyStringTillingTests {
@@ -68,4 +66,25 @@ public class GreedyStringTillingTests {
 		expected.add(new Match(7, 4, 4));
 		assertTrue(equals(actual, expected));
 	}
+
+//	Test two long strings
+	@Test
+	public void TestTwoLongStrings() {
+		String str1="abcdcdefferrfgher";
+		int LARGEINT=1000;
+		for(int i=0; i<LARGEINT; i++) {
+			str1+="a";
+		}
+		String str2="abcdfferfher";
+		for(int i=0; i<LARGEINT; i++) {
+			str2+="a";
+		}
+		HashSet<Match> actual = GreedyStringTilling.GST(str1, str2);
+		HashSet<Match> expected = new HashSet<Match>();
+		expected.add(new Match(0, 0, 4));
+		expected.add(new Match(7, 4, 4));
+		expected.add(new Match(14, 9, 1003));
+		assertTrue(equals(actual, expected));
+	}
 }
+	
