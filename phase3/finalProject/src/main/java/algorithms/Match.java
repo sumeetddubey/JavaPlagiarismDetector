@@ -1,22 +1,33 @@
 package algorithms;
 
-/*
- Class defining a match in greedy string tilling. Every object denotes two indices that indicate
- the starting indexes in the two strings where the match occurs. matchLength denotes the number of 
- subsequent characters that are a part of this match 
+/**
+ * @author sumeetdubey
+ * Class defining a match in greedy string tilling. Every object denotes two indices that indicate
+ * the starting indexes in the two strings where the match occurs. matchLength denotes the number of 
+ * subsequent characters that are a part of this match 
  */
 
 public class Match {
+//	Instance Variables
 	private int a;
 	private int b;
 	private int matchLength;
 	
+	
+	/**
+	 * Class constructor
+	 * @param a
+	 * @param b
+	 * @param matchLength
+	 */
 	public Match(int a, int b, int matchLength) {
 		this.a=a;
 		this.b=b;
 		this.matchLength=matchLength;
 	}
 	
+	
+//	Getters
 	public int getFirstStringIndex() {
 		return a;
 	}
@@ -29,6 +40,10 @@ public class Match {
 		return matchLength;
 	}
 	
+	
+	/**
+	 * Prints out textual representation of this match
+	 */
 	public void textualRepresentation() {
 		StringBuilder sb=new StringBuilder();
 		sb.append("Index in string 1: " +getFirstStringIndex() + "\t");
@@ -37,6 +52,10 @@ public class Match {
 		System.out.println(sb);
 	}
 	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if(o==null) {
