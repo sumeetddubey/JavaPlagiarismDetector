@@ -1,12 +1,15 @@
 package comparator.functionSignature;
 import java.lang.reflect.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * @author sumeetdubey
  * Class for detecting function signature similarity
  */
 public class Layer1Detection {
+	private static HashSet<FunctionMatchPair> matchPairs=new HashSet<FunctionMatchPair>();
+	
 	/**
 	 * Function for getting all function signatures of a class
 	 * @param className
@@ -21,10 +24,8 @@ public class Layer1Detection {
 //			in an array list
 			for(Method m: methods) {
 				FunctionSignature fs = createFunctionSignature(m);
-				fs.textualRepresentation();
 				fns.add(fs);
 			}
-			System.out.println("\n");
 		}
 //		will catch when a class definition is not found 
 		catch(Exception e) {
@@ -100,13 +101,28 @@ public class Layer1Detection {
 	private static int compareProgramsHelper(ArrayList<FunctionSignature> fns1, ArrayList<FunctionSignature> fns2) {
 		int cnt=0;
 		for (FunctionSignature fs1: fns1) {
+			boolean matchFound=false;
 			for(FunctionSignature fs2: fns2) {
 				if(fs1.signatureComparison(fs2)) {
-					cnt++;
-					break;
+					if(!matchFound) {
+						addToMatchPairs(fs1, fs2);
+						matchFound=true;
+						cnt++;
+					}
+					else {
+						addToMatchPairs(fs1, fs2);
+					}
 				}
 			}
 		}
 		return cnt;
+	}
+
+	private static void addToMatchPairs(FunctionSignature fs1, FunctionSignature fs2) {
+		matchPairs.add(new FunctionMatchPair(fs1, fs2));
+	}
+	
+	public static HashSet<FunctionMatchPair> getMatchPairs(){
+		return matchPairs;
 	}
 }
