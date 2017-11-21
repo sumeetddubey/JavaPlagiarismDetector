@@ -7,15 +7,17 @@ import java.util.HashSet;
  * @author sumeetdubey
  * Class for detecting function signature similarity
  */
+
 public class Layer1Detection {
-	private static HashSet<FunctionMatchPair> matchPairs=new HashSet<FunctionMatchPair>();
+//	A set that stores pairs of matching function signatures  
+	private HashSet<FunctionMatchPair> matchPairs=new HashSet<FunctionMatchPair>();
 	
 	/**
 	 * Function for getting all function signatures of a class
 	 * @param className
 	 * @return list of function signatures
 	 */
-	private static ArrayList<FunctionSignature> getAllMethods(String className) {
+	private ArrayList<FunctionSignature> getAllMethods(String className) {
 		ArrayList<FunctionSignature> fns=new ArrayList<FunctionSignature>();	
 		try {
 			Class<?> c=Class.forName(className);
@@ -39,7 +41,7 @@ public class Layer1Detection {
 	 * @param m - a method object 
 	 * @return function signature
 	 */
-	private static FunctionSignature createFunctionSignature(Method m) {
+	private FunctionSignature createFunctionSignature(Method m) {
 		String name;
 		String returnType;
 		name=m.getName();
@@ -54,7 +56,7 @@ public class Layer1Detection {
 	 * @param paramTypes - array of class objects giving the parameter types for a method
 	 * @return parameter array
 	 */
-	private static ArrayList<String> extractFunctionArguments(Class<?>[] paramTypes) {
+	private ArrayList<String> extractFunctionArguments(Class<?>[] paramTypes) {
 		ArrayList<String> params = new ArrayList<String>();
 		if(paramTypes.length==0) {
 			params.add("none");
@@ -74,7 +76,7 @@ public class Layer1Detection {
 	 * @param c2 - name of class 2
 	 * @return a score indicating the similarity between methods of given classes
 	 */
-	public static float comparePrograms(String c1, String c2) {
+	public float comparePrograms(String c1, String c2) {
 		int cnt;
 		float score;
 		ArrayList<FunctionSignature> fns1=getAllMethods(c1);
@@ -98,7 +100,7 @@ public class Layer1Detection {
 	 * @param fns2 - function signature of class 2
 	 * @return number of functions with same signature
 	 */
-	private static int compareProgramsHelper(ArrayList<FunctionSignature> fns1, ArrayList<FunctionSignature> fns2) {
+	private int compareProgramsHelper(ArrayList<FunctionSignature> fns1, ArrayList<FunctionSignature> fns2) {
 		int cnt=0;
 		for (FunctionSignature fs1: fns1) {
 			boolean matchFound=false;
@@ -118,11 +120,20 @@ public class Layer1Detection {
 		return cnt;
 	}
 
-	private static void addToMatchPairs(FunctionSignature fs1, FunctionSignature fs2) {
+	/**
+	 * Adds a pair of functions to matchPairs set that have matching signatures
+	 * @param fs1 - function signature 1
+	 * @param fs2 - function signature 2
+	 */
+	private void addToMatchPairs(FunctionSignature fs1, FunctionSignature fs2) {
 		matchPairs.add(new FunctionMatchPair(fs1, fs2));
 	}
 	
-	public static HashSet<FunctionMatchPair> getMatchPairs(){
+	
+	/**
+	 * Get all match pairs
+	 */
+	public HashSet<FunctionMatchPair> getMatchPairs(){
 		return matchPairs;
 	}
 }

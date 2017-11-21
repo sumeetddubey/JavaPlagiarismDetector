@@ -46,7 +46,7 @@ public class FunctionSignature {
 	}	
 
 	/**
-	 * prints out the textual representation of this function
+	 * Prints out the textual representation of this function
 	 */
 	public void textualRepresentation() {
 		StringBuilder sb=new StringBuilder();
@@ -57,7 +57,7 @@ public class FunctionSignature {
 	}
 
 	/**
-	 * compares if two function signatures have the same return type and arguments
+	 * Compares if two function signatures have the same return type and arguments
 	 * @param fn - function signature
 	 * @return boolean
 	 */

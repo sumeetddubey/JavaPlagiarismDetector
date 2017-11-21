@@ -11,10 +11,14 @@ import java.util.HashSet;
  */
 
 public class GreedyStringTilling {
-	private final static int MIN_MATCH_LENGTH=2;
-	private static HashSet<Match> tiles;
-	private static ArrayList<GSTToken> arrayA;
-	private static ArrayList<GSTToken> arrayB;
+//	Minimum length for a match to be valid
+	private final int MIN_MATCH_LENGTH=2;
+//	Set of matches that are valid
+	private HashSet<Match> tiles;
+//	Array of GST tokens for string A
+	private ArrayList<GSTToken> arrayA;
+//	Array of GST tokens for string B
+	private ArrayList<GSTToken> arrayB;
 	
 	
 	/**
@@ -23,7 +27,7 @@ public class GreedyStringTilling {
 	 * @param a - String a
 	 * @param b - String b
 	 */
-	public static HashSet<Match> GST(String a, String b) {
+	public HashSet<Match> GST(String a, String b) {
 		tiles=new HashSet<Match>();
 		arrayA=generateTokenArray(a);
 		arrayB=generateTokenArray(b);
@@ -52,7 +56,7 @@ public class GreedyStringTilling {
 	 * indices of start of matching sequences in both strings and the length of match
 	 * @return Set of matches
 	 */
-	private static void GST_Helper() {
+	private void GST_Helper() {
 		HashSet<Match> matches = new HashSet<Match>();
 		int maxMatch;
 		do {
@@ -77,7 +81,7 @@ public class GreedyStringTilling {
 	 * @param maxMatch - Current value of maxMatch
 	 * @return maxMatch 
 	 */
-	private static int findMatchingSubstrings(HashSet<Match> matches, int maxMatch) {
+	private int findMatchingSubstrings(HashSet<Match> matches, int maxMatch) {
 		for(int i=0; i<arrayA.size(); i++) {
 			if(Unmarked(arrayA, i)) {
 				for(int j=0; j<arrayB.size(); j++) {
@@ -109,7 +113,7 @@ public class GreedyStringTilling {
 	 * @param k - Current increment offset
 	 * @return true if both arrays have same element at index+k 
 	 */
-	private static boolean isEqual(int i, int j, int k) {
+	private boolean isEqual(int i, int j, int k) {
 		return i+k<arrayA.size() && j+k<arrayB.size() && arrayA.get(i+k).getValue().equals(arrayB.get(j+k).getValue()) && Unmarked(arrayA, i+k) && Unmarked(arrayB, j+k);
 	}
 
@@ -119,7 +123,7 @@ public class GreedyStringTilling {
 	 * @param arr - Token array
 	 * @param i - Index i in token array
 	 */
-	private static void Mark(ArrayList<GSTToken> arr, int i) {
+	private void Mark(ArrayList<GSTToken> arr, int i) {
 		arr.get(i).setMarked(true);
 	}
 
@@ -128,7 +132,7 @@ public class GreedyStringTilling {
 	 * @param i - Index i in token array
 	 * @return true if element at index i in token array is not marked
 	 */
-	private static boolean Unmarked(ArrayList<GSTToken> arr, int i) {
+	private boolean Unmarked(ArrayList<GSTToken> arr, int i) {
 		return !arr.get(i).isMarked();
 	}
 }
