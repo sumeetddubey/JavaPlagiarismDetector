@@ -2,34 +2,25 @@ package comparator.functionSignature;
 import java.lang.reflect.*;
 import java.util.ArrayList;
 
-
-// class for detecting function signature similarity
+/**
+ * @author sumeetdubey
+ * Class for detecting function signature similarity
+ */
 public class Layer1Detection {
-//	function for getting all methods of a class
+	/**
+	 * Function for getting all function signatures of a class
+	 * @param class name
+	 * @return list of function signatures
+	 */
 	private static ArrayList<FunctionSignature> getAllMethods(String className) {
-		ArrayList<FunctionSignature> fns=new ArrayList<FunctionSignature>();
-		String name, returnType;		
-		Class<?>[] paramClass;
+		ArrayList<FunctionSignature> fns=new ArrayList<FunctionSignature>();	
 		try {
 			Class<?> c=Class.forName(className);
 			Method[] methods=c.getDeclaredMethods();
 //			iterating over all methods to get their arguments and storing
-//			in an arraylist
+//			in an array list
 			for(Method m: methods) {
-				ArrayList<String> params = new ArrayList<String>();
-				name=m.getName();
-				returnType=m.getReturnType().getSimpleName();
-				paramClass=m.getParameterTypes();
-				
-				if(paramClass.length==0) {
-					params.add("none");
-				}
-				else {
-					for(Class<?> param: paramClass) {
-						params.add(param.getSimpleName());
-					}
-				}
-				FunctionSignature fs=new FunctionSignature(name, params, returnType);
+				FunctionSignature fs = createFunctionSignature(m);
 				fs.textualRepresentation();
 				fns.add(fs);
 			}
@@ -41,12 +32,49 @@ public class Layer1Detection {
 		}
 		return fns;
 	}
+
+	/**
+	 * Generates a function signature for given method
+	 * @param a method m
+	 * @return function signature
+	 */
+	private static FunctionSignature createFunctionSignature(Method m) {
+		String name;
+		String returnType;
+		name=m.getName();
+		returnType=m.getReturnType().getSimpleName();
+		ArrayList<String> params=extractFunctionArguments(m.getParameterTypes());
+		FunctionSignature fs=new FunctionSignature(name, params, returnType);
+		return fs;
+	}
+
+	/**
+	 * Function for extracting the argument types for a method
+	 * @param array of class objects giving the parameter types for a method
+	 * @return parameter array
+	 */
+	private static ArrayList<String> extractFunctionArguments(Class<?>[] paramTypes) {
+		ArrayList<String> params = new ArrayList<String>();
+		if(paramTypes.length==0) {
+			params.add("none");
+		}
+		else {
+			for(Class<?> param: paramTypes) {
+				params.add(param.getSimpleName());
+			}
+		}
+		return params;
+	}
 	
-//	function for computing similarity score of two classes
+	/**
+	 * function for computing similarity score of two classes
+	 * score calculated as number of similar methods divided by total number of methods * 100
+	 * @param name of class 1
+	 * @param name of class 2
+	 * @return a score indicating the similarity between methods of given classes
+	 */
 	public static float comparePrograms(String c1, String c2) {
 		int cnt;
-//		score calculated as number of similar methods divided by total
-//		number of methods * 100
 		float score;
 		ArrayList<FunctionSignature> fns1=getAllMethods(c1);
 		ArrayList<FunctionSignature> fns2=getAllMethods(c2);
@@ -63,12 +91,17 @@ public class Layer1Detection {
 		return score;
 	}
 	
-//	function to compare each function in both classes
+	/**
+	 * Function for comparing each function in 2 classes
+	 * @param function signature of class 1
+	 * @param function signature of class 2
+	 * @return number of functions with same signature
+	 */
 	private static int compareProgramsHelper(ArrayList<FunctionSignature> fns1, ArrayList<FunctionSignature> fns2) {
 		int cnt=0;
 		for (FunctionSignature fs1: fns1) {
 			for(FunctionSignature fs2: fns2) {
-				if(fs1.SignatureComparison(fs2)) {
+				if(fs1.signatureComparison(fs2)) {
 					cnt++;
 					break;
 				}
