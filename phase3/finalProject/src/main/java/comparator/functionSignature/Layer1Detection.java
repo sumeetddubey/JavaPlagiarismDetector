@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Layer1Detection {
 	/**
 	 * Function for getting all function signatures of a class
-	 * @param class name
+	 * @param className
 	 * @return list of function signatures
 	 */
 	private static ArrayList<FunctionSignature> getAllMethods(String className) {
@@ -35,7 +35,7 @@ public class Layer1Detection {
 
 	/**
 	 * Generates a function signature for given method
-	 * @param a method m
+	 * @param m - a method object 
 	 * @return function signature
 	 */
 	private static FunctionSignature createFunctionSignature(Method m) {
@@ -50,7 +50,7 @@ public class Layer1Detection {
 
 	/**
 	 * Function for extracting the argument types for a method
-	 * @param array of class objects giving the parameter types for a method
+	 * @param paramTypes - array of class objects giving the parameter types for a method
 	 * @return parameter array
 	 */
 	private static ArrayList<String> extractFunctionArguments(Class<?>[] paramTypes) {
@@ -69,8 +69,8 @@ public class Layer1Detection {
 	/**
 	 * function for computing similarity score of two classes
 	 * score calculated as number of similar methods divided by total number of methods * 100
-	 * @param name of class 1
-	 * @param name of class 2
+	 * @param c1 - name of class 1
+	 * @param c2 - name of class 2
 	 * @return a score indicating the similarity between methods of given classes
 	 */
 	public static float comparePrograms(String c1, String c2) {
@@ -93,8 +93,8 @@ public class Layer1Detection {
 	
 	/**
 	 * Function for comparing each function in 2 classes
-	 * @param function signature of class 1
-	 * @param function signature of class 2
+	 * @param fns1 - function signature of class 1
+	 * @param fns2 - function signature of class 2
 	 * @return number of functions with same signature
 	 */
 	private static int compareProgramsHelper(ArrayList<FunctionSignature> fns1, ArrayList<FunctionSignature> fns2) {
