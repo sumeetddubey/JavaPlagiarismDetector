@@ -17,9 +17,9 @@ public class FunctionSignature {
 
 	/**
 	 * Class constructor
-	 * @param function name
-	 * @param list of arguments
-	 * @param return type
+	 * @param name - function name
+	 * @param args - list of arguments
+	 * @param returnType - function return type
 	 */
 	public FunctionSignature(String name, ArrayList<String> args, String returnType) {
 		this.name=name;
@@ -58,7 +58,7 @@ public class FunctionSignature {
 
 	/**
 	 * compares if two function signatures have the same return type and arguments
-	 * @param function signature
+	 * @param fn - function signature
 	 * @return boolean
 	 */
 	public boolean signatureComparison(FunctionSignature fn) {

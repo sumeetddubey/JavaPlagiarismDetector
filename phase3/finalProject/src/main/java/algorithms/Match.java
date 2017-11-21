@@ -36,4 +36,16 @@ public class Match {
 		sb.append("Match length: " +getMatchLength() + "\n");
 		System.out.println(sb);
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o==null) {
+			return false;
+		}
+		if(!Match.class.isAssignableFrom(o.getClass())) {
+			return false;
+		}
+		final Match match=(Match) o;
+		return(this.a==match.a && this.b==match.b && this.matchLength==match.matchLength);
+	}
 }
