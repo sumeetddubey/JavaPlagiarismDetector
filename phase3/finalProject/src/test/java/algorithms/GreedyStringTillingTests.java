@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 import java.util.HashSet;
 import org.junit.Test;
 
+import algorithms.gst.GreedyStringTilling;
+import algorithms.gst.Match;
+
 public class GreedyStringTillingTests {
 	
 //	Test helper method for comparing two match sets
