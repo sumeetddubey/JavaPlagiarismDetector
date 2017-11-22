@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import org.junit.Test;
 import comparator.functionSignature.FunctionSignature;
-import comparator.functionSignature.Layer1Detection;
+import comparator.functionSignature.FunctionSignatureComparator;
 import junit.framework.TestCase;
 
 public class FunctionSignatureTests extends TestCase {
@@ -29,7 +29,7 @@ public class FunctionSignatureTests extends TestCase {
 	public void testCompareTwoPrograms1() throws ClassNotFoundException {
 		String p1="comparator.functionSignature.tests.Sample1";
 		String p2="comparator.functionSignature.tests.Sample2";
-		Layer1Detection detect = new Layer1Detection();
+		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(p1, p2);
 		assertEquals(score, 100, 0.01);
 	}
@@ -40,7 +40,7 @@ public class FunctionSignatureTests extends TestCase {
 	public void testCompareTwoPrograms2() {
 		String p1="comparator.functionSignature.tests.Sample1";
 		String p2="comparator.functionSignature.tests.Sample3";
-		Layer1Detection detect = new Layer1Detection();
+		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(p1, p2);
 		assertEquals(score, 66.67, 0.01);
 	}
@@ -49,7 +49,7 @@ public class FunctionSignatureTests extends TestCase {
 	public void testCompareComplexPrograms() {
 		String p1="comparator.functionSignature.tests.RBTree1.RBTree";
 		String p2="comparator.functionSignature.tests.RBTree2.RedBlack";
-		Layer1Detection detect = new Layer1Detection();
+		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(p1, p2);
 		assertEquals(score, 8.33, 0.01);
 	}
