@@ -38,6 +38,11 @@ public class Layer1Detection implements IComparator{
 		return report;
 	}
 	
+	/**
+	 * Get the canonical name for this file. This will return the package name followed by file name.
+	 * @param programA
+	 * @return
+	 */
 	private String getCanonicalName(File programA) {
 		String name = programA.getName();
 		name=name.substring(0, name.indexOf('.'));
@@ -78,7 +83,6 @@ public class Layer1Detection implements IComparator{
 	 */
 	private int compareProgramsHelper(ArrayList<FunctionSignature> fns1, ArrayList<FunctionSignature> fns2) {
 		int cnt=0;
-		System.out.println(cnt);
 		for (FunctionSignature fs1: fns1) {
 			boolean matchFound=false;
 			for(FunctionSignature fs2: fns2) {

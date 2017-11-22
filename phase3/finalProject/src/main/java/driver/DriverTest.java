@@ -10,6 +10,5 @@ public class DriverTest {
 		File fileB = new File("./src/main/java/resource/B.java");
 		PlagiarismDetector plagiarismDetector = new PlagiarismDetector(fileA, fileB);
 		Report[] reports = plagiarismDetector.generateFinalReport();
-		System.out.println(reports);
 	}
 }
