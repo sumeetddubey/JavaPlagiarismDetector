@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.internal.preferences.StringPool;
+
 import algorithms.gst.GreedyStringTilling;
 import algorithms.gst.Match;
 import interfaces.IComparator;
@@ -23,11 +25,15 @@ public class ASTComparator implements IComparator {
 	@Override
 	public Report generateReport(File programA, File programB) throws IOException {
 		String programAStr = ReadFileToString.readFileToString(programA);
-		String programBStr = ReadFileToString.readFileToString(programA);
+		String programBStr = ReadFileToString.readFileToString(programB);
 		
 		// get node lists of two programs respectively
 		List<Node> programANodeList = DetectorASTParser.parseProgramToTypeAbbrs(programAStr);
 		List<Node> programBNodeList = DetectorASTParser.parseProgramToTypeAbbrs(programBStr);
+		
+//		System.out.println(programAStr.equals(programBStr));
+//		System.out.println(getProgramRepresentation(programANodeList));
+//		System.out.println(getProgramRepresentation(programBNodeList));
 		
 		// get the matched node index pair([startIndex, endIndex]) list for the two programs
 		List<SimilarNodeListPairs> matchedNodeIndexPairList = getMatchedNodeListPairs(programANodeList, programBNodeList);
