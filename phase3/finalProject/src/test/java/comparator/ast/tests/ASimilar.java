@@ -3,6 +3,7 @@ package comparator.ast.tests;
 public class ASimilar {
 	int num;
 	int x=10;
+	
 	ASimilar(int num){
 		this.num = num;
 	}
@@ -11,16 +12,16 @@ public class ASimilar {
 		int sum = 0;
 		
 		int i = 0;
-		while(i < num) {
+		while (i < num) {
 			sum += i;
 			i++;
 		}
-
+		
 		return sum;
 	}
 	
 	public static void main(String[] args) {
-		ASimilar a = new ASimilar(5);
+		A a = new A(5);
 		int sum = a.getSum();
 		
 		System.out.println(sum);
