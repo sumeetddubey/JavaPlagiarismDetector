@@ -49,7 +49,7 @@ public class Match {
 		sb.append("Index in string 1: " +getFirstStringIndex() + "\t");
 		sb.append("Index in string 2: " +getSecondStringIndex() +"\t");
 		sb.append("Match length: " +getMatchLength() + "\n");
-		System.out.println(sb);
+		//System.out.println(sb);
 	}
 	
 	

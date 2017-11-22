@@ -13,7 +13,7 @@ import utility.Report;
  * Class for detecting function signature similarity
  */
 
-public class Layer1Detection implements IComparator{
+public class FunctionSignatureComparator implements IComparator{
 //	A set that stores pairs of matching function signatures  
 	private HashSet<FunctionMatchPair> matchPairs=new HashSet<FunctionMatchPair>();
 	
