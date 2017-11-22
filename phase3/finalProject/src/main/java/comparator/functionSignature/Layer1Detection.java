@@ -1,10 +1,12 @@
 package comparator.functionSignature;
+import java.io.File;
 import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import comparator.hashcode.IComparator;
+import interfaces.IComparator;
+import utility.Report;
 
 /**
  * @author sumeetdubey
@@ -19,18 +21,30 @@ public class Layer1Detection implements IComparator{
 	 * @see comparator.hashcode.IComparator#generateReport(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String generateReport(String programA, String programB) {
+	public Report generateReport(File programA, File programB) {
+		String strProgramA=getCanonicalName(programA);
+		String strProgramB=getCanonicalName(programB);
 		StringBuilder sb=new StringBuilder();
-		float score=comparePrograms(programA, programB);
+		float score=comparePrograms(strProgramA, strProgramB);
 		Iterator<FunctionMatchPair> it=matchPairs.iterator();
 		while(it.hasNext()) {
 			sb.append(it.next().textualRepresentation());
 			sb.append("\n");
 		}
-		System.out.println(sb.toString());
-		return sb.toString();
+		Report report = new Report();
+		report.setLayer("layer1");
+		report.setMessage(sb.toString());
+		report.setScore(score);
+		return report;
 	}
 	
+	private String getCanonicalName(File programA) {
+		String name = programA.getName();
+		name=name.substring(0, name.indexOf('.'));
+		name = "resource." + name;
+		return name;
+	}
+
 	/**
 	 * Function for computing similarity score of two classes
 	 * score calculated as number of similar methods divided by total number of methods * 100
