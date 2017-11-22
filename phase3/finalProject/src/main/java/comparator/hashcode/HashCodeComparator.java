@@ -1,5 +1,13 @@
 package comparator.hashcode;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import interfaces.IComparator;
+import utility.Report;
+
 /**
  * HashCodeComparator checks if two programs are exactly same by using hash code
  */
@@ -8,26 +16,45 @@ public class HashCodeComparator implements IComparator {
 
 	/**
 	 * Returns generated report of given programs to PlagiarismDetector
+	 * @throws IOException 
 	 */
-	public String generateReport(String programA, String programB) {
+	public Report generateReport(File programA, File programB) throws IOException {
 
 		hashCodeA = generateHashCode(programA);
 		hashCodeB = generateHashCode(programB);
 		
 		boolean isSame = compareHashCode();
 		
-		String generatedReport = writeReport(isSame);
-		
-		return generatedReport;
+		return writeReport(isSame);
 	}
 	
 	
 	/**
 	 * Returns the hash code of given program file
+	 * @throws IOException 
 	 */
 	
-	private int generateHashCode(String program) {
-		return program.hashCode();
+	private int generateHashCode(File programA) throws IOException {
+		String strProgramA = convertFileToString(programA);
+		return strProgramA.hashCode();
+	}
+	
+	/**
+	 * Returns the string representation of upload file
+	 */
+	
+	private String convertFileToString(File file) throws IOException {
+		FileReader fileReader = new FileReader(file);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		StringBuilder strBuilder = new StringBuilder();
+		String str;
+
+		while((str = bufferedReader.readLine()) != null) {
+			strBuilder.append(str + "\n");
+		}
+		bufferedReader.close();
+		String fileToString = strBuilder.toString();
+		return fileToString;
 	}
 	
 	
@@ -47,13 +74,17 @@ public class HashCodeComparator implements IComparator {
 	 * Write the report according to if two computed hash codes are same
 	 */
 	
-	private String writeReport(Boolean isSame) {
+	private Report writeReport(Boolean isSame) {
+		Report r = new Report();
+		r.setLayer("layer0");
 		if (isSame) {
-			report = "100" + "\n" + "Summary: plagiarism is detected in layer 0!";
+			r.setScore(100);
+			r.setMessage("Plagiarism detected in layer 0: files are same");
 		} else {
-			report = "0" + "\n" + "Summary: layer 0 is succeessfully passed!";
+			r.setScore(0);
+			r.setMessage("Plagiarism not detected in layer 0");
 		}
-		return report;
+		return r;
 	}
 	
 	/**
