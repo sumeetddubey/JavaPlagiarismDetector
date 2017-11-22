@@ -52,6 +52,5 @@ public class FunctionSignatureTests extends TestCase {
 		Layer1Detection detect = new Layer1Detection();
 		float score=detect.comparePrograms(p1, p2);
 		assertEquals(score, 8.33, 0.01);
-		String res=detect.generateReport(p1, p2);
 	}
 }
