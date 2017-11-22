@@ -18,9 +18,10 @@ public class PlagiarismDetector {
 		
 		Report report0 = layer0Report();
 		reports[0]=report0;
+		System.out.println(report0.getMessage());
 		
 		Report report1 = layer1Report();
-		System.out.println(report1.getMessage());
+		System.out.println(report1.getScore());
 		reports[1]=report1;
 		
 		/**
@@ -28,17 +29,6 @@ public class PlagiarismDetector {
 		 */
 		return reports;
 	}
-
-
-	/**
-	 * @throws IOException 
-	 * 
-	 */
-	private Report layer1Report() throws IOException {
-		IComparator layer1 = new Layer1Detection();
-		return layer1.generateReport(programA, programB);
-	}
-
 
 	/**
 	 * @throws IOException 
@@ -49,12 +39,16 @@ public class PlagiarismDetector {
 		return hashCodeComparator.generateReport(programA, programB);
 	}
 	
-	
 
-	
-	
-	
-	
+	/**
+	 * @throws IOException 
+	 * 
+	 */
+	private Report layer1Report() throws IOException {
+		IComparator layer1 = new Layer1Detection();
+		return layer1.generateReport(programA, programB);
+	}
+
 	
 	/**
 	 * Constructors
