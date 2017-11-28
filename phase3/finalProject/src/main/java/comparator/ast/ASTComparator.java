@@ -11,9 +11,9 @@ import java.util.Set;
 
 import algorithms.gst.GreedyStringTilling;
 import algorithms.gst.Match;
+import interfaces.IComparator;
 import utility.ReadFileToString;
 import utility.Report;
-import interfaces.IComparator;
 
 /**
  * ASTComparator that compares two programs and generates report

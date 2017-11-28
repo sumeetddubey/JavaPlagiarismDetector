@@ -14,7 +14,6 @@ import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.ReturnStatement;
-import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
@@ -183,7 +182,6 @@ public class DetectorASTVisitor extends ASTVisitor {
 	 * and keep visiting any sub-node of it 
 	 */
 	public boolean visit(MethodDeclaration node) {
-		SimpleName name = node.getName();
 		listOfNodes.add(new Node(cu.getLineNumber(node.getStartPosition()), 
 								 // set the end line number also as the start number 
 								 cu.getLineNumber(node.getStartPosition()),  

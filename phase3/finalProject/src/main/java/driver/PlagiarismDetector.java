@@ -19,20 +19,18 @@ public class PlagiarismDetector {
 		
 		Report report0 = layer0Report();
 		reports[0]=report0;
-		System.out.println(report0.getMessage());
+		System.out.println("Layer 0: " + report0.getMessage());
 		
 		Report report1 = layer1Report();
-		System.out.println(report1.getScore());
+		System.out.println("Layer 1: " + report1.getScore());
 		reports[1]=report1;
-		
-		/**
-		 * AST comparison
-		 */
+
 		Report report2 = layer2Report();
+		System.out.print("Layer 2: ");
 		System.out.println(report2.getScore());
 		System.out.println(report2.getMessage());
 		reports[2] = report2;
-		
+
 		return reports;
 	}
 
@@ -63,7 +61,6 @@ public class PlagiarismDetector {
 		IComparator hashCodeComparator = new ASTComparator();
 		return hashCodeComparator.generateReport(programA, programB);
 	}
-	
 	
 	/**
 	 * Constructors

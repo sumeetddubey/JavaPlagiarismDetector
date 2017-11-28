@@ -1,0 +1,34 @@
+Instruction for Release Version
+
+Introduction:
+
+The target language of our plagiarism detection application is Java. Our application has three layers: HashcodeComparison, 
+FunctionSignatureComparison, and ASTComparison. In this release version, all three layers have been fully implemented. 
+You can test it with your own Java files. The detailed instructions are stated below. As far as the UI is concerned,
+we are still working on merging it with the back-end. Although we have released a really simple UI, it isn't stable.
+
+Steps to Test:
+
+Since we our user interface is not stable, we cannot provide you an executable jar file. You have to install an IDE, 
+such as eclipse or intellij, on your machine. In addition, you have to install Java JDK 1.8 on your machine. 
+Our project utilizes maven. If you have no idea with IDE, JDK or Maven, you can check following links.
+
+Eclipse: https://www.eclipse.org/
+JDK 1.8: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+Maven: https://maven.apache.org/
+
+Once you complete above prerequiests, you can use git command to clone our project from github repository to your local machine.
+Then, open your IDE and open our maven project. All dependencies can be automated downloaded. You do not have to worry about it.
+You can run the DriverTest.java in src/main/java/driver, and replace test files with your own. One thing to be mentioned is
+that you have to save your own test files under src/main/java/resource, otherwise the application cannot successfully run.
+
+Features:
+  - Three layers of plagiarism detection
+  - Simple user interface
+  - The validation of upload files will be implemented in next release version.
+  
+Tests:
+  To find all tests we write for our application, you can go to src/test/java. The following tests you can find from different packages:
+  - GreedyStringTilingTests.java
+  - ASTComparatorTests.java
+  - FunctionSignatureTests.java
