@@ -1,5 +1,11 @@
 package comparator.ast.tests;
 
+/**
+ * This file is used to test the ASTComparator to mock up user input
+ * 
+ * @author Wenjun
+ *
+ */
 public class A {
 	int num;
 	int x=10;

@@ -3,39 +3,30 @@ package comparator.ast;
 /**
  * The type to store all desired attributes of a Node in an AST
  * including 
- * 	- line number of the node in the program
+ * 	- start line number of the node in the program
+ * 	- end line number of the node in the program
  * 	- type of the node 
- * 	- the String representation of the node (only for debugging phase, will be removed later)
  * 
  * @author Wenjun
  *
  */
 public class Node {
-
 	
-	private int startLineNum;	// line number of the node
-	private int endLineNum;
-	private String nodeType;	// type of the node
-	private String nodeStrRep;	// String representation of the node
+	private int startLineNum;	// start line number of the node
+	private int endLineNum;		// end line number of the node
+	private String nodeType;	// abbreviation of type of the node
 
 	/**
 	 * Constructor to create a Node
-	 * @param lineNum
+	 * 
+	 * @param startLineNum
+	 * @param endLineNum
 	 * @param nodeType
-	 * @param nodeStrRep
 	 */
-	public Node(int startLineNum, int endLineNum, String nodeType, String nodeStrRep) {
+	public Node(int startLineNum, int endLineNum, String nodeType) {
 		this.startLineNum = startLineNum;
 		this.endLineNum = endLineNum;
 		this.nodeType = nodeType;
-		this.nodeStrRep = nodeStrRep;
-	}
-
-	/**
-	 * @return the string representation of the node
-	 */
-	public String getNodeStrRep() {
-		return nodeStrRep;
 	}
 
 	/**
@@ -46,12 +37,15 @@ public class Node {
 	}
 
 	/**
-	 * @return line number of the node
+	 * @return start line number of the node
 	 */
 	public int getStartLineNum() {
 		return startLineNum;
 	}
 
+	/**
+	 * @return end line number of the node
+	 */
 	public int getEndLineNumber() {
 		return endLineNum;
 	}
@@ -62,34 +56,8 @@ public class Node {
 	@Override
 	public String toString() {
 		return "{'type': '" + nodeType + "'" 
-				+ ", 'line': '" + startLineNum + "'"
+				+ ", 'start line number': '" + startLineNum + "'"
+				+ ", 'end line number': '" + endLineNum + "'"
 				+ "'}";
-		
-		// return "{'type': '" + nodeType + "'"
-		// + ", 'line': '" + lineNum + "'"
-		// + ", 'representation': '" + nodeStrRep + "'}";
 	}
-	
-	
-//	/**
-//	 * Check if the obj is equals to this Node
-//	 */
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (obj == null) {
-//	        return false;
-//	    }
-//	    if (!Node.class.isAssignableFrom(obj.getClass())) {
-//	        return false;
-//	    }
-//	    
-//	    final Node node = (Node) obj;
-//
-//		if(this.getStartLineNum() == node.getStartLineNum() && 
-//				this.getEndLineNumber() == node.getEndLineNumber() &&
-//				this.getNodeTypeAbbr() == node.getNodeTypeAbbr())
-//			return true;
-//		
-//		return false;
-//	}
 }
