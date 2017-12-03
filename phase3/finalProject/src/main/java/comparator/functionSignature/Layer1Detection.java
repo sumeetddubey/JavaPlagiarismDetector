@@ -1,9 +1,21 @@
 package comparator.functionSignature;
+import java.io.BufferedReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.junit.Test;
+
 
 import interfaces.IComparator;
 import utility.Report;
@@ -16,16 +28,33 @@ import utility.Report;
 public class Layer1Detection implements IComparator{
 //	A set that stores pairs of matching function signatures  
 	private HashSet<FunctionMatchPair> matchPairs=new HashSet<FunctionMatchPair>();
+	private HashSet<String> returnTypes=new HashSet<String>();
+	private final static Logger LOGGER = Logger.getLogger(Layer1Detection.class.getName());
+	
+	public Layer1Detection() {
+		returnTypes.add("void");
+		returnTypes.add("boolean");
+		returnTypes.add("byte");
+		returnTypes.add("char");
+		returnTypes.add("short");
+		returnTypes.add("int");
+		returnTypes.add("long");
+		returnTypes.add("float");
+		returnTypes.add("double");
+		returnTypes.add("Integer");
+		returnTypes.add("Character");
+		returnTypes.add("String");
+	}
 	
 	/* (non-Javadoc)
 	 * @see comparator.hashcode.IComparator#generateReport(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public Report generateReport(File programA, File programB) {
-		String strProgramA=getCanonicalName(programA);
-		String strProgramB=getCanonicalName(programB);
+//		String strProgramA=getCanonicalName(programA);
+//		String strProgramB=getCanonicalName(programB);
 		StringBuilder sb=new StringBuilder();
-		float score=comparePrograms(strProgramA, strProgramB);
+		float score=comparePrograms(programA, programB);
 		Iterator<FunctionMatchPair> it=matchPairs.iterator();
 		while(it.hasNext()) {
 			sb.append(it.next().textualRepresentation());
@@ -43,12 +72,12 @@ public class Layer1Detection implements IComparator{
 	 * @param programA
 	 * @return
 	 */
-	private String getCanonicalName(File programA) {
-		String name = programA.getName();
-		name=name.substring(0, name.indexOf('.'));
-		name = "resource." + name;
-		return name;
-	}
+//	private String getCanonicalName(File programA) {
+//		String name = programA.getName();
+//		name=name.substring(0, name.indexOf('.'));
+//		name = "resource." + name;
+//		return name;
+//	}
 
 	/**
 	 * Function for computing similarity score of two classes
@@ -57,20 +86,23 @@ public class Layer1Detection implements IComparator{
 	 * @param c2 - name of class 2
 	 * @return a score indicating the similarity between methods of given classes
 	 */
-	public float comparePrograms(String c1, String c2) {
-		int cnt;
+	public float comparePrograms(File c1, File c2) {
+		float cnt;
 		float score;
 		ArrayList<FunctionSignature> fns1=getAllMethods(c1);
 		ArrayList<FunctionSignature> fns2=getAllMethods(c2);
 //		if block to calculate score based on the program with lesser
 //		number of functions
+		if(fns1.size()==0 || fns2.size()==0) {
+			return 0;
+		}
 		if(fns1.size()<fns2.size()) {
 			cnt=compareProgramsHelper(fns1, fns2);
 			score=cnt/fns1.size() * 100;
 		}
 		else {
 			cnt=compareProgramsHelper(fns2, fns1);
-			score=(float)cnt/(float)fns2.size() * 100;
+			score=cnt/fns2.size() * 100;
 		}
 		return score;
 	}
@@ -93,7 +125,7 @@ public class Layer1Detection implements IComparator{
 					else {
 						addToMatchPairs(fs1, fs2);
 						matchFound=true;
-						cnt++;
+						cnt+=1;
 					}
 				}
 			}
@@ -106,21 +138,43 @@ public class Layer1Detection implements IComparator{
 	 * @param className
 	 * @return list of function signatures
 	 */
-	private ArrayList<FunctionSignature> getAllMethods(String className) {
+	private ArrayList<FunctionSignature> getAllMethods(File classFile) {
+//		ArrayList<FunctionSignature> fns=new ArrayList<FunctionSignature>();	
+//		try {
+//			Class<?> c=Class.forName(className);
+//			Method[] methods=c.getDeclaredMethods();
+////			iterating over all methods to get their arguments and storing
+////			in an array list
+//			for(Method m: methods) {
+//				FunctionSignature fs = createFunctionSignature(m);
+//				fns.add(fs);
+//			}
+//		}
+////		will catch when a class definition is not found 
+//		catch(Exception e) {
+//			System.out.println("error is " +e);
+//		}
+//		return fns;
 		ArrayList<FunctionSignature> fns=new ArrayList<FunctionSignature>();	
+		String functionDeclarationRegex="(static*\\s+)*(final*\\s+)*(public|protected|private|\\s+)*(final*\\s+)*(static*\\s+)*(final*\\s+)*+[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{?|[^;])";
 		try {
-			Class<?> c=Class.forName(className);
-			Method[] methods=c.getDeclaredMethods();
-//			iterating over all methods to get their arguments and storing
-//			in an array list
-			for(Method m: methods) {
-				FunctionSignature fs = createFunctionSignature(m);
-				fns.add(fs);
+			BufferedReader br=new BufferedReader(new FileReader(classFile));
+			String line;
+			while((line = br.readLine()) != null) {
+				line=line.trim();
+				if(line.matches(functionDeclarationRegex)) {	
+					String functionName=extractFunctionName(line);
+					String returnType=extractReturnType(line, functionName);
+					String args[]=extractArguments(line);
+					FunctionSignature fs=new FunctionSignature(functionName, args, returnType);
+					fs.textualRepresentation();
+					fns.add(fs);
+				}
 			}
-		}
-//		will catch when a class definition is not found 
-		catch(Exception e) {
-			System.out.println("error is " +e);
+			System.out.println("\n");
+			br.close();
+		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, "File does not exist");;
 		}
 		return fns;
 	}
@@ -130,33 +184,33 @@ public class Layer1Detection implements IComparator{
 	 * @param m - a method object 
 	 * @return function signature
 	 */
-	private FunctionSignature createFunctionSignature(Method m) {
-		String name;
-		String returnType;
-		name=m.getName();
-		returnType=m.getReturnType().getSimpleName();
-		ArrayList<String> params=extractFunctionArguments(m.getParameterTypes());
-		FunctionSignature fs=new FunctionSignature(name, params, returnType);
-		return fs;
-	}
+//	private FunctionSignature createFunctionSignature(Method m) {
+//		String name;
+//		String returnType;
+//		name=m.getName();
+//		returnType=m.getReturnType().getSimpleName();
+//		ArrayList<String> params=extractFunctionArguments(m.getParameterTypes());
+//		FunctionSignature fs=new FunctionSignature(name, params, returnType);
+//		return fs;
+//	}
 
 	/**
 	 * Function for extracting the argument types for a method
 	 * @param paramTypes - array of class objects giving the parameter types for a method
 	 * @return parameter array
 	 */
-	private ArrayList<String> extractFunctionArguments(Class<?>[] paramTypes) {
-		ArrayList<String> params = new ArrayList<String>();
-		if(paramTypes.length==0) {
-			params.add("none");
-		}
-		else {
-			for(Class<?> param: paramTypes) {
-				params.add(param.getSimpleName());
-			}
-		}
-		return params;
-	}
+//	private ArrayList<String> extractFunctionArguments(Class<?>[] paramTypes) {
+//		ArrayList<String> params = new ArrayList<String>();
+//		if(paramTypes.length==0) {
+//			params.add("none");
+//		}
+//		else {
+//			for(Class<?> param: paramTypes) {
+//				params.add(param.getSimpleName());
+//			}
+//		}
+//		return params;
+//	}
 
 	/**
 	 * Adds a pair of functions to matchPairs set that have matching signatures
@@ -173,5 +227,64 @@ public class Layer1Detection implements IComparator{
 	 */
 	public HashSet<FunctionMatchPair> getMatchPairs(){
 		return matchPairs;
+	}
+	
+	
+	/**
+	 * @param line
+	 */
+	private String extractFunctionName(String line) {
+		String functionName="";
+		String functionNameRegex="(\\w+)\\s*\\(";
+		Pattern pattern = Pattern.compile(functionNameRegex);
+		Matcher matcher = pattern.matcher(line);
+		matcher.find();
+		functionName=matcher.group(1);
+		return functionName;
+	}
+
+	/**
+	 * @param line
+	 */
+	private String[] extractArguments(String line) {
+		int start=line.indexOf("(") + 1;
+		int end=line.lastIndexOf(")");
+		String argsStr=line.substring(start, end);
+		String [] args=argsStr.split(",");
+		if(args[0].equals("")) {
+			args= new String[] {"none"};
+		}
+		for(int i=0; i<args.length; i++) {
+			args[i]=args[i].trim();
+			args[i]=args[i].split(" ")[0];
+		}
+		return args;	
+	}
+
+	/**
+	 * @param line
+	 */
+//	private String extractReturnType(String line) {
+//		String returnType="";
+//		for(String type: returnTypes.toArray(new String[returnTypes.size()])) {
+//			if(line.contains(" " +type +" ")) {
+//				returnType=type;	
+//			}
+//			else if(line.contains(" " +type +"[]")){
+//				returnType=type+"[]";
+//			}
+//		}
+//		return returnType;
+//	}
+	
+	private String extractReturnType(String line, String functionName) {
+		String returnType="";
+		String[] lineArr=line.split(" ");
+		for(int i=0; i<lineArr.length; i++) {
+			if(lineArr[i].contains(functionName)) {
+				returnType=lineArr[i-1];
+			}
+		}
+		return returnType;
 	}
 }

@@ -1,6 +1,5 @@
 package comparator.functionSignature;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -11,6 +10,7 @@ import java.util.HashMap;
  */
 
 public class FunctionSignature {
+private static final String USER_DEFINED_TYPE = "UserDefined";
 //	variables for storing function name, return type and arguments
 	private String name, returnType;
 	private HashMap<String, Integer> args;
@@ -22,11 +22,22 @@ public class FunctionSignature {
 	 * @param args - list of arguments
 	 * @param returnType - function return type
 	 */
-	public FunctionSignature(String name, ArrayList<String> args, String returnType) {
+	public FunctionSignature(String name, String[] args, String returnType) {
 		this.name=name;
-		this.returnType=returnType;
+		this.returnType=constructReturnType(returnType);
 		this.args=new HashMap<String, Integer>();
 		constructArgumentsMap(args);
+	}
+
+
+
+	private String constructReturnType(String returnType) {
+		if(returnType=="") {
+			return USER_DEFINED_TYPE;
+		}
+		else {
+			return returnType;
+		}
 	}
 
 
@@ -35,8 +46,9 @@ public class FunctionSignature {
 	 * Populates the list of arguments with argument type and number of arguments with that type
 	 * @param args
 	 */
-	private void constructArgumentsMap(ArrayList<String> args) {
+	private void constructArgumentsMap(String[] args) {
 		for(String arg: args) {
+			arg=arg.trim();
 			if (this.args.containsKey(arg)){
 				this.args.put(arg, this.args.get(arg)+1);
 			}
