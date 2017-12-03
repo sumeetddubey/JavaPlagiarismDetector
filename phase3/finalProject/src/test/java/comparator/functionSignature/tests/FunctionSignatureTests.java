@@ -1,12 +1,6 @@
 package comparator.functionSignature.tests;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import org.junit.Test;
 import comparator.functionSignature.FunctionSignature;
@@ -31,7 +25,7 @@ public class FunctionSignatureTests extends TestCase {
 	}
 	
 	@Test
-//	test for generating function signature of a program
+//	test for generating function signature of a program with spaces
 	public void testFunctionSignatureWithSpace() {
 		String name="foo";
 		String returnType="void";
@@ -71,12 +65,12 @@ public class FunctionSignatureTests extends TestCase {
 		File f2=new File("src/test/java/comparator/functionSignature/tests/Sample2.java");
 		Layer1Detection detect = new Layer1Detection();
 		Report r = detect.generateReport(f1, f2);
-//		assertEquals(r.getScore(), 100, 0.01);
+//		TODO
 	}
 	
 //	test for comparing two programs where one program has 1 function that has no matching signature in the
 //	other
-//	total number of functions in smaller program is 3. Score :- (2/3 * 100) %
+//	total number of functions in smaller program is 4. Score :- (3/4 * 100) %
 	@Test
 	public void testCompareTwoPrograms2() {
 		File f1=new File("src/test/java/comparator/functionSignature/tests/Sample1.java");
@@ -116,7 +110,7 @@ public class FunctionSignatureTests extends TestCase {
 		assertEquals(score, 0, 0.01);
 	}
 	
-//	Test when program 2 has no functions 
+//	Test when one program has a generic return type
 	@Test
 	public void testCompareProgramWithGerericReturnTypeFunction(){
 		File f1=new File("src/test/java/comparator/functionSignature/tests/Sample5.java");
@@ -133,7 +127,7 @@ public class FunctionSignatureTests extends TestCase {
 		File f2=new File("src/test/java/comparator/functionSignature/tests/set01/Sample2/SimpleLinkedList.java");
 		Layer1Detection detect = new Layer1Detection();
 		float score=detect.comparePrograms(f1, f2);
-		assertEquals(score, 73.33, 0.01);
+		assertEquals(score, 33.33, 0.01);
 	}
 	
 //	test for comparing two complex programs.
@@ -143,6 +137,6 @@ public class FunctionSignatureTests extends TestCase {
 		File f2=new File("src/test/java/comparator/functionSignature/tests/set02/Sample2/LinkedList.java");
 		Layer1Detection detect = new Layer1Detection();
 		float score=detect.comparePrograms(f1, f2);
-		assertEquals(score, 81.81, 0.01);
+		assertEquals(score, 36.36, 0.01);
 	}
 }

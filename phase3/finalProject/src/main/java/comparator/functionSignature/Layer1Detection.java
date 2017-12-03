@@ -3,18 +3,13 @@ import java.io.BufferedReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.junit.Test;
 
 
 import interfaces.IComparator;
@@ -28,23 +23,25 @@ import utility.Report;
 public class Layer1Detection implements IComparator{
 //	A set that stores pairs of matching function signatures  
 	private HashSet<FunctionMatchPair> matchPairs=new HashSet<FunctionMatchPair>();
-	private HashSet<String> returnTypes=new HashSet<String>();
+	
+//	a set of java keywords that will be useful for detecting constructor declaration
+	private HashSet<String> javaKeywords = new HashSet<String>();
+	
+//	error logger
 	private final static Logger LOGGER = Logger.getLogger(Layer1Detection.class.getName());
 	
+//	constant that defines the return type of a constructor
+	private final String CLASS_OBJECT="ClassObject";
+	
+
 	public Layer1Detection() {
-		returnTypes.add("void");
-		returnTypes.add("boolean");
-		returnTypes.add("byte");
-		returnTypes.add("char");
-		returnTypes.add("short");
-		returnTypes.add("int");
-		returnTypes.add("long");
-		returnTypes.add("float");
-		returnTypes.add("double");
-		returnTypes.add("Integer");
-		returnTypes.add("Character");
-		returnTypes.add("String");
+		javaKeywords.add("public");
+		javaKeywords.add("private");
+		javaKeywords.add("protected");
+		javaKeywords.add("static");
+		javaKeywords.add("final");
 	}
+
 	
 	/* (non-Javadoc)
 	 * @see comparator.hashcode.IComparator#generateReport(java.lang.String, java.lang.String)
@@ -222,12 +219,12 @@ public class Layer1Detection implements IComparator{
 	}
 	
 	
-	/**
-	 * Get all match pairs
-	 */
-	public HashSet<FunctionMatchPair> getMatchPairs(){
-		return matchPairs;
-	}
+//	/**
+//	 * Get all match pairs
+//	 */
+//	public HashSet<FunctionMatchPair> getMatchPairs(){
+//		return matchPairs;
+//	}
 	
 	
 	/**
@@ -285,6 +282,8 @@ public class Layer1Detection implements IComparator{
 				returnType=lineArr[i-1];
 			}
 		}
+		if(javaKeywords.contains(returnType))
+			returnType=CLASS_OBJECT;
 		return returnType;
 	}
 }

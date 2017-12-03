@@ -24,23 +24,10 @@ private static final String USER_DEFINED_TYPE = "UserDefined";
 	 */
 	public FunctionSignature(String name, String[] args, String returnType) {
 		this.name=name;
-		this.returnType=constructReturnType(returnType);
+		this.returnType=returnType;
 		this.args=new HashMap<String, Integer>();
 		constructArgumentsMap(args);
 	}
-
-
-
-	private String constructReturnType(String returnType) {
-		if(returnType=="") {
-			return USER_DEFINED_TYPE;
-		}
-		else {
-			return returnType;
-		}
-	}
-
-
 
 	/**
 	 * Populates the list of arguments with argument type and number of arguments with that type
