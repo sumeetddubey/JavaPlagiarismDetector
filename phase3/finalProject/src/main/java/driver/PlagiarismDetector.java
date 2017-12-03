@@ -24,9 +24,10 @@ public class PlagiarismDetector {
 		System.out.println(report1.getScore());
 		reports[1]=report1;
 		
-		/**
-		 * AST comparison
-		 */
+		Report report2 = layer2Report();
+		System.out.println(report1.getScore());
+		reports[1]=report1;
+		
 		return reports;
 	}
 
@@ -47,6 +48,15 @@ public class PlagiarismDetector {
 	private Report layer1Report() throws IOException {
 		IComparator layer1 = new Layer1Detection();
 		return layer1.generateReport(programA, programB);
+	}
+	
+	/**
+	 * @throws IOException 
+	 * 
+	 */
+	private Report layer2Report() throws IOException {
+//		IComparator layer2 = new ASTComparator();
+		return layer2.generateReport(programA, programB);
 	}
 
 	
