@@ -33,7 +33,10 @@ public class Layer1Detection implements IComparator{
 //	constant that defines the return type of a constructor
 	private final String CLASS_OBJECT="ClassObject";
 	
-
+	
+	/**
+	 * Class Constructor
+	 */
 	public Layer1Detection() {
 		javaKeywords.add("public");
 		javaKeywords.add("private");
@@ -63,18 +66,6 @@ public class Layer1Detection implements IComparator{
 		report.setScore(score);
 		return report;
 	}
-	
-	/**
-	 * Get the canonical name for this file. This will return the package name followed by file name.
-	 * @param programA
-	 * @return
-	 */
-//	private String getCanonicalName(File programA) {
-//		String name = programA.getName();
-//		name=name.substring(0, name.indexOf('.'));
-//		name = "resource." + name;
-//		return name;
-//	}
 
 	/**
 	 * Function for computing similarity score of two classes
@@ -129,29 +120,36 @@ public class Layer1Detection implements IComparator{
 		}
 		return cnt;
 	}
+
+
+//	/**
+//	 * Compares two function signatures and keeps track if a match is found 
+//	 * @param cnt
+//	 * @param fs1
+//	 * @param fs2
+//	 * @param matchFound
+//	 * @return The number of functions in program 1 that have a match 
+//	 */
+//	private int compareSignatures(int cnt, FunctionSignature fs1, FunctionSignature fs2, boolean matchFound) {
+//		if(fs1.signatureComparison(fs2)) {
+//			if(matchFound) {
+//				addToMatchPairs(fs1, fs2);
+//			}
+//			else {
+//				addToMatchPairs(fs1, fs2);
+//				matchFound=true;
+//				cnt+=1;
+//			}
+//		}
+//		return cnt;
+//	}
 	
 	/**
 	 * Function for getting all function signatures of a class
-	 * @param className
+	 * @param classFile
 	 * @return list of function signatures
 	 */
 	private ArrayList<FunctionSignature> getAllMethods(File classFile) {
-//		ArrayList<FunctionSignature> fns=new ArrayList<FunctionSignature>();	
-//		try {
-//			Class<?> c=Class.forName(className);
-//			Method[] methods=c.getDeclaredMethods();
-////			iterating over all methods to get their arguments and storing
-////			in an array list
-//			for(Method m: methods) {
-//				FunctionSignature fs = createFunctionSignature(m);
-//				fns.add(fs);
-//			}
-//		}
-////		will catch when a class definition is not found 
-//		catch(Exception e) {
-//			System.out.println("error is " +e);
-//		}
-//		return fns;
 		ArrayList<FunctionSignature> fns=new ArrayList<FunctionSignature>();	
 		String functionDeclarationRegex="(static*\\s+)*(final*\\s+)*(public|protected|private|\\s+)*(final*\\s+)*(static*\\s+)*(final*\\s+)*+[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{?|[^;])";
 		try {
@@ -177,39 +175,6 @@ public class Layer1Detection implements IComparator{
 	}
 
 	/**
-	 * Generates a function signature for given method
-	 * @param m - a method object 
-	 * @return function signature
-	 */
-//	private FunctionSignature createFunctionSignature(Method m) {
-//		String name;
-//		String returnType;
-//		name=m.getName();
-//		returnType=m.getReturnType().getSimpleName();
-//		ArrayList<String> params=extractFunctionArguments(m.getParameterTypes());
-//		FunctionSignature fs=new FunctionSignature(name, params, returnType);
-//		return fs;
-//	}
-
-	/**
-	 * Function for extracting the argument types for a method
-	 * @param paramTypes - array of class objects giving the parameter types for a method
-	 * @return parameter array
-	 */
-//	private ArrayList<String> extractFunctionArguments(Class<?>[] paramTypes) {
-//		ArrayList<String> params = new ArrayList<String>();
-//		if(paramTypes.length==0) {
-//			params.add("none");
-//		}
-//		else {
-//			for(Class<?> param: paramTypes) {
-//				params.add(param.getSimpleName());
-//			}
-//		}
-//		return params;
-//	}
-
-	/**
 	 * Adds a pair of functions to matchPairs set that have matching signatures
 	 * @param fs1 - function signature 1
 	 * @param fs2 - function signature 2
@@ -219,16 +184,10 @@ public class Layer1Detection implements IComparator{
 	}
 	
 	
-//	/**
-//	 * Get all match pairs
-//	 */
-//	public HashSet<FunctionMatchPair> getMatchPairs(){
-//		return matchPairs;
-//	}
-	
-	
 	/**
+	 * Function to get a function name from a string that matches a function declaration
 	 * @param line
+	 * @return name of this function
 	 */
 	private String extractFunctionName(String line) {
 		String functionName="";
@@ -241,7 +200,9 @@ public class Layer1Detection implements IComparator{
 	}
 
 	/**
+	 * Function to find all arguments in a string that matches a function declaration
 	 * @param line
+	 * @return Array of arguments 
 	 */
 	private String[] extractArguments(String line) {
 		int start=line.indexOf("(") + 1;
@@ -257,23 +218,13 @@ public class Layer1Detection implements IComparator{
 		}
 		return args;	
 	}
-
-	/**
-	 * @param line
-	 */
-//	private String extractReturnType(String line) {
-//		String returnType="";
-//		for(String type: returnTypes.toArray(new String[returnTypes.size()])) {
-//			if(line.contains(" " +type +" ")) {
-//				returnType=type;	
-//			}
-//			else if(line.contains(" " +type +"[]")){
-//				returnType=type+"[]";
-//			}
-//		}
-//		return returnType;
-//	}
 	
+	/**
+	 * Function to find a return type in a String that matches a function declaration
+	 * @param line
+	 * @param functionName
+	 * @return return type of this function
+	 */
 	private String extractReturnType(String line, String functionName) {
 		String returnType="";
 		String[] lineArr=line.split(" ");
