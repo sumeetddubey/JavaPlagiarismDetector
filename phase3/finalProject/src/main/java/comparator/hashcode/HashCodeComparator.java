@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import interfaces.IComparator;
 import utility.Report;
+import utility.Report.ComparisonLayer;
 
 /**
  * HashCodeComparator checks if two programs are exactly same by using hash code
@@ -75,18 +76,19 @@ public class HashCodeComparator implements IComparator {
 	 */
 	
 	private Report writeReport(Boolean isSame) {
-		Report r = new Report();
-		r.setLayer("layer0");
+		float score;
+		String message;
 		if (isSame) {
-			r.setScore(100);
-			r.setMessage("Plagiarism detected in layer 0: files are same");
+			score=100;
+			message="Plagiarism detected in layer 0: files are same";
 		} else {
-			r.setScore(0);
-			r.setMessage("Plagiarism not detected in layer 0");
+			score=0;
+			message="Plagiarism not detected in layer 0";
 		}
+		Report r=new Report(ComparisonLayer.HASHCODE, score, message);
 		return r;
 	}
-	
+	 
 	/**
 	 * Constructors
 	 */

@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 public class GreedyStringTilling {
 //	Minimum length for a match to be valid
-	private final int MIN_MATCH_LENGTH=4;
+	private final int MIN_MATCH_LENGTH;
 //	Set of matches that are valid
 	private HashSet<Match> tiles;
 //	Array of GST tokens for string A
@@ -23,7 +23,14 @@ public class GreedyStringTilling {
 	
 	/**
 	 * Class constructor
-	 * @param minMatchLength - Minimum length of a substring that can be considered a match
+	 * @param minMatchLength - minimum length substring that should be considered as a legal match
+	 */
+	public GreedyStringTilling(int minMatchLength) {
+		this.MIN_MATCH_LENGTH=minMatchLength;
+	}
+	
+	/**
+	 * Function for running GST on two strings a and b
 	 * @param a - String a
 	 * @param b - String b
 	 */

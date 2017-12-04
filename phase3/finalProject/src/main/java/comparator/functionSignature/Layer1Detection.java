@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import interfaces.IComparator;
 import utility.Report;
+import utility.Report.ComparisonLayer;
 
 /**
  * @author sumeetdubey
@@ -49,8 +50,6 @@ public class Layer1Detection implements IComparator{
 	 */
 	@Override
 	public Report generateReport(File programA, File programB) {
-//		String strProgramA=getCanonicalName(programA);
-//		String strProgramB=getCanonicalName(programB);
 		StringBuilder sb=new StringBuilder();
 		float score=comparePrograms(programA, programB);
 		Iterator<FunctionMatchPair> it=matchPairs.iterator();
@@ -58,10 +57,8 @@ public class Layer1Detection implements IComparator{
 			sb.append(it.next().textualRepresentation());
 			sb.append("\n");
 		}
-		Report report = new Report();
-		report.setLayer("layer1");
-		report.setMessage(sb.toString());
-		report.setScore(score);
+		
+		Report report = new Report(ComparisonLayer.FUNCTION_SIGNATURE, score, sb.toString());
 		return report;
 	}
 
