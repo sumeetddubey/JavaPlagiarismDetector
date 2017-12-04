@@ -17,7 +17,7 @@ public class Sample3 {
 		return b;
 	}	 
 	
-	public void setA(int a, int b) {
+	public void setA(int a, String b) {
 		this.a=a;
 	}
 }
