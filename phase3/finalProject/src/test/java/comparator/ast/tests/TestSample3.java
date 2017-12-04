@@ -6,10 +6,15 @@ package comparator.ast.tests;
  * @author Wenjun
  *
  */
-public class A {
+public class TestSample3 {
 	int num;
 	int x=10;
-	A(int num){
+	
+	public TestSample3() {
+		this.num = 20;
+	}
+	
+	TestSample3(int num){
 		this.num = num;
 	}
 	
@@ -17,14 +22,20 @@ public class A {
 		int sum = 0;
 		
 		for (int i = 0; i < num; i++) {
-			sum += num;
+			sum += getData(num);
 		}
 		
 		return sum;
 	}
 	
+	public int getData(int num) {
+		int temp = num + num * 2;
+		temp = -temp;
+		return temp;
+	}
+	
 	public static void main(String[] args) {
-		A a = new A(5);
+		TestSample3 a = new TestSample3(5);
 		int sum = a.getSum();
 		
 		System.out.println(sum);

@@ -18,14 +18,15 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
  *
  */
 public class DetectorASTParser {
-
 	/**
-	 * Parse the program in String str
+	 * Parse the program in String to a list of Nodes that represents the program
 	 * 	- create its AST using JDT
 	 * 	- traverse the AST with Visitor
 	 * 	- get all Nodes with specified types
+	 * 
+	 *  @return a list of nodes that represents the program
 	 */
-	public static List<Node> parseProgramToTypeAbbrs(String program) {
+	public static List<Node> parseProgramToListOfNodes(String program) {
 		// create the AST
 		final CompilationUnit cu = createAST(program);
 		

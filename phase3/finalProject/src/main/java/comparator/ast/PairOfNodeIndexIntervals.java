@@ -8,7 +8,7 @@ package comparator.ast;
  */
 public class PairOfNodeIndexIntervals {
 	
-	NodeIndexInterval firstInteval; // first interval of indexes of nodes in the pair
+	NodeIndexInterval firstInterval; // first interval of indexes of nodes in the pair
 	NodeIndexInterval secondInterval;  // second interval of indexes of nodes in the pair
 	
 	/**
@@ -17,7 +17,7 @@ public class PairOfNodeIndexIntervals {
 	 * @param secondInterval - the second NodeIndexInterval in the pair
 	 */
 	public PairOfNodeIndexIntervals(NodeIndexInterval firstInteval, NodeIndexInterval secondInterval) {
-		this.firstInteval = firstInteval;
+		this.firstInterval = firstInteval;
 		this.secondInterval = secondInterval;
 	}
 	
@@ -25,14 +25,14 @@ public class PairOfNodeIndexIntervals {
 	 * @return - the start index of the first NodeIndexInterval in the pair
 	 */
 	public int getFirstStartNodeIndex() {
-		return firstInteval.getStartIndex();
+		return firstInterval.getStartIndex();
 	}
 	
 	/**
 	 * @return - the end index of the first NodeIndexInterval in the pair
 	 */
 	public int getFirstEndNodeIndex() {
-		return firstInteval.getEndIndex();
+		return firstInterval.getEndIndex();
 	}
 	
 	/**
@@ -47,19 +47,5 @@ public class PairOfNodeIndexIntervals {
 	 */
 	public int getSecondEndNodeIndex() {
 		return secondInterval.getEndIndex();
-	}
-	
-	/**
-	 * @return - the first NodeIndexInterval in the pair
-	 */
-	public NodeIndexInterval getFirstStartEndPair() {
-		return firstInteval;
-	}
-	
-	/**
-	 * @return - the second NodeIndexInterval in the pair
-	 */
-	public NodeIndexInterval getSecondStartEndPair() {
-		return secondInterval;
 	}
 }

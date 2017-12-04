@@ -7,12 +7,17 @@ import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.BreakStatement;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ContinueStatement;
+import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.PostfixExpression;
+import org.eclipse.jdt.core.dom.PrefixExpression;
 import org.eclipse.jdt.core.dom.ReturnStatement;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.SwitchCase;
@@ -65,23 +70,36 @@ public class DetectorASTVisitor extends ASTVisitor {
 								 "AS"));
 		return true;
 	}
+	
 
-	/**
-	 * Visit the VariableDeclaration type of node in an AST
-	 * and keep visiting any sub-node of it 
-	 */
-	public boolean visit(VariableDeclaration node) {
-		listOfNodes.add(new Node(cu.getLineNumber(node.getStartPosition()), 
-				 				 cu.getLineNumber(node.getStartPosition() + node.getLength()),
-								 "VD"));
-		return true;
-	}
 	
 	/**
 	 * Visit the InfixExpression type of node in an AST
 	 * and keep visiting any sub-node of it 
 	 */
-	public boolean visit(Expression node) {
+	public boolean visit(InfixExpression node) {
+		listOfNodes.add(new Node(cu.getLineNumber(node.getStartPosition()), 
+								 cu.getLineNumber(node.getStartPosition() + node.getLength()),
+								 "EX"));
+		return true;
+	}
+	
+	/**
+	 * Visit the PrefixExpression type of node in an AST
+	 * and keep visiting any sub-node of it 
+	 */
+	public boolean visit(PrefixExpression node) {
+		listOfNodes.add(new Node(cu.getLineNumber(node.getStartPosition()), 
+								 cu.getLineNumber(node.getStartPosition() + node.getLength()),
+								 "EX"));
+		return true;
+	}
+	
+	/**
+	 * Visit the PostfixExpression type of node in an AST
+	 * and keep visiting any sub-node of it 
+	 */
+	public boolean visit(PostfixExpression node) {
 		listOfNodes.add(new Node(cu.getLineNumber(node.getStartPosition()), 
 								 cu.getLineNumber(node.getStartPosition() + node.getLength()),
 								 "EX"));
@@ -151,7 +169,8 @@ public class DetectorASTVisitor extends ASTVisitor {
 	public boolean visit(ForStatement node) {
 		listOfNodes.add(new Node(cu.getLineNumber(node.getStartPosition()), 
 								 cu.getLineNumber(node.getStartPosition() + node.getLength()),
-								 "FS"));
+								 "LP"));
+		
 		return true;
 	}
 
@@ -162,7 +181,7 @@ public class DetectorASTVisitor extends ASTVisitor {
 	public boolean visit(WhileStatement node) {
 		listOfNodes.add(new Node(cu.getLineNumber(node.getStartPosition()), 
 								 cu.getLineNumber(node.getStartPosition() + node.getLength()),
-								 "WS"));
+				 				 "LP"));
 		return true;
 	}
 
@@ -232,5 +251,4 @@ public class DetectorASTVisitor extends ASTVisitor {
 								 "VS"));
 		return true;
 	}
-
 }
