@@ -49,15 +49,4 @@ public class Node {
 	public int getEndLineNumber() {
 		return endLineNum;
 	}
-	
-//	/**
-//	 * define the toString method to show the Node
-//	 */
-//	@Override
-//	public String toString() {
-//		return "{'type': '" + nodeType + "'" 
-//				+ ", 'start line number': '" + startLineNum + "'"
-//				+ ", 'end line number': '" + endLineNum + "'"
-//				+ "'}";
-//	}
 }

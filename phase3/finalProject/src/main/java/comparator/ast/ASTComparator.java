@@ -110,8 +110,10 @@ public class ASTComparator implements IComparator {
 		} 
 		
 		// get node lists of two programs respectively
-		programANodeList = DetectorASTParser.parseProgramToListOfNodes(programAStr);
-		programBNodeList = DetectorASTParser.parseProgramToListOfNodes(programBStr);
+		DetectorASTParser parserA = new DetectorASTParser();		
+		DetectorASTParser parserB = new DetectorASTParser();
+		programANodeList = parserA.parseProgramToListOfNodes(programAStr);
+		programBNodeList = parserB.parseProgramToListOfNodes(programBStr);
 		
 		if (programANodeList.size() == 0 || programBNodeList.size() == 0) {
 			// if one of the programs does not have any nodes inside of it, no need to continue comparing

@@ -3,7 +3,7 @@ package comparator.ast.tests;
 import java.util.Random;
 
 public class ProgramWithNestedIfs {
-	public enum Currency {
+	public enum Currency { 
 		PENNY(1), NICKLE(5), DIME(10), QUARTER(25);
 		private final int value;
 
