@@ -13,6 +13,7 @@ import org.junit.Test;
 import comparator.ast.ASTComparator;
 import interfaces.IComparator;
 import utility.Report;
+import utility.Report.ComparisonLayer;
 
 
 /**
@@ -39,6 +40,11 @@ public class ASTComparatorTests {
 	static File fileWithNestedIf;
 	static File fileWithSwitch;
 	
+	static File fileTestSample6;
+	static File fileTestSample7;
+
+	static File fileTestSample8;
+	static File fileTestSample9;
 	/**
 	 * Initialize files with absolute file paths
 	 */
@@ -61,6 +67,12 @@ public class ASTComparatorTests {
 		fileLinkedListB = new File(prefix + "LinkedListB.java");
 		fileWithNestedIf = new File(prefix + "ProgramWithNestedIfs.java");
 		fileWithSwitch = new File(prefix + "ProgramWithSwitch.java");
+		
+		fileTestSample6 = new File(prefix + "TestSample6.java");
+		fileTestSample7 = new File(prefix + "TestSample7.java");
+
+		fileTestSample8 = new File(prefix + "TestSample8.java");
+		fileTestSample9 = new File(prefix + "TestSample9.java");
 	}
 	
 
@@ -106,14 +118,14 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {10, 11, 12, 13, 16, 17, 19, 20, 21, 22, 23, 25, 28, 29, 30, 32};
 		int[] expectedLineNumsInB = new int[] {10, 11, 12, 13, 16, 17, 19, 20, 21, 22, 23, 25, 28, 29, 30, 32};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
 	}
 	
 	@Test
-	public void testEmptyFile() throws IOException {
+	public void testEmptyFile1() throws IOException {
 		Report actual = astComparator.generateReport(fileTestSample1, fileEmptyFile);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -124,14 +136,32 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {};
 		int[] expectedLineNumsInB = new int[] {};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
 	}
 	
 	@Test
-	public void testEmptyClass() throws IOException {
+	public void testEmptyFile2() throws IOException {
+		Report actual = astComparator.generateReport(fileEmptyFile, fileTestSample1);
+		String message = actual.getMessage();
+		String[] suspiciousLineNums = message.split("\n");
+		int[] actualLineNumsInA = parseStringToIntArr(suspiciousLineNums[0]);
+		int[] actualLineNumsInB = parseStringToIntArr(suspiciousLineNums[1]);
+		
+		float expectedScore = (float) 0;
+		int[] expectedLineNumsInA = new int[] {};
+		int[] expectedLineNumsInB = new int[] {};
+		
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
+		assertEquals(expectedScore, actual.getScore(), 0.01);
+		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
+		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
+	}
+	
+	@Test
+	public void testEmptyClass1() throws IOException {
 		Report actual = astComparator.generateReport(fileTestSample1, fileEmptyClass);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -142,15 +172,32 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {};
 		int[] expectedLineNumsInB = new int[] {};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
 	}
 	
 	@Test
-	//public void testReplaceForLoopByWhileLoop() throws IOException {
-	public void test1() throws IOException {
+	public void testEmptyClass2() throws IOException {
+		Report actual = astComparator.generateReport(fileEmptyClass, fileTestSample1);
+		String message = actual.getMessage();
+		String[] suspiciousLineNums = message.split("\n");
+		int[] actualLineNumsInA = parseStringToIntArr(suspiciousLineNums[0]);
+		int[] actualLineNumsInB = parseStringToIntArr(suspiciousLineNums[1]);
+		
+		float expectedScore = (float) 0;
+		int[] expectedLineNumsInA = new int[] {};
+		int[] expectedLineNumsInB = new int[] {};
+		
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
+		assertEquals(expectedScore, actual.getScore(), 0.01);
+		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
+		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
+	}
+	
+	@Test
+	public void testReplaceForLoopByWhileLoop() throws IOException {
 		Report actual = astComparator.generateReport(fileTestSample1, fileTestSample2);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -161,15 +208,14 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {10, 11, 12, 13, 16, 17, 19, 20, 21, 22, 25, 28, 29, 30, 32};
 		int[] expectedLineNumsInB = new int[] {10, 11, 12, 13, 16, 17, 20, 21, 22, 23, 27, 30, 31, 32, 34};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
 	}
 	
 	@Test
-	//public void testExtractBlockToBeANewFunction() throws IOException {
-	public void test2() throws IOException {
+	public void testExtractBlockToBeANewFunction() throws IOException {
 		Report actual = astComparator.generateReport(fileTestSample1, fileTestSample3);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -180,15 +226,14 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {10, 11, 12, 13, 16, 17, 19, 20, 21, 22, 23, 25, 28, 29, 30, 32};
 		int[] expectedLineNumsInB = new int[] {10, 11, 17, 18, 21, 22, 24, 25, 26, 32, 33, 34, 37, 38, 39, 41};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
 	}
 	
 	@Test
-	//public void testReplaceSwithWithNestedIfs() throws IOException {
-	public void test4() throws IOException {
+	public void testReplaceSwithWithNestedIfs() throws IOException {
 		Report actual = astComparator.generateReport(fileWithSwitch, fileWithNestedIf);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -201,15 +246,14 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInB = new int[] {6, 8, 10, 11, 14, 15, 16, 19, 20, 24, 25, 28, 29, 32, 33, 34, 35, 
 				36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 54};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
 	}
 	
 	@Test
-	//public void testTwoUnrelatedFiles1() throws IOException {
-	public void test3() throws IOException {
+	public void testTwoUnrelatedFiles1() throws IOException {
 		Report actual = astComparator.generateReport(fileTestSample1, fileTestSample4);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -220,7 +264,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {12, 19, 20, 28, 29, 30, 32};
 		int[] expectedLineNumsInB = new int[] {8, 10, 12, 33, 35, 36, 41, 43};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -238,7 +282,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {19, 20, 21, 22, 23, 25, 28, 29, 30};
 		int[] expectedLineNumsInB = new int[] {7, 8, 10, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -246,8 +290,7 @@ public class ASTComparatorTests {
 	
 	
 	@Test
-	//public void testReplaceGenricsByObject() throws IOException {
-	public void test6() throws IOException {
+	public void testReplaceGenricsByObject() throws IOException {
 		Report actual = astComparator.generateReport(fileLinkedListA, fileLinkedListB);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -268,9 +311,47 @@ public class ASTComparatorTests {
 		                                        118, 120, 121, 124, 126, 129, 131, 132, 133, 134, 135, 136, 141, 
 		                                        142, 143};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
 	}
+	
+	
+	@Test
+	public void testWithCodeThatCannotCompile1() throws IOException {
+		Report actual = astComparator.generateReport(fileTestSample6, fileTestSample7);
+		String message = actual.getMessage();
+		String[] suspiciousLineNums = message.split("\n");
+		int[] actualLineNumsInA = parseStringToIntArr(suspiciousLineNums[0]);
+		int[] actualLineNumsInB = parseStringToIntArr(suspiciousLineNums[1]);
+		
+		float expectedScore = (float) 80.0;
+		int[] expectedLineNumsInA = new int[] {5, 6, 10, 11, 12, 13, 14, 16};
+		int[] expectedLineNumsInB = new int[] {4, 5, 7, 8, 9, 10, 11, 13};
+		
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
+		assertEquals(expectedScore, actual.getScore(), 0.01);
+		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
+		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
+	}
+	
+	@Test
+	public void testWithCodeThatCannotCompile2() throws IOException {
+		Report actual = astComparator.generateReport(fileTestSample8, fileTestSample9);
+		String message = actual.getMessage();
+		String[] suspiciousLineNums = message.split("\n");
+		int[] actualLineNumsInA = parseStringToIntArr(suspiciousLineNums[0]);
+		int[] actualLineNumsInB = parseStringToIntArr(suspiciousLineNums[1]);
+		
+		float expectedScore = (float) 66.67;
+		int[] expectedLineNumsInA = new int[] {6, 7, 9, 10, 11, 12, 13, 15};
+		int[] expectedLineNumsInB = new int[] {7, 8, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+		
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
+		assertEquals(expectedScore, actual.getScore(), 0.01);
+		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
+		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
+	}
+	
 }
