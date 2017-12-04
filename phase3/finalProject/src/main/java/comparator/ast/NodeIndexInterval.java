@@ -35,9 +35,4 @@ public class NodeIndexInterval {
 	public int getEndIndex() {
 		return endIndex;
 	}
-	
-//	@Override
-//	public String toString() {
-//		return "[" + startIndex + "," + endIndex + "]"; 
-//	}
 }
