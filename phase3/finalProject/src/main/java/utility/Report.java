@@ -6,8 +6,13 @@ package utility;
  */
 
 public class Report {
-
-    private String layer;   // "0", "1", or "2"
+	
+	public enum ComparisonLayer {
+		HASHCODE,
+		FUNCTION_SIGNATURE,
+		AST
+	}
+    private ComparisonLayer layer;   // one of the comparator layers as defined above   
     private float score;   // computed similarity score
     private String message; // different per layer
 
@@ -15,9 +20,7 @@ public class Report {
     /**
      * constructors
      */
-    public Report(){}
-
-    public Report(String layer, float score, String message) {
+    public Report(ComparisonLayer layer, float score, String message) {
         this.layer = layer;
         this.score = score;
         this.message = message;
@@ -34,11 +37,11 @@ public class Report {
         this.score = score;
     }
 
-    public String getLayer() {
+    public ComparisonLayer getLayer() {
         return layer;
     }
 
-    public void setLayer(String layer) {
+    public void setLayer(ComparisonLayer layer) {
         this.layer = layer;
     }
 

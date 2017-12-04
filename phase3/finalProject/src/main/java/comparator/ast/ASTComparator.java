@@ -14,6 +14,7 @@ import algorithms.gst.Match;
 import interfaces.IComparator;
 import utility.ReadFileToString;
 import utility.Report;
+import utility.Report.ComparisonLayer;
 
 /**
  * ASTComparator that compares two programs and generates report
@@ -39,11 +40,16 @@ public class ASTComparator implements IComparator {
 	 */
 	@Override
 	public Report generateReport(File programA, File programB) throws IOException {
+		ComparisonLayer layer=ComparisonLayer.AST;
+		float score;
+		String message;
 		boolean needToBeContinued = extractListOfNodesFromPrograms(programA, programB);
 		if (!needToBeContinued) {
-			return new Report("2", 0, "[]" + "\n" + "[]");
+			score=0;
+			message="[]" + "\n" + "[]";
+			return new Report(layer, score, message);
 		}
-		
+		 
 		// *************************************************************************/
 		System.out.println(getProgramRepresentation(programANodeList));
 		System.out.println(getProgramRepresentation(programBNodeList));
@@ -62,17 +68,17 @@ public class ASTComparator implements IComparator {
 		Integer[] suspiciousLineNumsOfB = getSuspiciousLineNums(suspiciousNodesInB);
 
 		// calculate similarity score of the two programs
-		float score = calculateSimilarityScore(suspiciousNodesInA.size(), suspiciousNodesInB.size());
+		score = calculateSimilarityScore(suspiciousNodesInA.size(), suspiciousNodesInB.size());
 		
 		// generate message (list of suspicious nodes for programA and programB) for the Report
-		String message = Arrays.toString(suspiciousLineNumsOfA) + "\n" + Arrays.toString(suspiciousLineNumsOfB);
+		message = Arrays.toString(suspiciousLineNumsOfA) + "\n" + Arrays.toString(suspiciousLineNumsOfB);
 		
 		 //*************************************************************************/
 		 System.out.println(score);
 		 System.out.println(message);
 		 //*************************************************************************/
 		
-		return new Report("2", score, message);
+		return new Report(layer, score, message);
 	}
 	
 	
@@ -243,7 +249,7 @@ public class ASTComparator implements IComparator {
 		String programBTypeAbbr = getProgramRepresentation(programBNodeList);
 
 		// call Greedy String Tilling algorithms to compare the Strings
-		GreedyStringTilling gst = new GreedyStringTilling();
+		GreedyStringTilling gst = new GreedyStringTilling(4);
 
 		return gst.GST(programATypeAbbr, programBTypeAbbr);
 	}
