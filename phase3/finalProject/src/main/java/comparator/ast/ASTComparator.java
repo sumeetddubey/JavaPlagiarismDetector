@@ -31,6 +31,8 @@ import utility.Report.ComparisonLayer;
  */
 public class ASTComparator implements IComparator {
 	
+	private int MIN_MATCHED_LEN_FOR_GST = 4;
+	
 	List<Node> programANodeList; // list of Node that represents programA
 	List<Node> programBNodeList; // list of Node that represents programB
 	
@@ -40,14 +42,13 @@ public class ASTComparator implements IComparator {
 	 */
 	@Override
 	public Report generateReport(File programA, File programB) throws IOException {
-		ComparisonLayer layer=ComparisonLayer.AST;
 		float score;
 		String message;
 		boolean needToBeContinued = extractListOfNodesFromPrograms(programA, programB);
 		if (!needToBeContinued) {
 			score=0;
 			message="[]" + "\n" + "[]";
-			return new Report(layer, score, message);
+			return new Report(ComparisonLayer.AST, score, message);
 		}
 		 
 		// *************************************************************************/
@@ -75,10 +76,10 @@ public class ASTComparator implements IComparator {
 		
 		 //*************************************************************************/
 		 System.out.println(score);
-		 System.out.println(message);
+		 System.out.println(message); 
 		 //*************************************************************************/
 		
-		return new Report(layer, score, message);
+		return new Report(ComparisonLayer.AST, score, message);
 	}
 	
 	
@@ -251,7 +252,7 @@ public class ASTComparator implements IComparator {
 		String programBTypeAbbr = getProgramRepresentation(programBNodeList);
 
 		// call Greedy String Tilling algorithms to compare the Strings
-		GreedyStringTilling gst = new GreedyStringTilling(4);
+		GreedyStringTilling gst = new GreedyStringTilling(MIN_MATCHED_LEN_FOR_GST);
 
 		return gst.GST(programATypeAbbr, programBTypeAbbr);
 	}

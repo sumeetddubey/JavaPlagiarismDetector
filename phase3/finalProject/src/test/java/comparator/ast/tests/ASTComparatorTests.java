@@ -13,6 +13,7 @@ import org.junit.Test;
 import comparator.ast.ASTComparator;
 import interfaces.IComparator;
 import utility.Report;
+import utility.Report.ComparisonLayer;
 
 
 /**
@@ -117,7 +118,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {10, 11, 12, 13, 16, 17, 19, 20, 21, 22, 23, 25, 28, 29, 30, 32};
 		int[] expectedLineNumsInB = new int[] {10, 11, 12, 13, 16, 17, 19, 20, 21, 22, 23, 25, 28, 29, 30, 32};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -135,7 +136,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {};
 		int[] expectedLineNumsInB = new int[] {};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -153,7 +154,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {};
 		int[] expectedLineNumsInB = new int[] {};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -171,7 +172,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {};
 		int[] expectedLineNumsInB = new int[] {};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -189,7 +190,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {};
 		int[] expectedLineNumsInB = new int[] {};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -207,7 +208,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {10, 11, 12, 13, 16, 17, 19, 20, 21, 22, 25, 28, 29, 30, 32};
 		int[] expectedLineNumsInB = new int[] {10, 11, 12, 13, 16, 17, 20, 21, 22, 23, 27, 30, 31, 32, 34};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -225,7 +226,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {10, 11, 12, 13, 16, 17, 19, 20, 21, 22, 23, 25, 28, 29, 30, 32};
 		int[] expectedLineNumsInB = new int[] {10, 11, 17, 18, 21, 22, 24, 25, 26, 32, 33, 34, 37, 38, 39, 41};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -245,7 +246,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInB = new int[] {6, 8, 10, 11, 14, 15, 16, 19, 20, 24, 25, 28, 29, 32, 33, 34, 35, 
 				36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 54};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -263,7 +264,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {12, 19, 20, 28, 29, 30, 32};
 		int[] expectedLineNumsInB = new int[] {8, 10, 12, 33, 35, 36, 41, 43};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -281,7 +282,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {19, 20, 21, 22, 23, 25, 28, 29, 30};
 		int[] expectedLineNumsInB = new int[] {7, 8, 10, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -310,7 +311,7 @@ public class ASTComparatorTests {
 		                                        118, 120, 121, 124, 126, 129, 131, 132, 133, 134, 135, 136, 141, 
 		                                        142, 143};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -329,7 +330,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {5, 6, 10, 11, 12, 13, 14, 16};
 		int[] expectedLineNumsInB = new int[] {4, 5, 7, 8, 9, 10, 11, 13};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
@@ -347,7 +348,7 @@ public class ASTComparatorTests {
 		int[] expectedLineNumsInA = new int[] {6, 7, 9, 10, 11, 12, 13, 15};
 		int[] expectedLineNumsInB = new int[] {7, 8, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 		
-		assertEquals("2", actual.getLayer());
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
 		assertEquals(expectedScore, actual.getScore(), 0.01);
 		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
