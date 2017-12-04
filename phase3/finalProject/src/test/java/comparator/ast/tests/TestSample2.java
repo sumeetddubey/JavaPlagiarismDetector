@@ -1,17 +1,15 @@
 package comparator.ast.tests;
 
-
 /**
  * This file is used to test the ASTComparator to mock up user input
- * 
+ *  
  * @author Wenjun
  *
  */
-public class ASimilar {
+public class TestSample2 {
 	int num;
 	int x=10;
-	
-	ASimilar(int num){
+	TestSample2(int num){
 		this.num = num;
 	}
 	
@@ -19,8 +17,10 @@ public class ASimilar {
 		int sum = 0;
 		
 		int i = 0;
-		while (i < num) {
-			sum += i;
+		while(i < num) {
+			int temp = num + num * 2;
+			temp = -temp;
+			sum += temp;
 			i++;
 		}
 		
@@ -28,7 +28,7 @@ public class ASimilar {
 	}
 	
 	public static void main(String[] args) {
-		A a = new A(5);
+		TestSample1 a = new TestSample1(5);
 		int sum = a.getSum();
 		
 		System.out.println(sum);

@@ -50,14 +50,14 @@ public class Node {
 		return endLineNum;
 	}
 	
-	/**
-	 * define the toString method to show the Node
-	 */
-	@Override
-	public String toString() {
-		return "{'type': '" + nodeType + "'" 
-				+ ", 'start line number': '" + startLineNum + "'"
-				+ ", 'end line number': '" + endLineNum + "'"
-				+ "'}";
-	}
+//	/**
+//	 * define the toString method to show the Node
+//	 */
+//	@Override
+//	public String toString() {
+//		return "{'type': '" + nodeType + "'" 
+//				+ ", 'start line number': '" + startLineNum + "'"
+//				+ ", 'end line number': '" + endLineNum + "'"
+//				+ "'}";
+//	}
 }

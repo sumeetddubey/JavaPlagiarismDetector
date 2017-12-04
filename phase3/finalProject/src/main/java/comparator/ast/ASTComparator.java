@@ -29,46 +29,43 @@ import utility.Report;
  *
  */
 public class ASTComparator implements IComparator {
-
+	
+	List<Node> programANodeList; // list of Node that represents programA
+	List<Node> programBNodeList; // list of Node that represents programB
+	
 	/**
 	 * Generate similarity report for the two given programs, programA and programB
 	 * by comparing AST of the two programs
 	 */
 	@Override
 	public Report generateReport(File programA, File programB) throws IOException {
-		// read the programs from file to Strings
-		String programAStr = ReadFileToString.readFileToString(programA);
-		String programBStr = ReadFileToString.readFileToString(programB);
-
-		// get node lists of two programs respectively
-		List<Node> programANodeList = DetectorASTParser.parseProgramToTypeAbbrs(programAStr);
-		List<Node> programBNodeList = DetectorASTParser.parseProgramToTypeAbbrs(programBStr);
-
+		boolean needToBeContinued = extractListOfNodesFromPrograms(programA, programB);
+		if (!needToBeContinued) {
+			return new Report("2", 0, "[]" + "\n" + "[]");
+		}
+		
 		// *************************************************************************/
 		System.out.println(getProgramRepresentation(programANodeList));
 		System.out.println(getProgramRepresentation(programBNodeList));
 		// *************************************************************************/
 
 		// get list of suspicious nodes(represented by node index intervals) pair 
-		List<PairOfNodeIndexIntervals> listOfSuspiciousPairs = getListOfSuspiciousNodeIndexIntervalPairs(
-				programANodeList, programBNodeList);
+		List<PairOfNodeIndexIntervals> listOfSuspiciousPairs = getListOfSuspiciousNodeIndexIntervalPairs();
 
 		// get suspicious nodes from program A
-		Set<Node> suspiciousNodesInA = getAllSuspiciousNodesForProgramA(programANodeList, listOfSuspiciousPairs);
+		Set<Node> suspiciousNodesInA = getAllSuspiciousNodesForProgramA(listOfSuspiciousPairs);
 		// get suspicious nodes from program B
-		Set<Node> suspiciousNodesInB = getAllSuspiciousNodesForProgramB(programBNodeList, listOfSuspiciousPairs);
+		Set<Node> suspiciousNodesInB = getAllSuspiciousNodesForProgramB(listOfSuspiciousPairs);
 
 		// get the suspicious line numbers of both programs in sorted order
 		Integer[] suspiciousLineNumsOfA = getSuspiciousLineNums(suspiciousNodesInA);
 		Integer[] suspiciousLineNumsOfB = getSuspiciousLineNums(suspiciousNodesInB);
 
 		// calculate similarity score of the two programs
-		float score = calculateSimilarityScore(suspiciousNodesInA.size(), suspiciousNodesInB.size(), 
-				programANodeList.size(), programBNodeList.size());
+		float score = calculateSimilarityScore(suspiciousNodesInA.size(), suspiciousNodesInB.size());
 		
 		// generate message (list of suspicious nodes for programA and programB) for the Report
 		String message = Arrays.toString(suspiciousLineNumsOfA) + "\n" + Arrays.toString(suspiciousLineNumsOfB);
-		
 		
 		 //*************************************************************************/
 		 System.out.println(score);
@@ -77,7 +74,55 @@ public class ASTComparator implements IComparator {
 		
 		return new Report("2", score, message);
 	}
+	
+	
+	/**
+	 * Covert list of nodes into String representation: a list of abbreviation of types
+	 * 
+	 * @param nodeList - the node list
+	 * @return - the String representation of the node list
+	 */
+	public static String getProgramRepresentation(List<Node> nodeList) {
+		StringBuilder sb = new StringBuilder();
 
+		for (Node node : nodeList) {
+			sb.append(node.getNodeTypeAbbr());
+		}
+
+		return sb.toString();
+	}
+	
+	/**
+	 * Read program from files and extract list of Node from programs and decide whether needs to continue 
+	 * comparing the two programs
+	 * @param programA
+	 * @param programB
+	 * @return - whether is it worth to continue compare the two programs
+	 */
+	private boolean extractListOfNodesFromPrograms(File programA, File programB) {
+		// read the programs from file to Strings
+		String programAStr = ReadFileToString.readFileToString(programA);
+		String programBStr = ReadFileToString.readFileToString(programB);
+
+		if (programAStr.length() == 0 || programBStr.length() == 0) {
+			// if one of the programs is empty, no need to continue comparing
+			return false;
+		} 
+		
+		// get node lists of two programs respectively
+		programANodeList = DetectorASTParser.parseProgramToListOfNodes(programAStr);
+		programBNodeList = DetectorASTParser.parseProgramToListOfNodes(programBStr);
+		
+		if (programANodeList.size() == 0 || programBNodeList.size() == 0) {
+			// if one of the programs does not have any nodes inside of it, no need to continue comparing
+			return false;
+		}
+		
+		// otherwise, continue comparing two programs
+		return true;
+	}
+	
+	
 	/**
 	 * Calculate similarity score for program A and B
 	 * 
@@ -87,14 +132,10 @@ public class ASTComparator implements IComparator {
 	 * @param numOfNodesInB - number of total nodes in program B
 	 * @return - similarity score of the two programs
 	 */
-	private float calculateSimilarityScore(int numOfSuspiciousNodesInA, int numOfSuspiciousNodesInB,
-											int numOfNodesInA, int numOfNodesInB) {
-		
+	private float calculateSimilarityScore(int numOfSuspiciousNodesInA, int numOfSuspiciousNodesInB) {
 		// calculate the similarity score
-		float score = (float) (numOfSuspiciousNodesInA + numOfSuspiciousNodesInB) 
-							/ (numOfNodesInA + numOfNodesInB) * 100;
-
-		return score;
+		return  (float) (numOfSuspiciousNodesInA + numOfSuspiciousNodesInB) 
+				/ (programANodeList.size() + programBNodeList.size()) * 100;
 	}
 	
 
@@ -123,8 +164,7 @@ public class ASTComparator implements IComparator {
 	 * @param listOfSuspiciousPairs - all suspicious pair of blocks of program A and B
 	 * @return - all suspicious nodes from program A
 	 */
-	private Set<Node> getAllSuspiciousNodesForProgramA(List<Node> programANodeList,
-			List<PairOfNodeIndexIntervals> listOfSuspiciousPairs) {
+	private Set<Node> getAllSuspiciousNodesForProgramA(List<PairOfNodeIndexIntervals> listOfSuspiciousPairs) {
 		Set<Integer> nodeIndexes = new HashSet<Integer>();
 		
 		for (PairOfNodeIndexIntervals pair : listOfSuspiciousPairs) {
@@ -142,8 +182,7 @@ public class ASTComparator implements IComparator {
 	 * @param listOfSuspiciousPairs - all suspicious pair of blocks of program A and B
 	 * @return - all suspicious nodes from program B
 	 */
-	private Set<Node> getAllSuspiciousNodesForProgramB(List<Node> programBNodeList,
-			List<PairOfNodeIndexIntervals> listOfSuspiciousPairs) {
+	private Set<Node> getAllSuspiciousNodesForProgramB(List<PairOfNodeIndexIntervals> listOfSuspiciousPairs) {
 		Set<Integer> nodeIndexes = new HashSet<Integer>();
 		// program B is the second element in the pair of suspicious blocks
 		for (PairOfNodeIndexIntervals pair : listOfSuspiciousPairs) {
@@ -188,22 +227,6 @@ public class ASTComparator implements IComparator {
 	}
 
 	/**
-	 * Covert list of nodes into String representation: a list of abbreviation of types
-	 * 
-	 * @param nodeList - the node list
-	 * @return - the String representation of the node list
-	 */
-	private static String getProgramRepresentation(List<Node> nodeList) {
-		StringBuilder sb = new StringBuilder();
-
-		for (Node node : nodeList) {
-			sb.append(node.getNodeTypeAbbr());
-		}
-
-		return sb.toString();
-	}
-
-	/**
 	 * Compare two node list of two ASTs 
 	 * 	1) convert the list of Node into String representation
 	 * 	2) use Greedy String Tilling(GST) Algorithm to find similar substrings 
@@ -221,9 +244,8 @@ public class ASTComparator implements IComparator {
 
 		// call Greedy String Tilling algorithms to compare the Strings
 		GreedyStringTilling gst = new GreedyStringTilling();
-		HashSet<Match> matchedSubstrings = gst.GST(programATypeAbbr, programBTypeAbbr);
 
-		return matchedSubstrings;
+		return gst.GST(programATypeAbbr, programBTypeAbbr);
 	}
 
 	/**
@@ -233,8 +255,7 @@ public class ASTComparator implements IComparator {
 	 * @param programBNodeList
 	 * @return
 	 */
-	private List<PairOfNodeIndexIntervals> getListOfSuspiciousNodeIndexIntervalPairs(List<Node> programANodeList,
-			List<Node> programBNodeList) {
+	private List<PairOfNodeIndexIntervals> getListOfSuspiciousNodeIndexIntervalPairs() {
 
 		List<PairOfNodeIndexIntervals> listOfPairs = new ArrayList<PairOfNodeIndexIntervals>();
 
@@ -344,43 +365,4 @@ public class ASTComparator implements IComparator {
 	private int getEndNodeIndex(int validStartIndexOfStr, int len) {
 		return (validStartIndexOfStr + len - 2) / 2;
 	}
-
-	public static void main(String[] args) throws IOException {
-		String curDir = System.getProperty("user.dir");
-		File fileA = new File(curDir + File.separator + "src" + File.separator + "test" + File.separator + "java"
-				+ File.separator + "comparator" + File.separator + "ast" + File.separator + "tests" + File.separator + "A.java");
-
-		File fileASimilar = new File(curDir + File.separator + "src" + File.separator + "test" + File.separator + "java"
-				+ File.separator + "comparator" + File.separator + "ast" + File.separator + "tests" + File.separator
-				+ "ASimilar.java");
-		
-		File fileAExtended = new File(curDir + File.separator + "src" + File.separator + "test" + File.separator + "java"
-				+ File.separator + "comparator" + File.separator + "ast" + File.separator + "tests" + File.separator
-				+ "AExtended.java");
-		
-		File fileAExtended2 = new File(curDir + File.separator + "src" + File.separator + "test" + File.separator + "java"
-				+ File.separator + "comparator" + File.separator + "ast" + File.separator + "tests" + File.separator
-				+ "AExtended2.java");
-		
-		
-		File fileB = new File(curDir + File.separator + "src" + File.separator + "test" + File.separator + "java"
-				+ File.separator + "comparator" + File.separator + "ast" + File.separator + "tests" + File.separator
-				+ "B.java");
-		
-
-		System.out.println("********************* A vs ASimilar *********************");
-		ASTComparator astComparator = new ASTComparator();
-		astComparator.generateReport(fileA, fileASimilar);
-		
-		System.out.println("\n\n********************* A vs B *********************");
-		astComparator.generateReport(fileA, fileB);
-		
-		System.out.println("\n\n********************* A vs AExtended *********************");
-		astComparator.generateReport(fileA, fileAExtended);
-		
-
-		System.out.println("\n\n********************* AExtended2 vs AExtended2 *********************");
-		astComparator.generateReport(fileA, fileAExtended2);
-	}
-
 }
