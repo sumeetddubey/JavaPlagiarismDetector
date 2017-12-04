@@ -8,6 +8,7 @@ import algorithms.gst.GreedyStringTilling;
 import algorithms.gst.Match;
 
 public class GreedyStringTillingTests {
+	private final int MIN_MATCH_LENGTH=4;
 	
 //	Test helper method for comparing two match sets
 	private boolean equals(HashSet<Match> matches1, HashSet<Match> matches2) {
@@ -31,7 +32,7 @@ public class GreedyStringTillingTests {
 	public void TestOneEmptyStrings() {
 		String str1="";
 		String str2="bcd";
-		GreedyStringTilling gst=new GreedyStringTilling();
+		GreedyStringTilling gst=new GreedyStringTilling(MIN_MATCH_LENGTH);
 		HashSet<Match> actual = gst.GST(str1, str2);
 		HashSet<Match> expected = new HashSet<Match>();
 		assertTrue(equals(actual, expected));
@@ -42,7 +43,7 @@ public class GreedyStringTillingTests {
 	public void TestTwoEmptyStrings() {
 		String str1="";
 		String str2="";
-		GreedyStringTilling gst=new GreedyStringTilling();
+		GreedyStringTilling gst=new GreedyStringTilling(MIN_MATCH_LENGTH);
 		HashSet<Match> actual = gst.GST(str1, str2);
 		HashSet<Match> expected = new HashSet<Match>();
 		assertTrue(equals(actual, expected));
@@ -53,7 +54,7 @@ public class GreedyStringTillingTests {
 	public void TestTwoSimpleStrings() {
 		String str1="abc";
 		String str2="bcd";
-		GreedyStringTilling gst=new GreedyStringTilling();
+		GreedyStringTilling gst=new GreedyStringTilling(MIN_MATCH_LENGTH);
 		HashSet<Match> actual = gst.GST(str1, str2);
 		HashSet<Match> expected = new HashSet<Match>();
 		expected.add(new Match(1, 0, 2));
@@ -65,7 +66,7 @@ public class GreedyStringTillingTests {
 	public void TestTwoComplexStrings() {
 		String str1="abcdcdefferrfgher";
 		String str2="abcdfferfher";
-		GreedyStringTilling gst=new GreedyStringTilling();
+		GreedyStringTilling gst=new GreedyStringTilling(MIN_MATCH_LENGTH);
 		HashSet<Match> actual = gst.GST(str1, str2);
 		HashSet<Match> expected = new HashSet<Match>();
 		expected.add(new Match(0, 0, 4));
@@ -84,7 +85,7 @@ public class GreedyStringTillingTests {
 			str1+="a";
 			str2+="a";
 		}
-		GreedyStringTilling gst=new GreedyStringTilling();
+		GreedyStringTilling gst=new GreedyStringTilling(MIN_MATCH_LENGTH);
 		HashSet<Match> actual = gst.GST(str1, str2);
 		HashSet<Match> expected = new HashSet<Match>();
 		expected.add(new Match(0, 0, 4));
