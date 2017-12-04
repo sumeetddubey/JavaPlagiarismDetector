@@ -32,7 +32,17 @@ public class HelpPage {
         textArea = new TextArea();
         textArea.setWrapText(true);
         textArea.setEditable(false);
+<<<<<<< HEAD
         textArea.setText("Text of Help Page");
+=======
+        textArea.setText("About Plagiarism Detector\n" +
+                "Welcome to the most trustworthy plagiarism checker software"+"\n" +
+                "Importance of Plagiarism Detector\n" +
+                "\n" +
+                "How the Plagiarism Detector Works\n" +
+                "\n" +
+                "Understanding the Results");
+>>>>>>> master
 
         // Label
         lblCaption = new Label("Help For Users");

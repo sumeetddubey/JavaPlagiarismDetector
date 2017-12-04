@@ -44,12 +44,20 @@ public class Match {
 	/**
 	 * Prints out textual representation of this match
 	 */
-	public void textualRepresentation() {
+	@Override
+	public String toString() {
 		StringBuilder sb=new StringBuilder();
+<<<<<<< HEAD
 		sb.append("Index in string 1: " +getFirstStringIndex() + " \t");
 		sb.append("Index in string 2: " +getSecondStringIndex() +" \t");
 		sb.append("Match length: " +getMatchLength());
 		System.out.println(sb);
+=======
+		sb.append("Index in string 1: " +getFirstStringIndex() + "\t");
+		sb.append("Index in string 2: " +getSecondStringIndex() +"\t");
+		sb.append("Match length: " +getMatchLength());
+		return sb.toString();
+>>>>>>> master
 	}
 	
 	

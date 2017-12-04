@@ -1,5 +1,9 @@
 package ui;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -33,8 +37,13 @@ public class ConfirmBox {
         // block input events or user interaction with other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
+<<<<<<< HEAD
         window.setMinWidth(100);
         window.setMinHeight(100);
+=======
+        window.setWidth(250);
+        window.setHeight(150);
+>>>>>>> master
 
         // Label
         lblConfirm = new Label();
@@ -42,7 +51,13 @@ public class ConfirmBox {
 
         // Button
         btnYes = new Button("YES");
+<<<<<<< HEAD
         btnNo = new Button("NO");
+=======
+        btnYes.getStyleClass().add("btnYes1");
+        btnNo = new Button("NO");
+        btnNo.getStyleClass().add("btnNo1");
+>>>>>>> master
 
         btnYes.setOnAction(event -> {
             answer = true;
@@ -68,6 +83,10 @@ public class ConfirmBox {
 
         // Scene
         scene = new Scene(mainLayout, 100, 100);
+<<<<<<< HEAD
+=======
+        scene.getStylesheets().add("plag.css");
+>>>>>>> master
         window.setScene(scene);
         // display the window and before going back, it needs to be closed
         window.showAndWait();

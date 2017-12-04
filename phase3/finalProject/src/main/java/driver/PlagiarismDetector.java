@@ -2,6 +2,7 @@ package driver;
 
 import java.io.*;
 
+import comparator.ast.ASTComparator;
 import comparator.functionSignature.Layer1Detection;
 import comparator.hashcode.HashCodeComparator;
 import interfaces.IComparator;
@@ -18,16 +19,26 @@ public class PlagiarismDetector {
 		
 		Report report0 = layer0Report();
 		reports[0]=report0;
-		System.out.println(report0.getMessage());
+		System.out.println("Layer 0: " + report0.getMessage());
 		
 		Report report1 = layer1Report();
-		System.out.println(report1.getScore());
+		System.out.println("Layer 1: " + report1.getScore());
 		reports[1]=report1;
+<<<<<<< HEAD
 		
 		Report report2 = layer2Report();
 		System.out.println(report1.getScore());
 		reports[1]=report1;
 		
+=======
+
+		Report report2 = layer2Report();
+		System.out.print("Layer 2: ");
+		System.out.println(report2.getScore());
+		System.out.println(report2.getMessage());
+		reports[2] = report2;
+
+>>>>>>> master
 		return reports;
 	}
 
@@ -59,6 +70,14 @@ public class PlagiarismDetector {
 		return layer2.generateReport(programA, programB);
 	}
 
+	/**
+	 * @throws IOException 
+	 * 
+	 */
+	private Report layer2Report() throws IOException {
+		IComparator hashCodeComparator = new ASTComparator();
+		return hashCodeComparator.generateReport(programA, programB);
+	}
 	
 	/**
 	 * Constructors

@@ -13,7 +13,11 @@ public class RedBlack {
 	public final static String BLACK = "BLACK";
 	public final static String RED = "RED";
 	 
+<<<<<<< HEAD
 	public void treeLeftRotate(MyRBNode x)
+=======
+	public static void treeLeftRotate(MyRBNode x)
+>>>>>>> master
 	{
 		if(x.getRightChild() == null){
 			System.out.println ("cant rotate left");

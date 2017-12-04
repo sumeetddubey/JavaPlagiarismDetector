@@ -1,5 +1,9 @@
 package ui;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;

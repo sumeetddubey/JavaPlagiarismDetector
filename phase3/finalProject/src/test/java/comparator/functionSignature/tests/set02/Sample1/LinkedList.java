@@ -1,3 +1,5 @@
+package comparator.functionSignature.tests.set02.Sample1;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 

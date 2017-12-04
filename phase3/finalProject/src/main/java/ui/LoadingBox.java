@@ -37,6 +37,10 @@ public class LoadingBox {
 
         // Scene
         Scene scene = new Scene(hBox, 200, 200);
+<<<<<<< HEAD
+=======
+        scene.getStylesheets().add("plag.css");
+>>>>>>> master
         window.setScene(scene);
         PauseTransition delay = new PauseTransition(Duration.seconds(5));
         delay.setOnFinished( event -> window.close() );

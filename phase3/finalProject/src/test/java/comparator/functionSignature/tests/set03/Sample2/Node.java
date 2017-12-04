@@ -1,7 +1,7 @@
 /**
  * 
  */
-package set3;
+package comparator.functionSignature.tests.set03.Sample2;
 
 /**
  * @author ABC

@@ -1,4 +1,4 @@
-package set2;
+package comparator.functionSignature.tests.set02.Sample2;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

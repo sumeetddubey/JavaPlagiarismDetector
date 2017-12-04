@@ -1,4 +1,4 @@
-package set4;
+package comparator.functionSignature.tests.set04.Sample1;
 
 public class DLLNode<Object> {
 	

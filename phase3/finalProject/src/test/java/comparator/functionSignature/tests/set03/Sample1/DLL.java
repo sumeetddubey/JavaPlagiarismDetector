@@ -1,4 +1,4 @@
-package set3;
+package comparator.functionSignature.tests.set03.Sample1;
 
 import java.util.NoSuchElementException;
 
