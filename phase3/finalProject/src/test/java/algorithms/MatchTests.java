@@ -1,9 +1,6 @@
 package algorithms;
 
 import static org.junit.Assert.*;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.LinkedList;
 
 import org.junit.Test;
@@ -16,13 +13,10 @@ public class MatchTests {
 	public void testMatchTextualRepresentation() {
 		Match m = new Match(0, 2, 2);
 		
-		final ByteArrayOutputStream myOut = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(myOut));
-		m.textualRepresentation();
-		final String standardOutput = myOut.toString();
-		System.out.println(standardOutput);
-		assertEquals(standardOutput, "Index in string 1: 0 \t"+ 
-		"Index in string 2: 2 \tMatch length: 2\n");
+		String actual=m.toString();
+		String expected="Index in string 1: 0 \t"+ 
+				"Index in string 2: 2 \tMatch length: 2";
+		assertEquals(actual, expected);
 	}
 	
 	@Test

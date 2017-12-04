@@ -29,31 +29,23 @@ public class AlertBox {
         // block input events or user interaction with other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-<<<<<<< HEAD
-        window.setMinWidth(100);
-        window.setMinHeight(100);
-=======
+
         window.setWidth(250);
         window.setHeight(150);
->>>>>>> master
         Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
         window.setX((primScreenBounds.getWidth() - window.getWidth()) / 2);
         window.setY((primScreenBounds.getHeight() - window.getHeight()) / 2);
 
         // Label
         lblAlert = new Label();
-<<<<<<< HEAD
-=======
+
         lblAlert.getStyleClass().add("lblAlert1");
->>>>>>> master
         lblAlert.setText(message);
 
         // Button
         btnClose = new Button("Confirm!");
-<<<<<<< HEAD
-=======
+
         btnClose.getStyleClass().add("btnConfirm1");
->>>>>>> master
         btnClose.setOnAction(event -> window.close());
 
         // Layout
@@ -64,10 +56,8 @@ public class AlertBox {
 
         // Scene
         scene = new Scene(mainLayout, 100, 100);
-<<<<<<< HEAD
-=======
+
         scene.getStylesheets().add("plag.css");
->>>>>>> master
         window.setScene(scene);
         // display the window and before going back, it needs to be closed
         window.showAndWait();

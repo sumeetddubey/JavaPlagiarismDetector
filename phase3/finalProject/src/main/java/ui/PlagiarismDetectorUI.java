@@ -1,18 +1,11 @@
 package ui;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-<<<<<<< HEAD
-=======
 import javafx.geometry.Rectangle2D;
->>>>>>> master
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -25,25 +18,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
-<<<<<<< HEAD
-=======
 import javafx.stage.Screen;
->>>>>>> master
 import javafx.stage.Stage;
 import utility.Report;
 
 import java.io.*;
 import java.util.*;
 
-<<<<<<< HEAD
-import comparator.functionSignature.Layer1Detection;
 import driver.PlagiarismDetector;
 
-@SuppressWarnings("restriction")
-=======
-import driver.PlagiarismDetector;
-
->>>>>>> master
 public class PlagiarismDetectorUI extends Application {
 
     private static final String LAYER_0_INTRO =
@@ -84,16 +67,6 @@ public class PlagiarismDetectorUI extends Application {
 
 
     @Override
-<<<<<<< HEAD
-    public void start(Stage primaryStage) throws IOException {
-
-        // Stage
-        window = primaryStage;
-        window.setTitle("Java Plagiarism Detector");
-        window.setMinWidth(700);
-        window.setMinHeight(700);
-        //window.setResizable(false);
-=======
     public void start(Stage primaryStage) throws Exception {
 
         // Stage
@@ -108,7 +81,7 @@ public class PlagiarismDetectorUI extends Application {
 //        window.setWidth(bounds.getWidth());
 //        window.setHeight(bounds.getHeight());
         window.setResizable(true);
->>>>>>> master
+
         window.setOnCloseRequest(event -> {
             event.consume();
             closeProgram();
@@ -122,17 +95,11 @@ public class PlagiarismDetectorUI extends Application {
         txtFileName2 = new TextField();
 
         // Label
-<<<<<<< HEAD
-        lblFile1 = new Label("Upload your fist file: ");
-        lblFile1.setTextAlignment(TextAlignment.CENTER);
-        lblFile2 = new Label("Upload your second file: ");
-=======
         lblFile1 = new Label("File 1: ");
         lblFile1.getStyleClass().add("lblFile11");
         lblFile1.setTextAlignment(TextAlignment.CENTER);
         lblFile2 = new Label("File 2: ");
         lblFile2.getStyleClass().add("lblFile12");
->>>>>>> master
         lblFile2.setTextAlignment(TextAlignment.CENTER);
 
         lblAlert = new Label("Two files have the same name! Please check again!");
@@ -140,28 +107,16 @@ public class PlagiarismDetectorUI extends Application {
         lblAlert.setTextFill(Color.RED);
         lblAlert.setVisible(false);
 
-<<<<<<< HEAD
-        lblTitle = new Label("Plagiarism Detector for Java");
-        lblTitle.setTextAlignment(TextAlignment.CENTER);
-
-=======
         lblTitle = new Label("Plagiarism Detector for Java Language Code");
         lblTitle.getStyleClass().add("lblTitle1");
         lblTitle.translateXProperty().set(-200);
         lblTitle.translateYProperty().set(150);
->>>>>>> master
-
 
         // FileChooser
         fileChooser = new FileChooser();
 
         // Buttons
         btnHelp = new Button("Ask Help?");
-<<<<<<< HEAD
-        btnCheck = new Button("Check Plagiarism");
-        btnFile1 = new Button("Upload");
-        btnFile2 = new Button("Upload");
-=======
         btnHelp.getStyleClass().add("btnHelp1");
         btnHelp.translateYProperty().set(40);
         btnHelp.translateXProperty().set(-40);
@@ -171,7 +126,6 @@ public class PlagiarismDetectorUI extends Application {
         btnFile1.getStyleClass().add("btnFile1");
         btnFile2 = new Button("Upload");
         btnFile2.getStyleClass().add("btnFile2");
->>>>>>> master
         DropShadow shadow = new DropShadow();
 
         /******** Shadow Effect *********/
@@ -220,48 +174,6 @@ public class PlagiarismDetectorUI extends Application {
                 LoadingBox.display("Loading...");
 
 
-<<<<<<< HEAD
-                /*********** test *******************/
-
-                String str = "[1, 3, 5, 7]" + "\n" + "[2, 4, 6]";
-                
-//                Report reportLayer0 = new Report("0", 0, "This is layer 0.");
-
-
-        			try {
-						PlagiarismDetector plagiarismDetector = new PlagiarismDetector(files[0], files[1]);
-						Report[] reports=plagiarismDetector.generateFinalReport();
-						
-		                // Layer 0
-		                tabLayer0.getTxtLayerIntro().setText(LAYER_0_INTRO);
-		                tabLayer0.getTxtScore().setText(String.valueOf(reports[0].getScore()));
-		                tabLayer0.getTxtMessage().setText(reports[0].getMessage());
-
-		                // Layer 1
-		                tabLayer1.getTxtLayerIntro().setText(LAYER_1_INTRO);
-		                tabLayer1.getTxtScore().setText(String.valueOf(reports[1].getScore()));
-		                tabLayer1.getTxtMessage().setText(reports[1].getMessage());
-
-		                // Layer 2
-		                Report reportLayer2 = new Report("2", 55.9f, str);
-		                Map<Integer, List<Integer>> map = getPlagLineNumbers(reportLayer2.getMessage());
-		                List<Integer> lines1 = map.get(1);
-		                List<Integer> lines2 = map.get(2);
-
-		                plagiarismShow(table1, lines1);
-		                plagiarismShow(table2, lines2);
-		                txtScore.setText(String.valueOf(reportLayer2.getScore()));
-						
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-//                Report reportLayer1 = new Report("1", 42.5f, "This is layer 1");
-
-
-
-
-=======
                 /*********** render UI *******************/
                 
                 
@@ -293,7 +205,6 @@ public class PlagiarismDetectorUI extends Application {
 					e.printStackTrace();
 				}
                 secondScene.getStylesheets().add("plag.css");
->>>>>>> master
                 window.setScene(secondScene);
             } else {
                 AlertBox.display("ERROR", "Please upload two files!");
@@ -326,11 +237,7 @@ public class PlagiarismDetectorUI extends Application {
 
         // Layout
         hBox_main_top = new HBox(20);
-<<<<<<< HEAD
-        hBox_main_top.getChildren().addAll(lblTitle, btnHelp);
-=======
         hBox_main_top.getChildren().addAll(lblTitle,btnHelp);
->>>>>>> master
         hBox_main_top.setAlignment(Pos.CENTER);
 
         hBox_main_center_file1 = new HBox(20);
@@ -347,21 +254,14 @@ public class PlagiarismDetectorUI extends Application {
         vBox_main_center.getChildren().addAll(hBox_main_center_file1, hBox_main_center_file2, btnCheck, lblAlert);
         vBox_main_center.setPadding(new Insets(20));
         vBox_main_center.setAlignment(Pos.CENTER);
-<<<<<<< HEAD
 
-=======
->>>>>>> master
         borderPane_main = new BorderPane();
         borderPane_main.setTop(hBox_main_top);
         borderPane_main.setCenter(vBox_main_center);
 
         // Scene
-<<<<<<< HEAD
-        mainScene = new Scene(borderPane_main, 400, 400);
-=======
         mainScene = new Scene(borderPane_main, 1300,650);
         mainScene.getStylesheets().add("plag.css");
->>>>>>> master
         window.setScene(mainScene);
 
 
@@ -373,13 +273,8 @@ public class PlagiarismDetectorUI extends Application {
         table2 = new TableView<>();
         table1.setEditable(false);
         table2.setEditable(false);
-<<<<<<< HEAD
-        table1.setMaxWidth(350);
-        table2.setMaxWidth(350);
-=======
         table1.setPrefWidth(500);
         table2.setPrefWidth(500);
->>>>>>> master
 
         lineNumberCol1 = new TableColumn<>("Lines");
         lineNumberCol2 = new TableColumn<>("Lines");
@@ -392,15 +287,10 @@ public class PlagiarismDetectorUI extends Application {
         codeCol2.setCellValueFactory(new PropertyValueFactory<CodeLine, String>("code"));
 
         lineNumberCol1.setPrefWidth(75);
-<<<<<<< HEAD
-        codeCol1.setPrefWidth(275);
-        lineNumberCol2.setPrefWidth(75);
-        codeCol2.setPrefWidth(275);
-=======
+
         codeCol1.setPrefWidth(425);
         lineNumberCol2.setPrefWidth(75);
         codeCol2.setPrefWidth(425);
->>>>>>> master
         lineNumberCol1.setSortable(false);
         codeCol1.setSortable(false);
         lineNumberCol2.setSortable(false);
@@ -413,10 +303,8 @@ public class PlagiarismDetectorUI extends Application {
         // Buttons
 
         btnReturn = new Button("Return");
-<<<<<<< HEAD
-=======
+
         btnReturn.getStyleClass().addAll("btnReturn1");
->>>>>>> master
         btnDownload = new Button("Download");
 
         btnReturn.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> btnHelp.setEffect(shadow));
@@ -440,8 +328,6 @@ public class PlagiarismDetectorUI extends Application {
         tabLayer1 = new LayerTab("Layer 1");
         tabLayer2 = new Tab("Layer 2");
 
-<<<<<<< HEAD
-
         hBox_table_view = new HBox(30);
         hBox_table_view.getChildren().addAll(table1, table2);
         hBox_table_view.setAlignment(Pos.CENTER);
@@ -449,7 +335,6 @@ public class PlagiarismDetectorUI extends Application {
 
         borderPane_second = new BorderPane();
         borderPane_second.setCenter(hBox_table_view);
-=======
         hBox_table_view = new HBox(40);
         hBox_table_view.getChildren().addAll(table1, table2);
         hBox_table_view.setAlignment(Pos.CENTER_LEFT);
@@ -457,7 +342,6 @@ public class PlagiarismDetectorUI extends Application {
 
         borderPane_second = new BorderPane();
         borderPane_second.setRight(hBox_table_view);
->>>>>>> master
 
         lblScore = new Label("Score: ");
         txtScore = new TextField();
@@ -473,22 +357,13 @@ public class PlagiarismDetectorUI extends Application {
         grid_Pane.addRow(0, lblScore, txtScore);
         grid_Pane.addRow(1, lblLayer2Intro, txtLayer2Intro);
         grid_Pane.addRow(2, btnReturn);
-<<<<<<< HEAD
-        borderPane_second.setBottom(grid_Pane);
-=======
         borderPane_second.setCenter(grid_Pane);
->>>>>>> master
 
         tabLayer2.setContent(borderPane_second);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         tabPane.getTabs().addAll(tabLayer0, tabLayer1, tabLayer2);
 
-<<<<<<< HEAD
-        secondScene = new Scene(tabPane, 700,700);
-=======
         secondScene = new Scene(tabPane, 1300,650);
->>>>>>> master
-
     }
 
 
@@ -590,11 +465,8 @@ public class PlagiarismDetectorUI extends Application {
                         setStyle("");
                     } else {
                         if(plagLineNums.contains(item.getLineNumber())) {
-<<<<<<< HEAD
-                            setStyle("-fx-background-color: yellow");
-=======
+
                             setStyle("-fx-background-color: red");
->>>>>>> master
                         } else {
                             setStyle("");
                         }

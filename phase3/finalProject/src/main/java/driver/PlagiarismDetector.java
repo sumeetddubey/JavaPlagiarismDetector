@@ -24,13 +24,6 @@ public class PlagiarismDetector {
 		Report report1 = layer1Report();
 		System.out.println("Layer 1: " + report1.getScore());
 		reports[1]=report1;
-<<<<<<< HEAD
-		
-		Report report2 = layer2Report();
-		System.out.println(report1.getScore());
-		reports[1]=report1;
-		
-=======
 
 		Report report2 = layer2Report();
 		System.out.print("Layer 2: ");
@@ -38,7 +31,6 @@ public class PlagiarismDetector {
 		System.out.println(report2.getMessage());
 		reports[2] = report2;
 
->>>>>>> master
 		return reports;
 	}
 
@@ -60,23 +52,14 @@ public class PlagiarismDetector {
 		IComparator layer1 = new Layer1Detection();
 		return layer1.generateReport(programA, programB);
 	}
-	
-	/**
-	 * @throws IOException 
-	 * 
-	 */
-	private Report layer2Report() throws IOException {
-//		IComparator layer2 = new ASTComparator();
-		return layer2.generateReport(programA, programB);
-	}
 
 	/**
 	 * @throws IOException 
 	 * 
 	 */
 	private Report layer2Report() throws IOException {
-		IComparator hashCodeComparator = new ASTComparator();
-		return hashCodeComparator.generateReport(programA, programB);
+		IComparator ASTComparator = new ASTComparator();
+		return ASTComparator.generateReport(programA, programB);
 	}
 	
 	/**
