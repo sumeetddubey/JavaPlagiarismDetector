@@ -13,7 +13,12 @@ public class RedBlack {
 	public final static String BLACK = "BLACK";
 	public final static String RED = "RED";
 	 
-	public static void treeLeftRotate(MyRBNode x){
+<<<<<<< HEAD
+	public void treeLeftRotate(MyRBNode x)
+=======
+	public static void treeLeftRotate(MyRBNode x)
+>>>>>>> master
+	{
 		if(x.getRightChild() == null){
 			System.out.println ("cant rotate left");
 		}
@@ -65,7 +70,8 @@ public class RedBlack {
 		}
 	}
 	
-	public static void RBInsertFixup(MyRBNode RBNode){
+	public static void RBInsertFixup(MyRBNode RBNode)
+	{
 		while(RBNode.getParent().getColor().equals(RED)){
 			if(RBNode.getParent() == RBNode.getParent().getParent().getLeftChild()){
 				MyRBNode y = RBNode.getParent().getParent().getRightChild();
