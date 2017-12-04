@@ -21,24 +21,6 @@ public class FunctionMatchPair {
 		this.fs2 = functionName2;
 	}
 	
-//	Getters and Setters
-	public FunctionSignature getFunctionName1() {
-		return fs1;
-	}
-
-	public void setFunctionName1(FunctionSignature functionName1) {
-		this.fs1 = functionName1;
-	}
-
-	public FunctionSignature getFunctionName2() {
-		return fs2;
-	}
-
-	public void setFunctionName2(FunctionSignature functionName2) {
-		this.fs2 = functionName2;
-	}
-	
-	
 	/**
 	 * Prints textual representation of a match pair
 	 */

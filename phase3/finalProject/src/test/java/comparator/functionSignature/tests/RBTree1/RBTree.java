@@ -28,18 +28,15 @@ package comparator.functionSignature.tests.RBTree1;
          header.right = nullNode;
      }
      /* Function to check if tree is empty */
-     public boolean isEmpty()
-     {
+     public boolean isEmpty(){
          return header.right == nullNode;
      }
      /* Make the tree logically empty */
-     public void makeEmpty()
-     {
+     public void makeEmpty(){
          header.right = nullNode;
      }
      /* Function to insert item */
-     public void insert(int item )
-     {
+     public void insert(int item ){
          current = parent = grand = header;
          nullNode.element = item;
          while (current.element != item)
@@ -63,8 +60,7 @@ package comparator.functionSignature.tests.RBTree1;
              parent.right = current;        
          handleReorient( item );
      }
-     private void handleReorient(int item)
-     {
+     private void handleReorient(int item){
          // Do the color flip
          current.color = RED;
          current.left.color = BLACK;
