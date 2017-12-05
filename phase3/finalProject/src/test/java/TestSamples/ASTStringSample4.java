@@ -1,9 +1,9 @@
-package comparator.ast.tests;
+package TestSamples;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class TestSample9 {
+public class ASTStringSample4 {
 	public int test(Integer[] args) {
 		int len = args.length;
 		

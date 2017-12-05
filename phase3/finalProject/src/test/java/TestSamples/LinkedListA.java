@@ -1,4 +1,4 @@
-package comparator.ast.tests;
+package TestSamples;
 	
 import java.util.Iterator;
 import java.util.NoSuchElementException;

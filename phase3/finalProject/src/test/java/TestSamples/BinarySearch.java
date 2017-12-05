@@ -1,4 +1,4 @@
-package comparator.ast.tests;
+package TestSamples;
 
 // Java implementation of recursive Binary Search
 class BinarySearch

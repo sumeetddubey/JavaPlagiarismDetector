@@ -1,8 +1,6 @@
-package comparator.ast.tests;
+package TestSamples;
 
 import java.util.Random;
-
-import comparator.ast.tests.ProgramWithNestedIfs.Currency;
 
 public interface ProgramWithSwitch {
 	public enum Currency {

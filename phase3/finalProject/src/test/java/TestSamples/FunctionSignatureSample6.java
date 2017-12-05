@@ -1,8 +1,8 @@
-package comparator.functionSignature.tests;
+package TestSamples;
 
-import comparator.functionSignature.tests.set01.Sample1.LinkedList;
+import java.util.LinkedList;
 
-public class Sample6 {
+public class FunctionSignatureSample6 {
 	public String[] foo(){
 		return new String[] {"a", "b", "c"};
 	}

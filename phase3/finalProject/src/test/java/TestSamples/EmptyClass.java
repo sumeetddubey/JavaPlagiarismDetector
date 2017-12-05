@@ -1,4 +1,4 @@
-package comparator.ast.tests;
+package TestSamples;
 
 public class EmptyClass {
 

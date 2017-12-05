@@ -1,6 +1,6 @@
-package comparator.ast.tests;
+package TestSamples;
 
-public class TestSample7 {
+public class ASTStringSample2 {
 	public int test(String[] args) {
 		int len = args.length;
 		if(true) {

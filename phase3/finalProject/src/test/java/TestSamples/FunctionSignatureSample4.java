@@ -1,12 +1,12 @@
-package comparator.functionSignature.tests;
+package TestSamples;
 
 // sample class for checking function similarity
-public class Sample4 {
+public class FunctionSignatureSample4 {
 	int a;
 	String b;
 	String c;
 	
-	public Sample4(int a, String b, String c) {
+	public FunctionSignatureSample4(int a, String b, String c) {
 		this.a=a;
 		this.b=b;
 		this.c=c;

@@ -1,4 +1,4 @@
-package comparator.ast.tests;
+package TestSamples;
 
 /**
  * This file is used to test the ASTComparator to mock up user input
@@ -6,10 +6,10 @@ package comparator.ast.tests;
  * @author Wenjun
  *
  */
-public class TestSample1 {
+public class ProgramWithForLoop {
 	int num;
 	int x=10;
-	TestSample1(int num){
+	ProgramWithForLoop(int num){
 		this.num = num;
 	}
 	
@@ -26,7 +26,7 @@ public class TestSample1 {
 	}
 	
 	public static void main(String[] args) {
-		TestSample1 a = new TestSample1(5);
+		ProgramWithForLoop a = new ProgramWithForLoop(5);
 		int sum = a.getSum();
 		
 		System.out.println(sum);

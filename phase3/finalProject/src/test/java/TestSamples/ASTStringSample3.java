@@ -1,8 +1,8 @@
-package comparator.ast.tests;
+package TestSamples;
 
 import java.util.Arrays;
 
-public class TestSample8 {
+public class ASTStringSample3 {
 	public int test(int[] args) {
 		int len = args.length;
 		if(true) {
