@@ -3,7 +3,7 @@ package driver;
 import java.io.*;
 
 import comparator.ast.ASTComparator;
-import comparator.functionSignature.Layer1Detection;
+import comparator.functionSignature.FunctionSignatureComparator;
 import comparator.hashcode.HashCodeComparator;
 import interfaces.IComparator;
 import utility.Report;
@@ -16,19 +16,16 @@ public class PlagiarismDetector {
 	 */
 	
 	public Report[] generateFinalReport() throws IOException {
-		
+//		generate report for hash code layer
 		Report report0 = layer0Report();
 		reports[0]=report0;
-		System.out.println("Layer 0: " + report0.getMessage());
 		
+//		generate report for function signature layer
 		Report report1 = layer1Report();
-		System.out.println("Layer 1: " + report1.getScore());
 		reports[1]=report1;
 
+//		generate report for ast layer
 		Report report2 = layer2Report();
-		System.out.print("Layer 2: ");
-		System.out.println(report2.getScore());
-		System.out.println(report2.getMessage());
 		reports[2] = report2;
 
 		return reports;
@@ -49,7 +46,7 @@ public class PlagiarismDetector {
 	 * 
 	 */
 	private Report layer1Report() throws IOException {
-		IComparator layer1 = new Layer1Detection();
+		IComparator layer1 = new FunctionSignatureComparator();
 		return layer1.generateReport(programA, programB);
 	}
 
@@ -63,19 +60,8 @@ public class PlagiarismDetector {
 	}
 	
 	/**
-	 * Constructors
+	 * Constructor
 	 */
-//	
-//	public PlagiarismDetector() {
-//		this.reports=new Report[NUMBER_OF_LAYERS];
-//	}
-////	
-//	public PlagiarismDetector(String programA, String programB) {
-//		this.setProgramA(programA);
-//		this.setProgramB(programB);
-//		this.reports=new Report[NUMBER_OF_LAYERS];
-//	}
-	
 	public PlagiarismDetector(File fileA, File fileB) throws IOException {
 		programA = fileA;
 		programB = fileB;
