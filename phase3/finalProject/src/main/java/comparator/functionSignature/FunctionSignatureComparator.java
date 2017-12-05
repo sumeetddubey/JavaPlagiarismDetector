@@ -1,7 +1,5 @@
 package comparator.functionSignature;
 import java.io.BufferedReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,16 +17,13 @@ import utility.Report.ComparisonLayer;
  * Class for detecting function signature similarity
  */
 
-public class Layer1Detection implements IComparator{
+public class FunctionSignatureComparator implements IComparator{
 //	A set that stores pairs of matching function signatures  
 	private HashSet<FunctionMatchPair> matchPairs=new HashSet<FunctionMatchPair>();
 	
 //	a set of java keywords that will be useful for detecting constructor declaration
 	private HashSet<String> javaKeywords = new HashSet<String>();
-	
-//	error logger
-	private final static Logger LOGGER = Logger.getLogger(Layer1Detection.class.getName());
-	
+		
 //	constant that defines the return type of a constructor
 	private final String CLASS_OBJECT="ClassObject";
 	
@@ -36,7 +31,7 @@ public class Layer1Detection implements IComparator{
 	/**
 	 * Class Constructor
 	 */
-	public Layer1Detection() {
+	public FunctionSignatureComparator() {
 		javaKeywords.add("public");
 		javaKeywords.add("private");
 		javaKeywords.add("protected");
@@ -49,17 +44,30 @@ public class Layer1Detection implements IComparator{
 	 * @see comparator.hashcode.IComparator#generateReport(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Report generateReport(File programA, File programB) {
+	public Report generateReport(File programA, File programB) throws IOException {
 		StringBuilder sb=new StringBuilder();
 		float score=comparePrograms(programA, programB);
-		Iterator<FunctionMatchPair> it=matchPairs.iterator();
-		while(it.hasNext()) {
-			sb.append(it.next().textualRepresentation());
-			sb.append("\n");
+		if(matchPairs.size()==0) {
+			sb.append("No functions with matching signatures");
 		}
-		
+		else {
+			generateFunctionMatchMessageString(sb, matchPairs.iterator());
+		}
 		Report report = new Report(ComparisonLayer.FUNCTION_SIGNATURE, score, sb.toString());
 		return report;
+	}
+
+
+	/**
+	 * Function that generates a string representation of function signatures matching for this
+	 * function match pair
+	 * @param sb
+	 * @param it
+	 */
+	private void generateFunctionMatchMessageString(StringBuilder sb, Iterator<FunctionMatchPair> it) {
+		while(it.hasNext()) {
+			sb.append(it.next().textualRepresentation());
+		}
 	}
 
 	/**
@@ -68,10 +76,12 @@ public class Layer1Detection implements IComparator{
 	 * @param c1 - name of class 1
 	 * @param c2 - name of class 2
 	 * @return a score indicating the similarity between methods of given classes
+	 * @throws IOException 
 	 */
-	public float comparePrograms(File c1, File c2) {
+	public float comparePrograms(File c1, File c2) throws IOException {
 		float cnt;
 		float score;
+		boolean reversed;
 		ArrayList<FunctionSignature> fns1=getAllMethods(c1);
 		ArrayList<FunctionSignature> fns2=getAllMethods(c2);
 //		if block to calculate score based on the program with lesser
@@ -79,12 +89,14 @@ public class Layer1Detection implements IComparator{
 		if(fns1.size()==0 || fns2.size()==0) {
 			return 0;
 		}
-		if(fns1.size()<fns2.size()) {
-			cnt=compareProgramsHelper(fns1, fns2);
+		if(fns1.size()<=fns2.size()) {
+			reversed=false;
+			cnt=compareProgramsHelper(fns1, fns2, reversed);
 			score=cnt/fns1.size() * 100;
 		}
 		else {
-			cnt=compareProgramsHelper(fns2, fns1);
+			reversed=true;
+			cnt=compareProgramsHelper(fns2, fns1, reversed);
 			score=cnt/fns2.size() * 100;
 		}
 		return score;
@@ -96,17 +108,23 @@ public class Layer1Detection implements IComparator{
 	 * @param fns2 - function signature of class 2
 	 * @return number of functions with same signature
 	 */
-	private int compareProgramsHelper(ArrayList<FunctionSignature> fns1, ArrayList<FunctionSignature> fns2) {
+	private int compareProgramsHelper(ArrayList<FunctionSignature> fns1, ArrayList<FunctionSignature> fns2, boolean reversed) {
 		int cnt=0;
 		for (FunctionSignature fs1: fns1) {
 			boolean matchFound=false;
 			for(FunctionSignature fs2: fns2) {
 				if(fs1.signatureComparison(fs2)) {
 					if(matchFound) {
-						addToMatchPairs(fs1, fs2);
+						if(reversed)
+							addToMatchPairs(fs2, fs1);
+						else
+							addToMatchPairs(fs1, fs2);
 					}
 					else {
-						addToMatchPairs(fs1, fs2);
+						if(reversed)
+							addToMatchPairs(fs2, fs1);
+						else
+							addToMatchPairs(fs1, fs2);
 						matchFound=true;
 						cnt+=1;
 					}
@@ -115,57 +133,29 @@ public class Layer1Detection implements IComparator{
 		}
 		return cnt;
 	}
-
-
-//	/**
-//	 * Compares two function signatures and keeps track if a match is found 
-//	 * @param cnt
-//	 * @param fs1
-//	 * @param fs2
-//	 * @param matchFound
-//	 * @return The number of functions in program 1 that have a match 
-//	 */
-//	private int compareSignatures(int cnt, FunctionSignature fs1, FunctionSignature fs2, boolean matchFound) {
-//		if(fs1.signatureComparison(fs2)) {
-//			if(matchFound) {
-//				addToMatchPairs(fs1, fs2);
-//			}
-//			else {
-//				addToMatchPairs(fs1, fs2);
-//				matchFound=true;
-//				cnt+=1;
-//			}
-//		}
-//		return cnt;
-//	}
 	
 	/**
 	 * Function for getting all function signatures of a class
 	 * @param classFile
 	 * @return list of function signatures
+	 * @throws IOException 
 	 */
-	private ArrayList<FunctionSignature> getAllMethods(File classFile) {
+	private ArrayList<FunctionSignature> getAllMethods(File classFile) throws IOException {
 		ArrayList<FunctionSignature> fns=new ArrayList<FunctionSignature>();	
 		String functionDeclarationRegex="(static*\\s+)*(final*\\s+)*(public|protected|private|\\s+)*(final*\\s+)*(static*\\s+)*(final*\\s+)*+[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{?|[^;])";
-		try {
-			BufferedReader br=new BufferedReader(new FileReader(classFile));
-			String line;
-			while((line = br.readLine()) != null) {
-				line=line.trim();
-				if(line.matches(functionDeclarationRegex)) {	
-					String functionName=extractFunctionName(line);
-					String returnType=extractReturnType(line, functionName);
-					String args[]=extractArguments(line);
-					FunctionSignature fs=new FunctionSignature(functionName, args, returnType);
-					fs.textualRepresentation();
-					fns.add(fs);
-				}
+		BufferedReader br=new BufferedReader(new FileReader(classFile));
+		String line;
+		while((line = br.readLine()) != null) {
+			line=line.trim();
+			if(line.matches(functionDeclarationRegex)) {	
+				String functionName=extractFunctionName(line);
+				String returnType=extractReturnType(line, functionName);
+				String args[]=extractArguments(line);
+				FunctionSignature fs=new FunctionSignature(functionName, args, returnType);
+				fns.add(fs);
 			}
-			System.out.println("\n");
-			br.close();
-		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, "File does not exist");;
 		}
+		br.close();
 		return fns;
 	}
 

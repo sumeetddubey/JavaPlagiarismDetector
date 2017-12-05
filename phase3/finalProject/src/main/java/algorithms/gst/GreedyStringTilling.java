@@ -36,6 +36,9 @@ public class GreedyStringTilling {
 	 */
 	public HashSet<Match> GST(String a, String b) {
 		tiles=new HashSet<Match>();
+		if(a==null || b==null) {
+			return tiles;
+		}
 		arrayA=generateTokenArray(a);
 		arrayB=generateTokenArray(b);
 		GST_Helper();
