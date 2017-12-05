@@ -1,9 +1,5 @@
 package comparator.functionSignature;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
 /**
  * @author sumeetdubey
  * Class for a function match pair. The class has two objects that stores the function signatures of 

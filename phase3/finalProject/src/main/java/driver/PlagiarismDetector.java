@@ -15,18 +15,18 @@ public class PlagiarismDetector {
 	 * Returns the report that indicates whether happens or not. 
 	 * @throws IOException 
 	 */
-	public Report[] generateFinalReport() throws IOException {
+	public Report[] generateFinalReport() {
 //		generate report for hash code layer
-		Report report0 = layer0Report();
-		reports[0]=report0;
+		//Report report0 = layer0Report();
+		reports[0]=layer0Report();
 		
 //		generate report for function signature layer
-		Report report1 = layer1Report();
-		reports[1]=report1;
+//		Report report1 = layer1Report();
+		reports[1]=layer1Report();
 
 //		generate report for ast layer
-		Report report2 = layer2Report();
-		reports[2] = report2;
+		//Report report2 = layer2Report();
+		reports[2] = layer2Report();
 
 		return reports;
 	}
@@ -35,7 +35,7 @@ public class PlagiarismDetector {
 	 * @throws IOException 
 	 * 
 	 */
-	private Report layer0Report() throws IOException {
+	private Report layer0Report(){
 		IComparator hashCodeComparator = new HashCodeComparator();
 		return hashCodeComparator.generateReport(programA, programB);
 	}
@@ -44,7 +44,7 @@ public class PlagiarismDetector {
 	 * @throws IOException 
 	 * 
 	 */
-	private Report layer1Report() throws IOException {
+	private Report layer1Report() {
 		IComparator layer1 = new FunctionSignatureComparator();
 		return layer1.generateReport(programA, programB);
 	}
@@ -53,7 +53,7 @@ public class PlagiarismDetector {
 	 * @throws IOException 
 	 * 
 	 */
-	private Report layer2Report() throws IOException {
+	private Report layer2Report() {
 		IComparator ASTComparator = new ASTComparator();
 		return ASTComparator.generateReport(programA, programB);
 	}
@@ -61,10 +61,14 @@ public class PlagiarismDetector {
 	/**
 	 * Constructor
 	 */
-	public PlagiarismDetector(File fileA, File fileB) throws IOException {
-		programA = ReadFileToString.readFileToString(fileA);
-		programB = ReadFileToString.readFileToString(fileB);
-		this.reports=new Report[NUMBER_OF_LAYERS];
+	public PlagiarismDetector(File fileA, File fileB) {
+		try {
+			programA = ReadFileToString.readFileToString(fileA);
+			programB = ReadFileToString.readFileToString(fileB);
+			this.reports=new Report[NUMBER_OF_LAYERS];
+		} catch (IOException e) {
+		    throw new RuntimeException(e.getMessage());
+		}
 	}
 	
 	/**

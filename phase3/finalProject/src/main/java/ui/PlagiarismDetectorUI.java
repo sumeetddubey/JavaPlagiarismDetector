@@ -176,34 +176,28 @@ public class PlagiarismDetectorUI extends Application {
 
                 /*********** render UI *******************/
                 
+                PlagiarismDetector plagiarismDetector = new PlagiarismDetector(files[0], files[1]);
+				Report[] reports=plagiarismDetector.generateFinalReport();
+				
+                // Layer 0
+                tabLayer0.getTxtLayerIntro().setText(LAYER_0_INTRO);
+                tabLayer0.getTxtScore().setText(String.valueOf(reports[0].getScore()));
+                tabLayer0.getTxtMessage().setText(reports[0].getMessage());
+
+                // Layer 1
+                tabLayer1.getTxtLayerIntro().setText(LAYER_1_INTRO);
+                tabLayer1.getTxtScore().setText(String.valueOf(reports[1].getScore()));
+                tabLayer1.getTxtMessage().setText(reports[1].getMessage());
+
+                // Layer 2
+                Map<Integer, List<Integer>> map = getPlagLineNumbers(reports[2].getMessage());
+                List<Integer> lines1 = map.get(1);
+                List<Integer> lines2 = map.get(2);
+
+                plagiarismShow(table1, lines1);
+                plagiarismShow(table2, lines2);
+                txtScore.setText(String.valueOf(reports[2].getScore()));
                 
-            	try {
-					PlagiarismDetector plagiarismDetector = new PlagiarismDetector(files[0], files[1]);
-					Report[] reports=plagiarismDetector.generateFinalReport();
-					
-	                // Layer 0
-	                tabLayer0.getTxtLayerIntro().setText(LAYER_0_INTRO);
-	                tabLayer0.getTxtScore().setText(String.valueOf(reports[0].getScore()));
-	                tabLayer0.getTxtMessage().setText(reports[0].getMessage());
-
-	                // Layer 1
-	                tabLayer1.getTxtLayerIntro().setText(LAYER_1_INTRO);
-	                tabLayer1.getTxtScore().setText(String.valueOf(reports[1].getScore()));
-	                tabLayer1.getTxtMessage().setText(reports[1].getMessage());
-
-	                // Layer 2
-	                Map<Integer, List<Integer>> map = getPlagLineNumbers(reports[2].getMessage());
-	                List<Integer> lines1 = map.get(1);
-	                List<Integer> lines2 = map.get(2);
-
-	                plagiarismShow(table1, lines1);
-	                plagiarismShow(table2, lines2);
-	                txtScore.setText(String.valueOf(reports[2].getScore()));
-					
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
                 secondScene.getStylesheets().add("plag.css");
                 window.setScene(secondScene);
             } else {
