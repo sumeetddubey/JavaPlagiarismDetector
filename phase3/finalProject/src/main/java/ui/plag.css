@@ -5,6 +5,8 @@
 
 .lblAlert1
 {
+	-fx-font-size: 30px;
+	-fx-font-weight: bolder;
     -fx-font-family: sans-serif;
 }
 
@@ -26,14 +28,10 @@
 .lblTitle1
 {
     -fx-font-size: 30px;
+    -fx-font-weight: 800;
     -fx-font-family: sans-serif;
 }
 
-.lblTitle2
-{
-    -fx-font-size: 20px;
-    -fx-font-family: sans-serif;
-}
 
 .lblFile11
 {
@@ -49,6 +47,7 @@
 }
 .lblFile12
 {
+	-fx-fill: silver;
     -fx-font-size: 20px;
     -fx-font-family: sans-serif;
 }
@@ -70,7 +69,7 @@
 
 .btnHelp1
 {
-    -fx-background-color: silver;
+    -fx-background-color: #6bc7a2;
 }
 
 .button
@@ -81,5 +80,51 @@
 
 .btnReturn1
 {
-    -fx-background-color: mediumseagreen;
+	-fx-font-size: 20px;
+    -fx-background-color:#6bc7a2;
+}
+
+.lblIntro1
+{
+	-fx-font-size: 20px;
+	-fx-font-weight: 700;
+}
+
+.lblScore1
+{
+	-fx-font-size: 20px;
+	-fx-font-weight: bolder;
+}
+
+.lblMessage1
+{
+	-fx-font-size: 20px;
+	-fx-font-weight: bolder;
+}
+
+.lblIntroduction1
+{
+	-fx-font-size: 20px;
+	-fx-font-weight: bolder;
+}
+
+.text-area1 *.text
+{
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.text-area-score .content
+{
+	-fx-background-color: lightgrey;
+}
+
+.text-area-message .content
+{
+	-fx-background-color: lightgrey;
+}
+
+.text-area-intro .content
+{
+	-fx-background-color: lightgrey;
 }

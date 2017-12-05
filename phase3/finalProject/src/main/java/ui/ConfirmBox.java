@@ -1,5 +1,6 @@
 package ui;
 
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
  * This class represents a confirmation box
  */
 
+@SuppressWarnings("restriction")
 public class ConfirmBox {
 
     static boolean answer;
@@ -33,8 +35,7 @@ public class ConfirmBox {
         // block input events or user interaction with other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-
-        window.setWidth(250);
+        window.setWidth(350);
         window.setHeight(150);
 
         // Label
@@ -60,7 +61,6 @@ public class ConfirmBox {
         hBoxBtns = new HBox();
         hBoxBtns.getChildren().addAll(btnYes,btnNo);
         hBoxBtns.setAlignment(Pos.CENTER);
-        hBoxBtns.setPadding(new Insets(20));
         hBoxBtns.setSpacing(10);
 
         mainLayout = new VBox(10);
@@ -70,9 +70,8 @@ public class ConfirmBox {
 
 
         // Scene
-        scene = new Scene(mainLayout, 100, 100);
-
-        scene.getStylesheets().add("plag.css");
+        scene = new Scene(mainLayout, 350,150);
+        scene.getStylesheets().add("ui/plag.css");
         window.setScene(scene);
         // display the window and before going back, it needs to be closed
         window.showAndWait();

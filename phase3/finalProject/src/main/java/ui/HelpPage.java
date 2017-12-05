@@ -11,6 +11,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+@SuppressWarnings("restriction")
 public class HelpPage {
 
     public static void display(String title){
@@ -25,35 +26,50 @@ public class HelpPage {
         // block input events or user interaction with other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setMinWidth(100);
-        window.setMinHeight(100);
+        window.setX(400);
+        window.setY(400);
+        window.setWidth(800);
+        window.setHeight(450);
+        window.setResizable(false);
+
 
         // TextArea
         textArea = new TextArea();
         textArea.setWrapText(true);
         textArea.setEditable(false);
-
-        textArea.setText("About Plagiarism Detector\n" +
-                "Welcome to the most trustworthy plagiarism checker software"+"\n" +
-                "Importance of Plagiarism Detector\n" +
-                "\n" +
-                "How the Plagiarism Detector Works\n" +
-                "\n" +
-                "Understanding the Results");
+        textArea.setPrefRowCount(100);        
+        
+        
+        textArea.setText("Instructions for Users \n\n" +
+                "How the Plagiarism Detector Works \n\n" +
+                "\t1. Upload two Java files from your local machine.\n" +
+                "\t2. Click on \"Check Plagiarism\" button.\n" +
+                "\t3. After waiting for a second, you will see three results.\n\n" +
+                "Understanding the Results\n\n" + 
+                "\t* We use three kinds of code comparison: \n"
+                + "\t\thash code comparison, function signature comparison, and abstract syntax tree comparison.\n" +
+                "\t* Each comparison corresponds to one layer.\n" +
+                "\t* Each score is calculated based on a different algorithm.\n" + 
+                "\t* Each message is a summary for that layer's comparison.\n" + 
+                "\t* The tables shown in the last layer indicate code blocks which have high similarity.\n\n" + 
+                "If you have any other issue, please contact us at https://github.ccs.neu.edu/cs5500/team-20");
+        textArea.getStyleClass().add("text-area1");
+        
 
         // Label
-        lblCaption = new Label("Help For Users");
+        lblCaption = new Label("User Help Page");
         lblCaption.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         lblCaption.setLabelFor(textArea);
 
         // Layout
-        vBox = new VBox();
+        vBox = new VBox(10);
         vBox.getChildren().addAll(lblCaption, textArea);
         vBox.setAlignment(Pos.CENTER);
         vBox.setPadding(new Insets(20));
 
         // Scene
         scene = new Scene(vBox, 100, 100);
+        scene.getStylesheets().add("ui/plag.css");
         window.setScene(scene);
         // display the window and before going back, it needs to be closed
         window.showAndWait();

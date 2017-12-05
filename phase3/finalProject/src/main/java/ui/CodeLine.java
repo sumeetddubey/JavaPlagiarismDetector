@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
  * This class represents each line of upload files including the number of line
  */
 
+@SuppressWarnings("restriction")
 public class CodeLine {
 
     private SimpleIntegerProperty lineNumber;
