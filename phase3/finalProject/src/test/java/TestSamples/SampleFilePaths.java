@@ -38,4 +38,10 @@ public class SampleFilePaths {
 	public static final String fileFunctionSignatureSample4 = filePathPrefix + "FunctionSignatureSample4.java";
 	public static final String fileFunctionSignatureSample5 = filePathPrefix + "FunctionSignatureSample5.java";
 	public static final String fileFunctionSignatureSample6 = filePathPrefix + "FunctionSignatureSample6.java";
+	public static final String fileFunctionSignatureSample7 = filePathPrefix + "FunctionSignatureSample7.java";
+	
+	public static final String fileSet02Sample1LinkedList = filePathPrefix + "set02" + File.separator + "Sample1"
+			+ File.separator + "LinkedList.java";
+	public static final String fileSet02Sample2LinkedList = filePathPrefix + "set02" + File.separator + "Sample2"
+			+ File.separator + "LinkedList.java";
 }

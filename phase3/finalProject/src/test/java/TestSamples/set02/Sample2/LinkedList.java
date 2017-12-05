@@ -1,21 +1,15 @@
-package comparator.functionSignature.tests.set03.Sample2;
+package TestSamples.set02.Sample2;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/*
- *  Java Program to Implement Linked List
- */
-
 public class LinkedList<Object> implements Iterable<Object> {
 
-	/* Constructor */
 	public LinkedList() {
 		length = 0;
 		first = last = null;
 	}
 	
-	/* Function to insert element at begining */
 	public void add(Object e) {
 		Node<Object> newNode = new Node<Object>(e, first);
 		
@@ -25,9 +19,8 @@ public class LinkedList<Object> implements Iterable<Object> {
 		if (length == 1) {
 			last = first;
 		}
-	}	
+	}
 	
-	/* Function to insert element at last */
 	public void append(Object e) {
 		if (isEmpty()) {
 			add(e);
@@ -40,17 +33,14 @@ public class LinkedList<Object> implements Iterable<Object> {
 		length++;
 	}
 	
-	/* Function to get length of list */
 	public int length() {
 		return length;
 	}
 	
-	/* Function to check if list is empty */
 	public boolean isEmpty() {
 		return (length <= 0);
 	}
 	
-	/* Function to delete front node */
 	public Object removeFromFront() {
 		if (isEmpty()) {
 			throw new NoSuchElementException("Empty list");
@@ -65,7 +55,6 @@ public class LinkedList<Object> implements Iterable<Object> {
 		return ret;
 	}
 	
-	/* Function to delete the last node */
 	public Object removeFromEnd() {
 		if (isEmpty()) {
 			throw new NoSuchElementException("Empty list");
@@ -101,7 +90,6 @@ public class LinkedList<Object> implements Iterable<Object> {
 		return last.val;
 	}
 	
-	/* Function to display status of list */
 	public String toString() {
 		String ret = "";		
 		Node<Object> current = first;
