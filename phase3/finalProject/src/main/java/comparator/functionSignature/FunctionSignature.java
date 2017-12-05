@@ -10,7 +10,6 @@ import java.util.HashMap;
  */
 
 public class FunctionSignature {
-private static final String USER_DEFINED_TYPE = "UserDefined";
 //	variables for storing function name, return type and arguments
 	private String name, returnType;
 	private HashMap<String, Integer> args;

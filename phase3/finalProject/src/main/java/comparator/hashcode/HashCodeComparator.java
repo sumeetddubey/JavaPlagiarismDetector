@@ -90,50 +90,14 @@ public class HashCodeComparator implements IComparator {
 	}
 	 
 	/**
-	 * Constructors
+	 * Class constructor
 	 */
 	public HashCodeComparator() {}
-	
-	public HashCodeComparator(int hashCodeA, int hashCodeB) {
-		this.setHashCodeA(hashCodeA);
-		this.setHashCodeB(hashCodeB);
-	}
-	
-	/**
-	 * Getters and setters
-	 */
-	
-	public String getReport() {
-		return report;
-	}
-
-	public void setReport(String report) {
-		this.report = report;
-	}
-
-	public int getHashCodeA() {
-		return hashCodeA;
-	}
-
-	public void setHashCodeA(int hashCodeA) {
-		this.hashCodeA = hashCodeA;
-	}
-
-	public int getHashCodeB() {
-		return hashCodeB;
-	}
-
-	public void setHashCodeB(int hashCodeB) {
-		this.hashCodeB = hashCodeB;
-	}
 
 	/**
 	 * private fields
 	 */
 	
-	private String report;
 	private int hashCodeA;
 	private int hashCodeB;
-
-
 }
