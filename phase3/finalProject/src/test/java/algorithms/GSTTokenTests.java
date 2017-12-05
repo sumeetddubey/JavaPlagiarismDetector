@@ -8,6 +8,7 @@ import algorithms.gst.GSTToken;
 
 public class GSTTokenTests {
 
+//	Test for creating a GST token
 	@Test
 	public void testForCreatingAGSTToken() {
 		String value="AD";
@@ -17,10 +18,13 @@ public class GSTTokenTests {
 		assertEquals(g.getValue(), "AD");
 		assertEquals(g.getLocation(), 2);
 		assertFalse(g.isMarked());
+//		changing the value of location
 		g.setLocation(3);
 		assertEquals(g.getLocation(), 3);
+//		changing the value of marked
 		g.setMarked(true);
 		assertTrue(g.isMarked());
+//		changing the value of value
 		g.setValue("VD");
 		assertEquals(g.getValue(), "VD");
 	}

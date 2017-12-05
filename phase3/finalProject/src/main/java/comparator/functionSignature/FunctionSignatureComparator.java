@@ -31,6 +31,7 @@ public class FunctionSignatureComparator implements IComparator{
 	 * Class Constructor
 	 */
 	public FunctionSignatureComparator() {
+//		adding common java keywords to set 
 		javaKeywords.add("public");
 		javaKeywords.add("private");
 		javaKeywords.add("protected");
@@ -72,14 +73,20 @@ public class FunctionSignatureComparator implements IComparator{
 	/**
 	 * Function for computing similarity score of two classes
 	 * score calculated as number of similar methods divided by total number of methods * 100
+	 * The total number of methods corresponds to the program that has lesser number of methods amongst
+	 * the 2
 	 * @param programA - program 1 as a string
 	 * @param programB - program 2 as a string
 	 * @return a score indicating the similarity between methods of given classes
-	 * @throws IOException 
 	 */
 	public float comparePrograms(String programA, String programB){
 		float cnt;
 		float score;
+		/*
+		 * boolean variable to keep track if the programs are reversed when calling compareProgramsHelper.
+		 * this variable is needed so that the order in which the match pairs are created is preserved 
+		 * according to the order in which the programs were uploaded
+		 */
 		boolean reversed;
 //		return score as 0 if the string are either empty or null
 		if(programA == null || programB == null || programA.length()==0 || programB.length()==0) {
@@ -114,11 +121,16 @@ public class FunctionSignatureComparator implements IComparator{
 	private int compareProgramsHelper(ArrayList<FunctionSignature> fns1, ArrayList<FunctionSignature> fns2, boolean reversed) {
 		int cnt=0;
 		for (FunctionSignature fs1: fns1) {
+			/*
+			 * this boolean ensures that multiple matches for the same function does not influence the score
+			 * but they still are added to match pairs so that they can be a part of the final report 
+			 */		
 			boolean matchFound=false;
 			for(FunctionSignature fs2: fns2) {
 				if(fs1.signatureComparison(fs2)) {
 					if(matchFound) {
 						if(reversed)
+//							preserving order of matches as fs2 here is the 1st program
 							addToMatchPairs(fs2, fs1);
 						else
 							addToMatchPairs(fs1, fs2);
@@ -141,10 +153,12 @@ public class FunctionSignatureComparator implements IComparator{
 	 * Function for getting all function signatures of a class
 	 * @param program
 	 * @return list of function signatures
-	 * @throws IOException 
 	 */
 	private ArrayList<FunctionSignature> getAllMethods(String program){
 		ArrayList<FunctionSignature> fns=new ArrayList<FunctionSignature>();	
+		/*
+		 * The below regex is used for matching a line in a string that has a function declaration
+		 */
 		String functionDeclarationRegex="(static*\\s+)*(final*\\s+)*(public|protected|private|\\s+)*(final*\\s+)*(static*\\s+)*(final*\\s+)*+[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{?|[^;])";
 		Scanner scanner = new Scanner(program);
 		while(scanner.hasNextLine()) {
@@ -159,20 +173,6 @@ public class FunctionSignatureComparator implements IComparator{
 			}
 		}
 		scanner.close();
-		
-//		BufferedReader br=new BufferedReader(new FileReader(program));
-//		String line;
-//		while((line = br.readLine()) != null) {
-//			line=line.trim();
-//			if(line.matches(functionDeclarationRegex)) {	
-//				String functionName=extractFunctionName(line);
-//				String returnType=extractReturnType(line, functionName);
-//				String args[]=extractArguments(line);
-//				FunctionSignature fs=new FunctionSignature(functionName, args, returnType);
-//				fns.add(fs);
-//			}
-//		}
-//		br.close();
 		return fns;
 	}
 
@@ -193,6 +193,7 @@ public class FunctionSignatureComparator implements IComparator{
 	 */
 	private String extractFunctionName(String line) {
 		String functionName="";
+//		regex for matching a string that contains a function name declaration
 		String functionNameRegex="(\\w+)\\s*\\(";
 		Pattern pattern = Pattern.compile(functionNameRegex);
 		Matcher matcher = pattern.matcher(line);

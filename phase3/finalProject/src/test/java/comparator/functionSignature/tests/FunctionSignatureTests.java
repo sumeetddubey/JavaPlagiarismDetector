@@ -11,7 +11,7 @@ import utility.ReadFileToString;
 import utility.Report;
 import utility.Report.ComparisonLayer;
 
-
+// Class for test function signature comparison
 public class FunctionSignatureTests extends TestCase {
 	@Test
 //	test for generating function signature of a program
@@ -132,7 +132,7 @@ public class FunctionSignatureTests extends TestCase {
 		assertEquals(r.getMessage(), expectedMessage);
 	}
 	
-//	test for comparing two complex programs.
+//	test for comparing two Linked List Programs.
 	@Test
 	public void testCompareComplexPrograms1(){
 		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileLinkedListA);
@@ -142,7 +142,7 @@ public class FunctionSignatureTests extends TestCase {
 		assertEquals(score, 33.33, 0.01);
 	}
 	
-//	test for comparing two complex programs.
+//	test for comparing two complex linked list programs
 	@Test
 	public void testCompareComplexPrograms2(){
 		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileSet02Sample1LinkedList);
@@ -152,6 +152,7 @@ public class FunctionSignatureTests extends TestCase {
 		assertEquals(score, 36.36, 0.01);
 	}
 	
+//	test for comparing two programs when one is empty
 	public void testCompareEmptyProgram() {
 		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample1);
 		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileEmptyFile);
@@ -160,6 +161,7 @@ public class FunctionSignatureTests extends TestCase {
 		assertEquals(score, 0, 0.01);
 	}
 	
+//	test for comparing two programs when one is null
 	public void testCompareNull() {
 		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample1);
 		String program2=null;
