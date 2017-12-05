@@ -1,34 +1,45 @@
-Instruction for Release Version
+Java Plagiarism Detector
+Built on Java 8
 
 Introduction:
+Our application aims to detect code based plagiarism for Java programs.
+The algorithm follows a layered approach. It has three layers: Hash Code Comparison, 
+Function Signature Comparison, and AST Comparison. Each layer has its own score that 
+ranges from 0 to 100.
 
-The target language of our plagiarism detection application is Java. Our application has three layers: HashcodeComparison, 
-FunctionSignatureComparison, and ASTComparison. In this release version, all three layers have been fully implemented. 
-You can test it with your own Java files. The detailed instructions are stated below. As far as the UI is concerned,
-we are still working on merging it with the back-end. Although we have released a really simple UI, it isn't stable.
+Hash code comparison is intended to catch obvious cases of plagiarism where two files
+are exact copies of each other. Score of 100 is given if they are same, 0 if not.
+
+Function Signature comparison identifies functions that have the same signature. 
+Signature is composed of the function’s return type and its arguments. The score is 
+computed as number of matching functions / total number of functions * 100
+Here the total number of functions corresponds to the program that has lesser number of 
+functions amongst the two.
+For example, if program 1 has 5 functions, program 2 has 8 functions and 3 functions
+from program 1 have matching signatures in program 2, the score would be (3/5)*100
+
+AST Comparison does a more thorough comparison by matching the AST’s of 2 programs.
+The eclipse ADT library is used to parse the program and an AST string is generated based
+on the nodes that are present in the program. Similarity is then calculated based on 
+total length of common substrings among the two files. The algorithm used for getting 
+substring matches is greedy string tilling.
 
 Steps to Test:
 
-Since we our user interface is not stable, we cannot provide you an executable jar file. You have to install an IDE, 
-such as eclipse or intellij, on your machine. In addition, you have to install Java JDK 1.8 on your machine. 
-Our project utilizes maven. If you have no idea with IDE, JDK or Maven, you can check following links.
+To test the application on your local machine, use can clone our project onto your 
+machine. 
+git clone https://github.ccs.neu.edu/cs5500/team-20.git
+You have to install an IDE, such as eclipse or intellij. In addition, 
+you have to install Java JDK 1.8 on your machine. Our application uses Maven for 
+packaging.
 
+Below are the links to download Eclipse, JDK and Maven
 Eclipse: https://www.eclipse.org/
 JDK 1.8: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 Maven: https://maven.apache.org/
 
-Once you complete above prerequiests, you can use git command to clone our project from github repository to your local machine.
-Then, open your IDE and open our maven project. All dependencies can be automated downloaded. You do not have to worry about it.
-You can run the DriverTest.java in src/main/java/driver, and replace test files with your own. One thing to be mentioned is
-that you have to save your own test files under src/main/java/resource, otherwise the application cannot successfully run.
+To run the application, please run the file /src/main/java/ui/PlagiarismDetectorUI.java
 
-Features:
-  - Three layers of plagiarism detection
-  - Simple user interface
-  - The validation of upload files will be implemented in next release version.
-  
 Tests:
-  To find all tests we write for our application, you can go to src/test/java. The following tests you can find from different packages:
-  - GreedyStringTilingTests.java
-  - ASTComparatorTests.java
-  - FunctionSignatureTests.java
+To find all tests that we have written for our application, you can go to src/test/java. 
+We have tried to get 100% test coverage for most of our backend classes.
