@@ -1,7 +1,9 @@
 package comparator.ast;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import TestSamples.SampleFilePaths;
 import algorithms.gst.GreedyStringTilling;
 import algorithms.gst.Match;
 import interfaces.IComparator;
@@ -18,13 +21,12 @@ import utility.Report.ComparisonLayer;
 
 /**
  * ASTComparator that compares two programs and generates report
- * 	1) Read file of programs to Strings
- * 	2) Create list of Node to represent each program  
- * 	3) Convert list of Node to String representation to represent the program
+ * 	1) Create list of Node to represent each program  
+ * 	2) Convert list of Node to String representation to represent the program
  * 	   and compare the String representation by Greedy String Tilling algorithm
- * 	4) Get suspicious pair of block(node list represented by node indexes) in two programs
- * 	5) Get suspicious nodes of each program separately
- * 	6) Generate Report - calculate similarity score and generate message(suspicious line numbers in both programs)
+ * 	3) Get suspicious pair of block(node list represented by node indexes) in two programs
+ * 	4) Get suspicious nodes of each program separately
+ * 	5) Generate Report - calculate similarity score and generate message(suspicious line numbers in both programs)
  * 
  * @author Wenjun
  *
@@ -41,14 +43,17 @@ public class ASTComparator implements IComparator {
 	 * by comparing AST of the two programs
 	 */
 	@Override
-	public Report generateReport(File programA, File programB) throws IOException {
+	public Report generateReport(String programA, String programB) {
+		if(programA == null || programB == null) {
+			return new Report(ComparisonLayer.AST, (float)0, "[]" + "\n" + "[]");
+		}
+		
 		float score;
 		String message;
 		boolean needToBeContinued = extractListOfNodesFromPrograms(programA, programB);
 		if (!needToBeContinued) {
-			score=0;
 			message="[]" + "\n" + "[]";
-			return new Report(ComparisonLayer.AST, score, message);
+			return new Report(ComparisonLayer.AST, (float)0, message);
 		}
 		 
 		// *************************************************************************/
@@ -100,18 +105,14 @@ public class ASTComparator implements IComparator {
 	}
 	
 	/**
-	 * Read program from files and extract list of Node from programs and decide whether needs to continue 
+	 * Extract list of Node from programs and decide whether needs to continue 
 	 * comparing the two programs
 	 * @param programA
 	 * @param programB
 	 * @return - whether is it worth to continue compare the two programs
 	 */
-	private boolean extractListOfNodesFromPrograms(File programA, File programB) {
-		// read the programs from file to Strings
-		String programAStr = ReadFileToString.readFileToString(programA);
-		String programBStr = ReadFileToString.readFileToString(programB);
-
-		if (programAStr.length() == 0 || programBStr.length() == 0) {
+	private boolean extractListOfNodesFromPrograms(String programA, String programB) {
+		if (programA.length() == 0 || programB.length() == 0) {
 			// if one of the programs is empty, no need to continue comparing
 			return false;
 		} 
@@ -119,8 +120,8 @@ public class ASTComparator implements IComparator {
 		// get node lists of two programs respectively
 		DetectorASTParser parserA = new DetectorASTParser();		
 		DetectorASTParser parserB = new DetectorASTParser();
-		programANodeList = parserA.parseProgramToListOfNodes(programAStr);
-		programBNodeList = parserB.parseProgramToListOfNodes(programBStr);
+		programANodeList = parserA.parseProgramToListOfNodes(programA);
+		programBNodeList = parserB.parseProgramToListOfNodes(programB);
 		
 		if (programANodeList.size() == 0 || programBNodeList.size() == 0) {
 			// if one of the programs does not have any nodes inside of it, no need to continue comparing

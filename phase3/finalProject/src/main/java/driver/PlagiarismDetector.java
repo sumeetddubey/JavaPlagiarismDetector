@@ -6,6 +6,7 @@ import comparator.ast.ASTComparator;
 import comparator.functionSignature.FunctionSignatureComparator;
 import comparator.hashcode.HashCodeComparator;
 import interfaces.IComparator;
+import utility.ReadFileToString;
 import utility.Report;
 
 public class PlagiarismDetector {
@@ -14,7 +15,6 @@ public class PlagiarismDetector {
 	 * Returns the report that indicates whether happens or not. 
 	 * @throws IOException 
 	 */
-	
 	public Report[] generateFinalReport() throws IOException {
 //		generate report for hash code layer
 		Report report0 = layer0Report();
@@ -39,7 +39,6 @@ public class PlagiarismDetector {
 		IComparator hashCodeComparator = new HashCodeComparator();
 		return hashCodeComparator.generateReport(programA, programB);
 	}
-	
 
 	/**
 	 * @throws IOException 
@@ -63,38 +62,16 @@ public class PlagiarismDetector {
 	 * Constructor
 	 */
 	public PlagiarismDetector(File fileA, File fileB) throws IOException {
-		programA = fileA;
-		programB = fileB;
+		programA = ReadFileToString.readFileToString(fileA);
+		programB = ReadFileToString.readFileToString(fileB);
 		this.reports=new Report[NUMBER_OF_LAYERS];
-	}
-	
-
-	/**
-	 * Getters and setters
-	 */
-
-	public File getProgramB() {
-		return programB;
-	}
-
-	public void setProgramB(File programB) {
-		this.programB = programB;
-	}
-
-	public File getProgramA() {
-		return programA;
-	}
-
-	public void setProgramA(File programA) {
-		this.programA = programA;
 	}
 	
 	/**
 	 * Private fields
 	 */
-	
-	private File programA;
-	private File programB;
+	private String programA;
+	private String programB;
 	private Report[] reports;
 	private final int NUMBER_OF_LAYERS=3;
 	

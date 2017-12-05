@@ -2,19 +2,16 @@ package comparator.ast.tests;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.function.IntPredicate;
-
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import TestSamples.SampleFilePaths;
 import comparator.ast.ASTComparator;
 import interfaces.IComparator;
+import utility.ReadFileToString;
 import utility.Report;
 import utility.Report.ComparisonLayer;
+
 
 
 /**
@@ -58,8 +55,8 @@ public class ASTComparatorTests {
 	}
 	
 	@Test
-	public void testTwoIdenticalFile() throws IOException {
-		File fileWithForLoop = new File(SampleFilePaths.fileWithForLoop);
+	public void testTwoIdenticalFile() {
+		String fileWithForLoop = ReadFileToString.readFileToString(SampleFilePaths.fileWithForLoop);
 		Report actual = astComparator.generateReport(fileWithForLoop, fileWithForLoop);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -77,9 +74,9 @@ public class ASTComparatorTests {
 	}
 	
 	@Test
-	public void testEmptyFile1() throws IOException {
-		File fileWithForLoop = new File(SampleFilePaths.fileWithForLoop);
-		File fileEmptyFile = new File(SampleFilePaths.fileEmptyFile);
+	public void testEmptyFile1() {
+		String fileWithForLoop = ReadFileToString.readFileToString(SampleFilePaths.fileWithForLoop);
+		String fileEmptyFile = ReadFileToString.readFileToString(SampleFilePaths.fileEmptyFile);
 		Report actual = astComparator.generateReport(fileWithForLoop, fileEmptyFile);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -97,9 +94,9 @@ public class ASTComparatorTests {
 	}
 	
 	@Test
-	public void testEmptyFile2() throws IOException {
-		File fileWithForLoop = new File(SampleFilePaths.fileWithForLoop);
-		File fileEmptyFile = new File(SampleFilePaths.fileEmptyFile);
+	public void testEmptyFile2() {
+		String fileWithForLoop = ReadFileToString.readFileToString(SampleFilePaths.fileWithForLoop);
+		String fileEmptyFile = ReadFileToString.readFileToString(SampleFilePaths.fileEmptyFile);
 		Report actual = astComparator.generateReport(fileEmptyFile, fileWithForLoop);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -117,9 +114,9 @@ public class ASTComparatorTests {
 	}
 	
 	@Test
-	public void testEmptyClass1() throws IOException {
-		File fileWithForLoop = new File(SampleFilePaths.fileWithForLoop);
-		File fileEmptyClass = new File(SampleFilePaths.fileEmptyClass);
+	public void testEmptyClass1() {
+		String fileWithForLoop = ReadFileToString.readFileToString(SampleFilePaths.fileWithForLoop);
+		String fileEmptyClass = ReadFileToString.readFileToString(SampleFilePaths.fileEmptyClass);
 		Report actual = astComparator.generateReport(fileWithForLoop, fileEmptyClass);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -137,9 +134,9 @@ public class ASTComparatorTests {
 	}
 	
 	@Test
-	public void testEmptyClass2() throws IOException {
-		File fileWithForLoop = new File(SampleFilePaths.fileWithForLoop);
-		File fileEmptyClass = new File(SampleFilePaths.fileEmptyClass);
+	public void testEmptyClass2() {
+		String fileWithForLoop = ReadFileToString.readFileToString(SampleFilePaths.fileWithForLoop);
+		String fileEmptyClass = ReadFileToString.readFileToString(SampleFilePaths.fileEmptyClass);
 		Report actual = astComparator.generateReport(fileEmptyClass, fileWithForLoop);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -157,9 +154,9 @@ public class ASTComparatorTests {
 	}
 	
 	@Test
-	public void testReplaceForLoopByWhileLoop() throws IOException {
-		File fileWithForLoop = new File(SampleFilePaths.fileWithForLoop);
-		File fileWithWhileLoop = new File(SampleFilePaths.fileWithWhileLoop);
+	public void testReplaceForLoopByWhileLoop() {
+		String fileWithForLoop = ReadFileToString.readFileToString(SampleFilePaths.fileWithForLoop);
+		String fileWithWhileLoop = ReadFileToString.readFileToString(SampleFilePaths.fileWithWhileLoop);
 		Report actual = astComparator.generateReport(fileWithForLoop, fileWithWhileLoop);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -177,9 +174,9 @@ public class ASTComparatorTests {
 	}
 	
 	@Test
-	public void testExtractBlockToBeANewFunction() throws IOException {
-		File fileWithForLoop = new File(SampleFilePaths.fileWithForLoop);
-		File fileWithForLoopModified = new File(SampleFilePaths.fileWithForLoopModified);
+	public void testExtractBlockToBeANewFunction() {
+		String fileWithForLoop = ReadFileToString.readFileToString(SampleFilePaths.fileWithForLoop);
+		String fileWithForLoopModified = ReadFileToString.readFileToString(SampleFilePaths.fileWithForLoopModified);
 		Report actual = astComparator.generateReport(fileWithForLoop, fileWithForLoopModified);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -197,9 +194,9 @@ public class ASTComparatorTests {
 	}
 	
 	@Test
-	public void testReplaceSwithWithNestedIfs() throws IOException {
-		File fileWithSwitch = new File(SampleFilePaths.fileWithSwitch);
-		File fileWithNestedIf = new File(SampleFilePaths.fileWithNestedIf);
+	public void testReplaceSwithWithNestedIfs() {
+		String fileWithSwitch = ReadFileToString.readFileToString(SampleFilePaths.fileWithSwitch);
+		String fileWithNestedIf = ReadFileToString.readFileToString(SampleFilePaths.fileWithNestedIf);
 		Report actual = astComparator.generateReport(fileWithSwitch, fileWithNestedIf);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -221,9 +218,9 @@ public class ASTComparatorTests {
 	}
 	
 	@Test
-	public void testTwoUnrelatedFiles1() throws IOException {
-		File fileWithForLoop = new File(SampleFilePaths.fileWithForLoop);
-		File fileBinarySearch = new File(SampleFilePaths.fileBinarySearch);
+	public void testTwoUnrelatedFiles1() {
+		String fileWithForLoop = ReadFileToString.readFileToString(SampleFilePaths.fileWithForLoop);
+		String fileBinarySearch = ReadFileToString.readFileToString(SampleFilePaths.fileBinarySearch);
 		Report actual = astComparator.generateReport(fileWithForLoop, fileBinarySearch);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -241,9 +238,11 @@ public class ASTComparatorTests {
 	}
 	
 	@Test
-	public void testTwoUnrelatedFiles2() throws IOException {
-		File fileWithForLoop = new File(SampleFilePaths.fileWithForLoop);
-		File fileLetterCombinationsOfAPhoneNumber = new File(SampleFilePaths.fileLetterCombinationsOfAPhoneNumber);
+	public void testTwoUnrelatedFiles2() {
+
+		String fileWithForLoop = ReadFileToString.readFileToString(SampleFilePaths.fileWithForLoop);
+		String fileLetterCombinationsOfAPhoneNumber =
+					ReadFileToString.readFileToString(SampleFilePaths.fileLetterCombinationsOfAPhoneNumber);
 		Report actual = astComparator.generateReport(fileWithForLoop, fileLetterCombinationsOfAPhoneNumber);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -262,9 +261,9 @@ public class ASTComparatorTests {
 	
 	
 	@Test
-	public void testReplaceGenricsByObject() throws IOException {
-		File fileLinkedListA = new File(SampleFilePaths.fileLinkedListA);
-		File fileLinkedListB = new File(SampleFilePaths.fileLinkedListB);
+	public void testReplaceGenricsByObject() {
+		String fileLinkedListA = ReadFileToString.readFileToString(SampleFilePaths.fileLinkedListA);
+		String fileLinkedListB = ReadFileToString.readFileToString(SampleFilePaths.fileLinkedListB);
 		Report actual = astComparator.generateReport(fileLinkedListA, fileLinkedListB);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -293,9 +292,9 @@ public class ASTComparatorTests {
 	
 	
 	@Test
-	public void testOddLenMatchWithOddSatartIndex() throws IOException {
-		File fileASTStringSample1 = new File(SampleFilePaths.fileASTStringSample1);
-		File fileASTStringSample2 = new File(SampleFilePaths.fileASTStringSample2);
+	public void testOddLenMatchWithOddSatartIndex() {
+		String fileASTStringSample1 = ReadFileToString.readFileToString(SampleFilePaths.fileASTStringSample1);
+		String fileASTStringSample2 = ReadFileToString.readFileToString(SampleFilePaths.fileASTStringSample2);
 		Report actual = astComparator.generateReport(fileASTStringSample1, fileASTStringSample2);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -313,9 +312,9 @@ public class ASTComparatorTests {
 	}
 	
 	@Test
-	public void testEvenLenMatchWithOddSatartIndex() throws IOException {
-		File fileASTStringSample3 = new File(SampleFilePaths.fileASTStringSample3);
-		File fileASTStringSample4 = new File(SampleFilePaths.fileASTStringSample4);
+	public void testEvenLenMatchWithOddSatartIndex() {
+		String fileASTStringSample3 = ReadFileToString.readFileToString(SampleFilePaths.fileASTStringSample3);
+		String fileASTStringSample4 = ReadFileToString.readFileToString(SampleFilePaths.fileASTStringSample4);
 		Report actual = astComparator.generateReport(fileASTStringSample3, fileASTStringSample4);
 		String message = actual.getMessage();
 		String[] suspiciousLineNums = message.split("\n");
@@ -332,4 +331,43 @@ public class ASTComparatorTests {
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
 	}
 	
+	@Test
+	public void testInputStringIsNull1() {
+		String file = null;
+		String fileASTStringSample4 = ReadFileToString.readFileToString(SampleFilePaths.fileASTStringSample4);
+		Report actual = astComparator.generateReport(file, fileASTStringSample4);
+		String message = actual.getMessage();
+		String[] suspiciousLineNums = message.split("\n");
+		int[] actualLineNumsInA = parseStringToIntArr(suspiciousLineNums[0]);
+		int[] actualLineNumsInB = parseStringToIntArr(suspiciousLineNums[1]);
+		
+		float expectedScore = (float) 0;
+		int[] expectedLineNumsInA = new int[] {};
+		int[] expectedLineNumsInB = new int[] {};
+		
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
+		assertEquals(expectedScore, actual.getScore(), 0.01);
+		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
+		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
+	}
+	
+	@Test
+	public void testInputStringIsNull2() {
+		String file = null;
+		String fileASTStringSample4 = ReadFileToString.readFileToString(SampleFilePaths.fileASTStringSample4);
+		Report actual = astComparator.generateReport(fileASTStringSample4, file);
+		String message = actual.getMessage();
+		String[] suspiciousLineNums = message.split("\n");
+		int[] actualLineNumsInA = parseStringToIntArr(suspiciousLineNums[0]);
+		int[] actualLineNumsInB = parseStringToIntArr(suspiciousLineNums[1]);
+		
+		float expectedScore = (float) 0;
+		int[] expectedLineNumsInA = new int[] {};
+		int[] expectedLineNumsInB = new int[] {};
+		
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
+		assertEquals(expectedScore, actual.getScore(), 0.01);
+		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
+		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
+	}
 }
