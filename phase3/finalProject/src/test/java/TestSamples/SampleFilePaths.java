@@ -2,6 +2,12 @@ package TestSamples;
 
 import java.io.File;
 
+/**
+ * List all absolute file paths for sample programs under TestSamples folder
+ * 
+ * @author Wenjun
+ *
+ */
 public class SampleFilePaths {
 	public static final String curDir = System.getProperty("user.dir");
 	public static final String filePathPrefix = curDir + File.separator + "src" 
