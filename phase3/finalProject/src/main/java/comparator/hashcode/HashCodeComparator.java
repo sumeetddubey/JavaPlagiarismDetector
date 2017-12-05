@@ -80,10 +80,10 @@ public class HashCodeComparator implements IComparator {
 		String message;
 		if (isSame) {
 			score=100;
-			message="Plagiarism detected in layer 0: files are same";
+			message="The files uploaded have an exact match";
 		} else {
 			score=0;
-			message="Plagiarism not detected in layer 0";
+			message="The files uploaded do not have an exact match";
 		}
 		Report r=new Report(ComparisonLayer.HASHCODE, score, message);
 		return r;
