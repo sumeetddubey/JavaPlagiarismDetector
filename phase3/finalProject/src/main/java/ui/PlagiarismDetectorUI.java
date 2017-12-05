@@ -1,5 +1,6 @@
 package ui;
 
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,8 +12,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -27,31 +26,31 @@ import java.util.*;
 
 import driver.PlagiarismDetector;
 
+@SuppressWarnings("restriction")
 public class PlagiarismDetectorUI extends Application {
 
     private static final String LAYER_0_INTRO =
-            "Layer 0 is purposed for hash code comparison. If both uploaded files are totally same, the score" +
-                    "will be 100.0, otherwise it will be 0.0.";
+            "Layer 0 shows the hash code comparison.\n" + 
+            "If both the uploaded files are exactly same, the score will be 100.0, otherwise it will be 0.0.\n";
     private static final String LAYER_1_INTRO =
-            "Layer 1 is purposed for function signature comparison. It compares if two uploaded files have similar" +
-                    "return types and parameter types. The score is computed based on our own formula.";
+            "Layer 1 shows the function signature comparison.\n" + 
+            "If the two uploaded files have similar return types and parameter types,the score is computed based on the number of functions that having matching signatures.\n";
     private static final String LAYER_2_INTRO =
-            "Layer 2 is purposed for abstract syntax tree comparison. It compares ast of two uploaded files and " +
-                    "analyzes it by GST algorithm.";
+            "Layer 2 shows the abstract syntax tree comparison.\n" + 
+            "It constructs Abstract Syntax Trees of the two uploaded files and analyzes the similarity by Greedy String Tiling algorithm.\n";
 
-    private Stage window;
+  
+	private Stage window;
     private Scene mainScene, secondScene;
-    private BorderPane borderPane_main, borderPane_second;
-    private GridPane grid_Pane;
-    private VBox vBox_main_center;
-    private HBox hBox_main_top, hBox_main_center_file1, hBox_main_center_file2, hBox_table_view;
+    private VBox vBox_main_center, vBox_main_left, vBox_main_center_file1, vBox_main_center_file2;
+    private VBox vBox_second_left, vBox_second_left_child1, vBox_second_left_child2;
+    private HBox hBox_main, hBox_main_center_file1, hBox_main_center_file2, hBox_table_view, hBox_main_center, hBox_second_layer2;
     private Button btnHelp, btnCheck, btnFile1, btnFile2;
-    private Button btnReturn, btnDownload;
-    private Label lblFile1, lblFile2, lblAlert, lblTitle, lblScore, lblLayer2Intro;
+    private Button btnReturn;
+    private Label lblFile1, lblFile2, lblAlert, lblTitle, lblIntro, lblScore, lblLayer2Intro;
     private FileChooser fileChooser;
-    private TextField txtFileName1, txtFileName2, txtScore;
-    private TextArea txtLayer2Intro;
-    private File dirPath;
+    private TextField txtFileName1, txtFileName2;
+    private TextArea txtScore, txtFile1Show, txtFile2Show, txtLayer2Intro;
     private File[] files = new File[2];
 
     private TableView<CodeLine> table1, table2;
@@ -65,6 +64,14 @@ public class PlagiarismDetectorUI extends Application {
     private LayerTab tabLayer1;
     private Tab tabLayer2;
 
+    
+    List<Integer> lineNumbers1 = new ArrayList<>();
+    List<String> codes1 = new ArrayList<>();
+    List<Integer> lineNumbers2 = new ArrayList<>();
+    List<String> codes2 = new ArrayList<>();
+    
+    
+    
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -72,16 +79,14 @@ public class PlagiarismDetectorUI extends Application {
         // Stage
         window = primaryStage;
         window.setTitle("Plagiarism Detector for Java code");
-        window.setFullScreen(true);
-//        Screen screen = Screen.getPrimary();
-//        Rectangle2D bounds = screen.getVisualBounds();
-//
-//        window.setX(bounds.getMinX());
-//        window.setY(bounds.getMinY());
-//        window.setWidth(bounds.getWidth());
-//        window.setHeight(bounds.getHeight());
-        window.setResizable(true);
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
 
+        window.setX(bounds.getMinX());
+        window.setY(bounds.getMinY());
+        window.setWidth(bounds.getWidth());
+        window.setHeight(bounds.getHeight());
+        window.setResizable(false);
         window.setOnCloseRequest(event -> {
             event.consume();
             closeProgram();
@@ -106,25 +111,43 @@ public class PlagiarismDetectorUI extends Application {
         lblAlert.setTextAlignment(TextAlignment.CENTER);
         lblAlert.setTextFill(Color.RED);
         lblAlert.setVisible(false);
+        lblAlert.getStyleClass().add("lblAlert1");
 
         lblTitle = new Label("Plagiarism Detector for Java Language Code");
         lblTitle.getStyleClass().add("lblTitle1");
-        lblTitle.translateXProperty().set(-200);
-        lblTitle.translateYProperty().set(150);
+
+        lblIntro = new Label("Application for Two Java Files Check");
+        lblIntro.getStyleClass().add("lblIntro1");
+        lblIntro.setPadding(new Insets(50));
+
+        
+
 
         // FileChooser
         fileChooser = new FileChooser();
 
+        // TextArea
+        txtFile1Show = new TextArea();
+        txtFile1Show.setEditable(false);
+        txtFile1Show.setWrapText(true);
+        txtFile1Show.setPrefRowCount(100);
+        
+        txtFile2Show = new TextArea();
+        txtFile2Show.setEditable(false);
+        txtFile2Show.setWrapText(true);
+        txtFile2Show.setPrefRowCount(100);
+        
+        
         // Buttons
-        btnHelp = new Button("Ask Help?");
+        btnHelp = new Button("Need Help?");
         btnHelp.getStyleClass().add("btnHelp1");
-        btnHelp.translateYProperty().set(40);
-        btnHelp.translateXProperty().set(-40);
+        btnHelp.setPrefWidth(250);
         btnCheck = new Button("Check Plagiarism");
+        btnCheck.setPrefWidth(250);
         btnCheck.getStyleClass().add("btnCheck1");
-        btnFile1 = new Button("Upload");
+        btnFile1 = new Button("Browse");
         btnFile1.getStyleClass().add("btnFile1");
-        btnFile2 = new Button("Upload");
+        btnFile2 = new Button("Browse");
         btnFile2.getStyleClass().add("btnFile2");
         DropShadow shadow = new DropShadow();
 
@@ -147,58 +170,54 @@ public class PlagiarismDetectorUI extends Application {
         });
 
         btnCheck.setOnAction(event -> {
-            List<Integer> lineNumbers1 = new ArrayList<>();
-            List<String> codes1 = new ArrayList<>();
-            List<Integer> lineNumbers2 = new ArrayList<>();
-            List<String> codes2 = new ArrayList<>();
+           
             if(files[0] != null & files[1] != null) {
-                String random = generateRandomString();
-                int counter = 1;
-                for(File file : files) {
-                    dirPath = new File("C:\\uploads\\" + random);
-                    dirPath.mkdir();
-                    String fileName = "File_" + counter + "_" + file.getName();
-                    counter++;
-                    File saveFile = new File(dirPath, fileName);
-                    try {
-                        FileWriter fileWriter = new FileWriter(saveFile);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                readUploadFile(files[0].getAbsolutePath(), lineNumbers1, codes1);
-                readUploadFile(files[1].getAbsolutePath(), lineNumbers2, codes2);
-                table1.setItems(setUpData(lineNumbers1, codes1));
-                table2.setItems(setUpData(lineNumbers2, codes2));
+            	
                 LoadingBox.display("Loading...");
 
 
                 /*********** render UI *******************/
                 
-                PlagiarismDetector plagiarismDetector = new PlagiarismDetector(files[0], files[1]);
-				Report[] reports=plagiarismDetector.generateFinalReport();
-				
-                // Layer 0
-                tabLayer0.getTxtLayerIntro().setText(LAYER_0_INTRO);
-                tabLayer0.getTxtScore().setText(String.valueOf(reports[0].getScore()));
-                tabLayer0.getTxtMessage().setText(reports[0].getMessage());
-
-                // Layer 1
-                tabLayer1.getTxtLayerIntro().setText(LAYER_1_INTRO);
-                tabLayer1.getTxtScore().setText(String.valueOf(reports[1].getScore()));
-                tabLayer1.getTxtMessage().setText(reports[1].getMessage());
-
-                // Layer 2
-                Map<Integer, List<Integer>> map = getPlagLineNumbers(reports[2].getMessage());
-                List<Integer> lines1 = map.get(1);
-                List<Integer> lines2 = map.get(2);
-
-                plagiarismShow(table1, lines1);
-                plagiarismShow(table2, lines2);
-                txtScore.setText(String.valueOf(reports[2].getScore()));
+                // setup second scene
                 
-                secondScene.getStylesheets().add("plag.css");
+                initSecondScene();
+                
+            	try {
+					PlagiarismDetector plagiarismDetector = new PlagiarismDetector(files[0], files[1]);
+					Report[] reports=plagiarismDetector.generateFinalReport();
+
+	                // Layer 0
+	                tabLayer0.getTxtLayerIntro().setText(LAYER_0_INTRO);
+	                tabLayer0.getTxtScore().setText(String.valueOf(reports[0].getScore() + "%"));
+	                tabLayer0.getTxtMessage().setText(reports[0].getMessage());
+
+	                // Layer 1
+	                
+	                tabLayer1.getTxtLayerIntro().setText(LAYER_1_INTRO);
+	                tabLayer1.getTxtScore().setText(String.format("%.1f", reports[1].getScore()) + "%");
+	                tabLayer1.getTxtMessage().setText(reports[1].getMessage());
+
+	                // Layer 2
+	                
+	                table1.setItems(setUpData(lineNumbers1, codes1));
+	                table2.setItems(setUpData(lineNumbers2, codes2));
+	                
+	                Map<Integer, List<Integer>> map = new HashMap<>();
+	                map = getPlagLineNumbers(reports[2].getMessage());
+	                List<Integer> lines1 = map.get(1);
+	                List<Integer> lines2 = map.get(2);
+
+	                plagiarismShow(table1, lines1);
+	                plagiarismShow(table2, lines2);
+	                
+	                
+	                txtScore.setText(String.format("%.1f", reports[2].getScore()) + "%");
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+            	
+                secondScene.getStylesheets().add("ui/plag.css");
                 window.setScene(secondScene);
             } else {
                 AlertBox.display("ERROR", "Please upload two files!");
@@ -211,9 +230,10 @@ public class PlagiarismDetectorUI extends Application {
             if (selectedFile1 != null) {
                 files[0] = selectedFile1;
                 txtFileName1.setText(files[0].getName());
+                String file1Content = readUploadFile(selectedFile1.getAbsolutePath(), lineNumbers1, codes1);
+                txtFile1Show.setText(file1Content);
                 changeAlertVisibility();
             }
-            // OK Label
         });
 
         btnFile2.setOnAction(event -> {
@@ -222,142 +242,65 @@ public class PlagiarismDetectorUI extends Application {
             if (selectedFile2 != null) {
                 files[1] = selectedFile2;
                 txtFileName2.setText(files[1].getName());
+                String file2Content = readUploadFile(selectedFile2.getAbsolutePath(), lineNumbers2, codes2);
+                txtFile2Show.setText(file2Content);
                 changeAlertVisibility();
             }
-            // OK Label
         });
 
 
 
         // Layout
-        hBox_main_top = new HBox(20);
-        hBox_main_top.getChildren().addAll(lblTitle,btnHelp);
-        hBox_main_top.setAlignment(Pos.CENTER);
 
-        hBox_main_center_file1 = new HBox(20);
+        hBox_main_center_file1 = new HBox(5);
         hBox_main_center_file1.getChildren().addAll(lblFile1, txtFileName1, btnFile1);
         hBox_main_center_file1.setPadding(new Insets(20));
         hBox_main_center_file1.setAlignment(Pos.CENTER);
 
-        hBox_main_center_file2 = new HBox(20);
+        vBox_main_center_file1 = new VBox(5);
+        vBox_main_center_file1.setAlignment(Pos.CENTER);
+        vBox_main_center_file1.setPadding(new Insets(5));
+        vBox_main_center_file1.getChildren().addAll(hBox_main_center_file1, txtFile1Show);
+        
+        
+        hBox_main_center_file2 = new HBox(5);
         hBox_main_center_file2.getChildren().addAll(lblFile2, txtFileName2, btnFile2);
         hBox_main_center_file2.setPadding(new Insets(20));
         hBox_main_center_file2.setAlignment(Pos.CENTER);
+        
+        vBox_main_center_file2 = new VBox(5);
+        vBox_main_center_file1.setAlignment(Pos.CENTER);
+        vBox_main_center_file1.setPadding(new Insets(5));
+        vBox_main_center_file2.getChildren().addAll(hBox_main_center_file2, txtFile2Show);
+        
+        hBox_main_center = new HBox(5);
+        hBox_main_center.setAlignment(Pos.CENTER);
+        hBox_main_center.getChildren().addAll(vBox_main_center_file1,vBox_main_center_file2);
+        
 
-        vBox_main_center = new VBox(20);
-        vBox_main_center.getChildren().addAll(hBox_main_center_file1, hBox_main_center_file2, btnCheck, lblAlert);
-        vBox_main_center.setPadding(new Insets(20));
+        vBox_main_center = new VBox(5);
+        vBox_main_center.setPadding(new Insets(5));
         vBox_main_center.setAlignment(Pos.CENTER);
+        vBox_main_center.getChildren().addAll(hBox_main_center, btnCheck,btnHelp, lblAlert);
+        
+        vBox_main_left = new VBox(5);
+        vBox_main_left.setAlignment(Pos.CENTER);;
+        vBox_main_left.getChildren().addAll(lblTitle, lblIntro);
+        
+        
+        hBox_main = new HBox(5);
+        hBox_main.setPadding(new Insets(5));
+        hBox_main.getChildren().addAll(vBox_main_left, vBox_main_center);
+        
+        
 
-        borderPane_main = new BorderPane();
-        borderPane_main.setTop(hBox_main_top);
-        borderPane_main.setCenter(vBox_main_center);
 
         // Scene
-        mainScene = new Scene(borderPane_main, 1300,650);
-        mainScene.getStylesheets().add("plag.css");
+        mainScene = new Scene(hBox_main, window.getWidth(), window.getHeight());
+        mainScene.getStylesheets().add("ui/plag.css");
         window.setScene(mainScene);
 
 
-        /********************* Second Scene ****************************************/
-
-        // Two tableViews
-
-        table1 = new TableView<>();
-        table2 = new TableView<>();
-        table1.setEditable(false);
-        table2.setEditable(false);
-        table1.setPrefWidth(500);
-        table2.setPrefWidth(500);
-
-        lineNumberCol1 = new TableColumn<>("Lines");
-        lineNumberCol2 = new TableColumn<>("Lines");
-        codeCol1 = new TableColumn<>("Codes");
-        codeCol2 = new TableColumn<>("Codes");
-
-        lineNumberCol1.setCellValueFactory(new PropertyValueFactory<CodeLine, Integer>("lineNumber"));
-        codeCol1.setCellValueFactory(new PropertyValueFactory<CodeLine, String>("code"));
-        lineNumberCol2.setCellValueFactory(new PropertyValueFactory<CodeLine, Integer>("lineNumber"));
-        codeCol2.setCellValueFactory(new PropertyValueFactory<CodeLine, String>("code"));
-
-        lineNumberCol1.setPrefWidth(75);
-
-        codeCol1.setPrefWidth(425);
-        lineNumberCol2.setPrefWidth(75);
-        codeCol2.setPrefWidth(425);
-        lineNumberCol1.setSortable(false);
-        codeCol1.setSortable(false);
-        lineNumberCol2.setSortable(false);
-        codeCol2.setSortable(false);
-
-        table1.getColumns().addAll(lineNumberCol1, codeCol1);
-        table2.getColumns().addAll(lineNumberCol2, codeCol2);
-
-
-        // Buttons
-
-        btnReturn = new Button("Return");
-
-        btnReturn.getStyleClass().addAll("btnReturn1");
-        btnDownload = new Button("Download");
-
-        btnReturn.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> btnHelp.setEffect(shadow));
-        btnReturn.addEventHandler(MouseEvent.MOUSE_EXITED, event -> btnHelp.setEffect(null));
-
-        btnDownload.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> btnHelp.setEffect(shadow));
-        btnDownload.addEventHandler(MouseEvent.MOUSE_EXITED, event -> btnHelp.setEffect(null));
-
-        btnReturn.setOnAction(event -> {
-            txtFileName1.setText("");
-            txtFileName2.setText("");
-            files = new File[2];
-            window.setScene(mainScene);
-        });
-
-
-        // Layouts
-
-        tabPane = new TabPane();
-        tabLayer0 = new LayerTab("Layer 0");
-        tabLayer1 = new LayerTab("Layer 1");
-        tabLayer2 = new Tab("Layer 2");
-
-        hBox_table_view = new HBox(30);
-        hBox_table_view.getChildren().addAll(table1, table2);
-        hBox_table_view.setAlignment(Pos.CENTER);
-        hBox_table_view.setPadding(new Insets(20));
-
-        borderPane_second = new BorderPane();
-        borderPane_second.setCenter(hBox_table_view);
-        hBox_table_view = new HBox(40);
-        hBox_table_view.getChildren().addAll(table1, table2);
-        hBox_table_view.setAlignment(Pos.CENTER_LEFT);
-        hBox_table_view.setPadding(new Insets(40));
-
-        borderPane_second = new BorderPane();
-        borderPane_second.setRight(hBox_table_view);
-
-        lblScore = new Label("Score: ");
-        txtScore = new TextField();
-        txtScore.setEditable(false);
-        lblLayer2Intro = new Label("Introduction: ");
-        txtLayer2Intro = new TextArea();
-        txtLayer2Intro.setEditable(false);
-        txtLayer2Intro.setPrefWidth(75);
-        txtLayer2Intro.setWrapText(true);
-        txtLayer2Intro.setText(LAYER_2_INTRO);
-
-        grid_Pane = new GridPane();
-        grid_Pane.addRow(0, lblScore, txtScore);
-        grid_Pane.addRow(1, lblLayer2Intro, txtLayer2Intro);
-        grid_Pane.addRow(2, btnReturn);
-        borderPane_second.setCenter(grid_Pane);
-
-        tabLayer2.setContent(borderPane_second);
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        tabPane.getTabs().addAll(tabLayer0, tabLayer1, tabLayer2);
-
-        secondScene = new Scene(tabPane, 1300,650);
     }
 
 
@@ -383,19 +326,8 @@ public class PlagiarismDetectorUI extends Application {
                 new FileChooser.ExtensionFilter("Java Files", "*.java")
         );
     }
-
-    // Generate random string
-    private String generateRandomString() {
-        String aToz0To9 = "abcdefghijklmnopqrstuvwxyz0123456789";
-        Random random = new Random();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 15; i++) {
-            int randIndex = random.nextInt(aToz0To9.length());
-            stringBuilder.append(aToz0To9.charAt(randIndex));
-        }
-        return stringBuilder.toString();
-    }
-
+    
+    
     // change the visibility of lblAlert according to two upload file names
     private void changeAlertVisibility() {
         if(txtFileName1.getText().equals(txtFileName2.getText()))
@@ -405,7 +337,7 @@ public class PlagiarismDetectorUI extends Application {
     }
 
     // read two uploaded Java files
-    private void readUploadFile(String filePath, List<Integer> lineNumbers, List<String> codes) {
+    private String readUploadFile(String filePath, List<Integer> lineNumbers, List<String> codes) {
         int count = 0;
         FileReader fr = null;
         try {
@@ -414,10 +346,13 @@ public class PlagiarismDetectorUI extends Application {
             e.printStackTrace();
         }
         BufferedReader br = new BufferedReader(fr);
+        String fileContent = "";
         String temp = "temp";
         try {
             while (temp != null) {
                 temp = br.readLine();
+                if(temp != null)
+                	fileContent += temp + "\n";
                 if (temp == null)
                     break;
                 lineNumbers.add(++count);
@@ -428,6 +363,7 @@ public class PlagiarismDetectorUI extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return fileContent;
     }
 
 
@@ -447,7 +383,7 @@ public class PlagiarismDetectorUI extends Application {
     }
 
     // Render the tableView to show code lines which are plagiarism
-    private void plagiarismShow(TableView table, List<Integer> plagLineNums){
+    private void plagiarismShow(TableView<CodeLine> table, List<Integer> plagLineNums){
 
         table.setRowFactory(t -> {
             return new TableRow<CodeLine>() {
@@ -459,8 +395,7 @@ public class PlagiarismDetectorUI extends Application {
                         setStyle("");
                     } else {
                         if(plagLineNums.contains(item.getLineNumber())) {
-
-                            setStyle("-fx-background-color: red");
+                            setStyle("-fx-background-color: yellow");
                         } else {
                             setStyle("");
                         }
@@ -473,7 +408,8 @@ public class PlagiarismDetectorUI extends Application {
 
     // Parse the report message got from back end
     public static Map<Integer, List<Integer>> getPlagLineNumbers(String reportMessage) {
-
+    	
+    	
         Map<Integer, List<Integer>> map = new HashMap<>();
         List<Integer> plagLineNumbers;
         int mapKey = 1;
@@ -481,11 +417,9 @@ public class PlagiarismDetectorUI extends Application {
         String[] plagLineNumbersList = reportMessage.split("\n");
 
         for(String numberList: plagLineNumbersList) {
-            System.out.println(numberList);
             plagLineNumbers = new ArrayList<>();
             int length = numberList.length();
             numberList = numberList.substring(1, length - 1);
-            System.out.println(numberList);
             if(numberList.length() > 0) {
                 String[] numbers = numberList.split(", ");
                 for(String number: numbers) {
@@ -499,6 +433,122 @@ public class PlagiarismDetectorUI extends Application {
         return map;
     }
 
+    
+    // setup second scene
+    @SuppressWarnings("unchecked")
+	private void initSecondScene() {
+    	
+    	// Two tableViews
+
+        table1 = new TableView<>();
+        table2 = new TableView<>();
+        table1.setEditable(false);
+        table2.setEditable(false);
+        table1.setPrefWidth(800);
+        table2.setPrefWidth(800);
+
+        lineNumberCol1 = new TableColumn<>("Lines");
+        lineNumberCol2 = new TableColumn<>("Lines");
+        codeCol1 = new TableColumn<>("Codes");
+        codeCol2 = new TableColumn<>("Codes");
+
+        lineNumberCol1.setCellValueFactory(new PropertyValueFactory<CodeLine, Integer>("lineNumber"));
+        codeCol1.setCellValueFactory(new PropertyValueFactory<CodeLine, String>("code"));
+        lineNumberCol2.setCellValueFactory(new PropertyValueFactory<CodeLine, Integer>("lineNumber"));
+        codeCol2.setCellValueFactory(new PropertyValueFactory<CodeLine, String>("code"));
+
+        lineNumberCol1.setPrefWidth(50);
+        codeCol1.setPrefWidth(750);
+        lineNumberCol2.setPrefWidth(50);
+        codeCol2.setPrefWidth(750);
+        lineNumberCol1.setSortable(false);
+        codeCol1.setSortable(false);
+        lineNumberCol2.setSortable(false);
+        codeCol2.setSortable(false);
+
+        table1.getColumns().addAll(lineNumberCol1, codeCol1);
+        table2.getColumns().addAll(lineNumberCol2, codeCol2);
+
+
+        // Buttons
+
+        btnReturn = new Button("Finish and Return");
+        btnReturn.getStyleClass().addAll("btnReturn1");
+        
+        DropShadow shadow = new DropShadow();
+        btnReturn.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> btnReturn.setEffect(shadow));
+        btnReturn.addEventHandler(MouseEvent.MOUSE_EXITED, event -> btnReturn.setEffect(null));
+        
+        
+        btnReturn.setOnAction(event -> {
+            txtFileName1.setText("");
+            txtFileName2.setText("");
+            txtFile1Show.setText("");
+            txtFile2Show.setText("");
+            files[0] = null;
+            files[1] = null;
+            lineNumbers1 = new ArrayList<>();
+            lineNumbers2 = new ArrayList<>();
+            codes1 = new ArrayList<>();
+            codes2 = new ArrayList<>();
+            table1 = new TableView<>();
+            table2 = new TableView<>();
+            window.setScene(mainScene);
+        });
+
+
+        // Layouts
+
+        tabPane = new TabPane();
+        tabLayer0 = new LayerTab("Layer 0");
+        tabLayer1 = new LayerTab("Layer 1");
+        tabLayer2 = new Tab("Layer 2");
+
+        hBox_table_view = new HBox(40);
+        hBox_table_view.getChildren().addAll(table1, table2);
+        hBox_table_view.setAlignment(Pos.CENTER_LEFT);
+        hBox_table_view.setPadding(new Insets(40));
+
+    
+        lblScore = new Label("Score: ");
+        lblScore.getStyleClass().add("lblScore1");
+        txtScore = new TextArea();
+        txtScore.setEditable(false);
+        txtScore.setWrapText(true);
+        txtScore.setPrefHeight(50);
+        txtScore.getStyleClass().add("text-area-score");
+        lblLayer2Intro = new Label("Details: ");
+        lblLayer2Intro.getStyleClass().add("lblIntroduction1");
+        txtLayer2Intro = new TextArea();
+        txtLayer2Intro.getStyleClass().add("text-area-intro");
+        txtLayer2Intro.setEditable(false);
+        txtLayer2Intro.setPrefWidth(120);
+        txtLayer2Intro.setWrapText(true);
+        txtLayer2Intro.setText(LAYER_2_INTRO);
+
+        vBox_second_left_child1 = new VBox(5);
+        vBox_second_left_child1.setPadding(new Insets(20));
+        vBox_second_left_child1.getChildren().addAll(lblScore, txtScore);
+        
+        vBox_second_left_child2 = new VBox(5);
+        vBox_second_left_child2.setPadding(new Insets(15));
+        vBox_second_left_child2.getChildren().addAll(lblLayer2Intro, txtLayer2Intro);
+
+        vBox_second_left = new VBox(5);
+        vBox_second_left.getChildren().addAll(vBox_second_left_child1, vBox_second_left_child2, btnReturn);
+        vBox_second_left.setAlignment(Pos.CENTER);
+        
+
+        hBox_second_layer2 = new HBox(5);
+        hBox_second_layer2.getChildren().addAll(vBox_second_left, hBox_table_view);
+        hBox_second_layer2.setAlignment(Pos.CENTER);
+
+        tabLayer2.setContent(hBox_second_layer2);
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        tabPane.getTabs().addAll(tabLayer0, tabLayer1, tabLayer2);
+
+        secondScene = new Scene(tabPane, window.getWidth(), window.getHeight());
+    }
 
 
     /*********** main method ***********/
