@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import interfaces.IComparator;
@@ -44,7 +45,7 @@ public class FunctionSignatureComparator implements IComparator{
 	 * @see comparator.hashcode.IComparator#generateReport(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Report generateReport(File programA, File programB) throws IOException {
+	public Report generateReport(String programA, String programB){
 		StringBuilder sb=new StringBuilder();
 		float score=comparePrograms(programA, programB);
 		if(matchPairs.size()==0) {
@@ -73,17 +74,21 @@ public class FunctionSignatureComparator implements IComparator{
 	/**
 	 * Function for computing similarity score of two classes
 	 * score calculated as number of similar methods divided by total number of methods * 100
-	 * @param c1 - name of class 1
-	 * @param c2 - name of class 2
+	 * @param programA - program 1 as a string
+	 * @param programB - program 2 as a string
 	 * @return a score indicating the similarity between methods of given classes
 	 * @throws IOException 
 	 */
-	public float comparePrograms(File c1, File c2) throws IOException {
+	public float comparePrograms(String programA, String programB){
 		float cnt;
 		float score;
 		boolean reversed;
-		ArrayList<FunctionSignature> fns1=getAllMethods(c1);
-		ArrayList<FunctionSignature> fns2=getAllMethods(c2);
+//		return score as 0 if the string are either empty or null
+		if(programA == null || programB == null || programA.length()==0 || programB.length()==0) {
+			return 0;
+		}
+		ArrayList<FunctionSignature> fns1=getAllMethods(programA);
+		ArrayList<FunctionSignature> fns2=getAllMethods(programB);
 //		if block to calculate score based on the program with lesser
 //		number of functions
 		if(fns1.size()==0 || fns2.size()==0) {
@@ -136,16 +141,16 @@ public class FunctionSignatureComparator implements IComparator{
 	
 	/**
 	 * Function for getting all function signatures of a class
-	 * @param classFile
+	 * @param program
 	 * @return list of function signatures
 	 * @throws IOException 
 	 */
-	private ArrayList<FunctionSignature> getAllMethods(File classFile) throws IOException {
+	private ArrayList<FunctionSignature> getAllMethods(String program){
 		ArrayList<FunctionSignature> fns=new ArrayList<FunctionSignature>();	
 		String functionDeclarationRegex="(static*\\s+)*(final*\\s+)*(public|protected|private|\\s+)*(final*\\s+)*(static*\\s+)*(final*\\s+)*+[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{?|[^;])";
-		BufferedReader br=new BufferedReader(new FileReader(classFile));
-		String line;
-		while((line = br.readLine()) != null) {
+		Scanner scanner = new Scanner(program);
+		while(scanner.hasNextLine()) {
+			String line = scanner.nextLine();
 			line=line.trim();
 			if(line.matches(functionDeclarationRegex)) {	
 				String functionName=extractFunctionName(line);
@@ -155,7 +160,21 @@ public class FunctionSignatureComparator implements IComparator{
 				fns.add(fs);
 			}
 		}
-		br.close();
+		scanner.close();
+		
+//		BufferedReader br=new BufferedReader(new FileReader(program));
+//		String line;
+//		while((line = br.readLine()) != null) {
+//			line=line.trim();
+//			if(line.matches(functionDeclarationRegex)) {	
+//				String functionName=extractFunctionName(line);
+//				String returnType=extractReturnType(line, functionName);
+//				String args[]=extractArguments(line);
+//				FunctionSignature fs=new FunctionSignature(functionName, args, returnType);
+//				fns.add(fs);
+//			}
+//		}
+//		br.close();
 		return fns;
 	}
 

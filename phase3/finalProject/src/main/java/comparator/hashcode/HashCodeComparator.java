@@ -100,4 +100,6 @@ public class HashCodeComparator implements IComparator {
 	
 	private int hashCodeA;
 	private int hashCodeB;
+
+
 }

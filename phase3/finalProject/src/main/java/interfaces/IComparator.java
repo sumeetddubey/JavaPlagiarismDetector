@@ -12,5 +12,7 @@ public interface IComparator {
 	 * @throws IOException 
 	 */
 	
-	Report generateReport(File programA, File programB) throws IOException;
+//	Report generateReport(File programA, File programB) throws IOException;
+
+	Report generateReport(String programA, String programB);
 }
