@@ -46,17 +46,6 @@ private static final String USER_DEFINED_TYPE = "UserDefined";
 	}	
 
 	/**
-	 * Prints out the textual representation of this function
-	 */
-	public void textualRepresentation() {
-		StringBuilder sb=new StringBuilder();
-		sb.append("Function name: " +this.name +"\t");
-		sb.append("Return type: " +this.returnType +"\t");
-		sb.append("Function arguments: " +Arrays.asList(args));
-		System.out.println(sb);
-	}
-
-	/**
 	 * Compares if two function signatures have the same return type and arguments
 	 * @param fn - function signature
 	 * @return boolean
