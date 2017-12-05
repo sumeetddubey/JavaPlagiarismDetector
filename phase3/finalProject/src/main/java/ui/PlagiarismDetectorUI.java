@@ -107,16 +107,16 @@ public class PlagiarismDetectorUI extends Application {
         lblFile2.getStyleClass().add("lblFile12");
         lblFile2.setTextAlignment(TextAlignment.CENTER);
 
-        lblAlert = new Label("Two files have the same name! Please check again!");
+        lblAlert = new Label("Warning: Two files have the same name!");
         lblAlert.setTextAlignment(TextAlignment.CENTER);
         lblAlert.setTextFill(Color.RED);
         lblAlert.setVisible(false);
         lblAlert.getStyleClass().add("lblAlert1");
 
-        lblTitle = new Label("Plagiarism Detector for Java Language Code");
+        lblTitle = new Label("Plagiarism Detector for Java");
         lblTitle.getStyleClass().add("lblTitle1");
 
-        lblIntro = new Label("Application for Two Java Files Check");
+        lblIntro = new Label("Application for checking Two Java Files");
         lblIntro.getStyleClass().add("lblIntro1");
         lblIntro.setPadding(new Insets(50));
 

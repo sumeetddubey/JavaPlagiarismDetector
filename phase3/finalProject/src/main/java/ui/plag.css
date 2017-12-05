@@ -27,7 +27,7 @@
 
 .lblTitle1
 {
-    -fx-font-size: 30px;
+    -fx-font-size: 20px;
     -fx-font-weight: 800;
     -fx-font-family: sans-serif;
 }
@@ -86,7 +86,7 @@
 
 .lblIntro1
 {
-	-fx-font-size: 20px;
+	-fx-font-size: 12px;
 	-fx-font-weight: 700;
 }
 
