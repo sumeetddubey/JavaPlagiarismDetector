@@ -10,7 +10,6 @@ import java.util.HashMap;
  */
 
 public class FunctionSignature {
-private static final String USER_DEFINED_TYPE = "UserDefined";
 //	variables for storing function name, return type and arguments
 	private String name, returnType;
 	private HashMap<String, Integer> args;
@@ -44,17 +43,6 @@ private static final String USER_DEFINED_TYPE = "UserDefined";
 			}
 		}
 	}	
-
-	/**
-	 * Prints out the textual representation of this function
-	 */
-	public void textualRepresentation() {
-		StringBuilder sb=new StringBuilder();
-		sb.append("Function name: " +this.name +"\t");
-		sb.append("Return type: " +this.returnType +"\t");
-		sb.append("Function arguments: " +Arrays.asList(args));
-		System.out.println(sb);
-	}
 
 	/**
 	 * Compares if two function signatures have the same return type and arguments
