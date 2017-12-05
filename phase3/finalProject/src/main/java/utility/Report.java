@@ -33,23 +33,11 @@ public class Report {
         return score;
     }
 
-    public void setScore(float score) {
-        this.score = score;
-    }
-
     public ComparisonLayer getLayer() {
         return layer;
     }
 
-    public void setLayer(ComparisonLayer layer) {
-        this.layer = layer;
-    }
-
     public String getMessage() {
         return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 }

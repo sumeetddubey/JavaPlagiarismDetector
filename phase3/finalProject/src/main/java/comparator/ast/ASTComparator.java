@@ -1,9 +1,5 @@
 package comparator.ast;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,11 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import TestSamples.SampleFilePaths;
 import algorithms.gst.GreedyStringTilling;
 import algorithms.gst.Match;
 import interfaces.IComparator;
-import utility.ReadFileToString;
 import utility.Report;
 import utility.Report.ComparisonLayer;
 
@@ -45,7 +39,7 @@ public class ASTComparator implements IComparator {
 	@Override
 	public Report generateReport(String programA, String programB) {
 		if(programA == null || programB == null) {
-			return new Report(ComparisonLayer.AST, (float)0, "[]" + "\n" + "[]");
+			return new Report(ComparisonLayer.AST, (float)0.0, "[]" + "\n" + "[]");
 		}
 		
 		float score;
@@ -53,13 +47,8 @@ public class ASTComparator implements IComparator {
 		boolean needToBeContinued = extractListOfNodesFromPrograms(programA, programB);
 		if (!needToBeContinued) {
 			message="[]" + "\n" + "[]";
-			return new Report(ComparisonLayer.AST, (float)0, message);
+			return new Report(ComparisonLayer.AST, (float)0.0, message);
 		}
-		 
-		// *************************************************************************/
-		System.out.println(getProgramRepresentation(programANodeList));
-		System.out.println(getProgramRepresentation(programBNodeList));
-		// *************************************************************************/
 
 		// get list of suspicious nodes(represented by node index intervals) pair 
 		List<PairOfNodeIndexIntervals> listOfSuspiciousPairs = getListOfSuspiciousNodeIndexIntervalPairs();
@@ -78,11 +67,6 @@ public class ASTComparator implements IComparator {
 		
 		// generate message (list of suspicious nodes for programA and programB) for the Report
 		message = Arrays.toString(suspiciousLineNumsOfA) + "\n" + Arrays.toString(suspiciousLineNumsOfB);
-		
-		 //*************************************************************************/
-		 System.out.println(score);
-		 System.out.println(message); 
-		 //*************************************************************************/
 		
 		return new Report(ComparisonLayer.AST, score, message);
 	}

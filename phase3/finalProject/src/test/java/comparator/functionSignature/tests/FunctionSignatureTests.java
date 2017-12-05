@@ -47,8 +47,8 @@ public class FunctionSignatureTests extends TestCase {
 //	total number of functions in smaller program is 3. Score :- (3/3 * 100) %
 	@Test
 	public void testCompareTwoPrograms1(){
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample1));
-		String program2=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample2));
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample1);
+		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample2);
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(program1, program2);
 		assertEquals(score, 100, 0.01);
@@ -59,8 +59,8 @@ public class FunctionSignatureTests extends TestCase {
 //	total number of functions in smaller program is 4. Score :- (3/4 * 100) %
 	@Test
 	public void testCompareTwoPrograms2(){
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample1));
-		String program2=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample3));
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample1);
+		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample3);
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(program1, program2);
 		assertEquals(score, 75.0, 0.01);
@@ -69,8 +69,8 @@ public class FunctionSignatureTests extends TestCase {
 //	Test when 1st program has lesser number of functions than 2nd program
 	@Test
 	public void testCompareTwoProgramWhenProgram1HasLesserNumberOfFunctions(){
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample4));
-		String program2=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample3));
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample4);
+		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample3);
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(program1, program2);
 		assertEquals(score, 33.33, 0.01);
@@ -79,8 +79,8 @@ public class FunctionSignatureTests extends TestCase {
 //	Test when program 1 has no functions 
 	@Test
 	public void testCompareWhenProgram1HasNoFunctions(){
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample5));
-		String program2=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample4));
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample5);
+		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample4);
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(program1, program2);
 		assertEquals(score, 0, 0.01);
@@ -89,8 +89,8 @@ public class FunctionSignatureTests extends TestCase {
 //	Test when program 2 has no functions 
 	@Test
 	public void testCompareWhenProgram2HasNoFunctions(){
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample4));
-		String program2=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample5));
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample4);
+		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample5);
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(program1, program2);
 		assertEquals(score, 0, 0.01);
@@ -99,8 +99,8 @@ public class FunctionSignatureTests extends TestCase {
 //	Test when one program has a generic return type
 	@Test
 	public void testCompareProgramWithGerericReturnTypeFunction(){
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample5));
-		String program2=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample6));
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample5);
+		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample6);
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(program1, program2);
 		assertEquals(score, 0, 0.01);
@@ -109,8 +109,8 @@ public class FunctionSignatureTests extends TestCase {
 //	test for comparing reports of two programs when there are no matching signatures
 	@Test
 	public void testGeneratedReportForNoSignatureMatch(){
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample5));
-		String program2=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample6));
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample5);
+		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample6);
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		Report r = detect.generateReport(program1,  program2);
 		String expectedMessage="No functions with matching signatures";
@@ -122,8 +122,8 @@ public class FunctionSignatureTests extends TestCase {
 //	test for comparing reports of two programs when there is a function signature match
 	@Test
 	public void testReportGenerationForSignatureComparisonWithMatch(){
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample6));
-		String program2=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample7));
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample6);
+		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample7);
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		Report r = detect.generateReport(program1,  program2);
 		String expectedMessage="foo from program 1 matches with bar from program 2\n";
@@ -134,9 +134,9 @@ public class FunctionSignatureTests extends TestCase {
 	
 //	test for comparing two Linked List Programs.
 	@Test
-	public void testCompareLinkedListPrograms(){
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileLinkedListA));
-		String program2=ReadFileToString.readFileToString(new File(SampleFilePaths.fileLinkedListB));
+	public void testCompareComplexPrograms1(){
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileLinkedListA);
+		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileLinkedListB);
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(program1, program2);
 		assertEquals(score, 33.33, 0.01);
@@ -144,9 +144,9 @@ public class FunctionSignatureTests extends TestCase {
 	
 //	test for comparing two complex linked list programs
 	@Test
-	public void testCompareLinkedListPrograms2(){
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileSet02Sample1LinkedList));
-		String program2=ReadFileToString.readFileToString(new File(SampleFilePaths.fileSet02Sample2LinkedList));
+	public void testCompareComplexPrograms2(){
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileSet02Sample1LinkedList);
+		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileSet02Sample2LinkedList);
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(program1, program2);
 		assertEquals(score, 36.36, 0.01);
@@ -154,8 +154,8 @@ public class FunctionSignatureTests extends TestCase {
 	
 //	test for comparing two programs when one is empty
 	public void testCompareEmptyProgram() {
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample1));
-		String program2=ReadFileToString.readFileToString(new File(SampleFilePaths.fileEmptyFile));
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample1);
+		String program2=ReadFileToString.readFileToString(SampleFilePaths.fileEmptyFile);
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(program1, program2);
 		assertEquals(score, 0, 0.01);
@@ -163,7 +163,7 @@ public class FunctionSignatureTests extends TestCase {
 	
 //	test for comparing two programs when one is null
 	public void testCompareNull() {
-		String program1=ReadFileToString.readFileToString(new File(SampleFilePaths.fileFunctionSignatureSample1));
+		String program1=ReadFileToString.readFileToString(SampleFilePaths.fileFunctionSignatureSample1);
 		String program2=null;
 		FunctionSignatureComparator detect = new FunctionSignatureComparator();
 		float score=detect.comparePrograms(program1, program2);
