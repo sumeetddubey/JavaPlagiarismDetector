@@ -8,6 +8,7 @@ import algorithms.gst.GreedyStringTilling;
 import algorithms.gst.Match;
 
 public class GreedyStringTillingTests {
+//	minimum substring length for a legal match
 	private final int MIN_MATCH_LENGTH=4;
 	
 //	Test helper method for comparing two match sets
@@ -92,6 +93,17 @@ public class GreedyStringTillingTests {
 		expected.add(new Match(7, 4, 4));
 		expected.add(new Match(14, 9, 1003));
 		assertTrue(equals(actual, expected));
+	}
+	
+//	Test for a null string
+	@Test
+	public void TestNullString() {
+		String str1="sampleString";
+		String str2=null;
+		GreedyStringTilling gst=new GreedyStringTilling(MIN_MATCH_LENGTH);
+		HashSet<Match> actual = gst.GST(str1, str2);
+		HashSet<Match> expected = new HashSet<Match>();
+		assertEquals(actual, expected);
 	}
 }
 	

@@ -104,20 +104,6 @@ public class FunctionSignatureTests extends TestCase {
 		assertEquals(score, 0, 0.01);
 	}
 	
-//	test for comparing reports of two programs
-	@Test
-	public void testReportGenerationForSignatureComparison() throws IOException{
-		File f1=new File("src/test/java/comparator/functionSignature/tests/Sample3.java");
-		File f2=new File("src/test/java/comparator/functionSignature/tests/Sample4.java");
-		FunctionSignatureComparator detect = new FunctionSignatureComparator();
-		Report r = detect.generateReport(f1,  f2);
-		String expectedMessage="getB from program 1 matches with getA from program 2\n" + 
-				"getA from program 1 matches with getA from program 2\n";
-		assertEquals(r.getScore(), 33.33, 0.01);
-		assertEquals(r.getLayer(), ComparisonLayer.FUNCTION_SIGNATURE);
-		assertEquals(r.getMessage(), expectedMessage);
-	}
-	
 //	test for comparing reports of two programs when there are no matching signatures
 	@Test
 	public void testGeneratedReportForNoSignatureMatch() throws IOException{
@@ -127,6 +113,19 @@ public class FunctionSignatureTests extends TestCase {
 		Report r = detect.generateReport(f1,  f2);
 		String expectedMessage="No functions with matching signatures";
 		assertEquals(r.getScore(), 0, 0.01);
+		assertEquals(r.getLayer(), ComparisonLayer.FUNCTION_SIGNATURE);
+		assertEquals(r.getMessage(), expectedMessage);
+	}
+	
+//	test for comparing reports of two programs when there is a function signature match
+	@Test
+	public void testReportGenerationForSignatureComparisonWithMatch() throws IOException{
+		File f1=new File("src/test/java/comparator/functionSignature/tests/Sample6.java");
+		File f2=new File("src/test/java/comparator/functionSignature/tests/Sample7.java");
+		FunctionSignatureComparator detect = new FunctionSignatureComparator();
+		Report r = detect.generateReport(f1,  f2);
+		String expectedMessage="foo from program 1 matches with bar from program 2\n";
+		assertEquals(r.getScore(), 100, 0.01);
 		assertEquals(r.getLayer(), ComparisonLayer.FUNCTION_SIGNATURE);
 		assertEquals(r.getMessage(), expectedMessage);
 	}
