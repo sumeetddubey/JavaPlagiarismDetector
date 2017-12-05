@@ -8,9 +8,11 @@ package algorithms.gst;
  */
 
 public class Match {
-//	Instance Variables
+//	Starting index of this match in string 1
 	private int a;
+//	Starting index of this match in string 2
 	private int b;
+//	Length of this match
 	private int matchLength;
 	
 	
