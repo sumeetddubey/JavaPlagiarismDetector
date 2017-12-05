@@ -92,7 +92,6 @@ public class HashCodeComparator implements IComparator {
 	/**
 	 * Constructors
 	 */
-	
 	public HashCodeComparator() {}
 	
 	public HashCodeComparator(int hashCodeA, int hashCodeB) {
