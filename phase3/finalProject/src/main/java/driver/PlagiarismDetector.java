@@ -14,7 +14,6 @@ public class PlagiarismDetector {
 	 * Returns the report that indicates whether happens or not. 
 	 * @throws IOException 
 	 */
-	
 	public Report[] generateFinalReport() throws IOException {
 //		generate report for hash code layer
 		Report report0 = layer0Report();
@@ -67,7 +66,6 @@ public class PlagiarismDetector {
 		programB = fileB;
 		this.reports=new Report[NUMBER_OF_LAYERS];
 	}
-	
 
 	/**
 	 * Getters and setters

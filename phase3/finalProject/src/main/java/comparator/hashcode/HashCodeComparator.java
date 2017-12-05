@@ -1,11 +1,10 @@
 package comparator.hashcode;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 import interfaces.IComparator;
+import utility.ReadFileToString;
 import utility.Report;
 import utility.Report.ComparisonLayer;
 
@@ -34,47 +33,22 @@ public class HashCodeComparator implements IComparator {
 	 * Returns the hash code of given program file
 	 * @throws IOException 
 	 */
-	
 	private int generateHashCode(File programA) throws IOException {
-		String strProgramA = convertFileToString(programA);
+		String strProgramA = ReadFileToString.readFileToString(programA);
 		return strProgramA.hashCode();
-	}
-	
-	/**
-	 * Returns the string representation of upload file
-	 */
-	
-	private String convertFileToString(File file) throws IOException {
-		FileReader fileReader = new FileReader(file);
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		StringBuilder strBuilder = new StringBuilder();
-		String str;
-
-		while((str = bufferedReader.readLine()) != null) {
-			strBuilder.append(str + "\n");
-		}
-		bufferedReader.close();
-		String fileToString = strBuilder.toString();
-		return fileToString;
 	}
 	
 	
 	/**
 	 * Returns true iff two computed hash codes are same
 	 */
-	
 	private boolean compareHashCode() {
-		if(hashCodeA == hashCodeB) {
-			return true;
-		} else {
-			return false;
-		}
+		return hashCodeA == hashCodeB;
 	}
 	
 	/**
 	 * Write the report according to if two computed hash codes are same
 	 */
-	
 	private Report writeReport(Boolean isSame) {
 		float score;
 		String message;
@@ -92,12 +66,11 @@ public class HashCodeComparator implements IComparator {
 	/**
 	 * Constructors
 	 */
-	public HashCodeComparator() {}
 	
-	public HashCodeComparator(int hashCodeA, int hashCodeB) {
-		this.setHashCodeA(hashCodeA);
-		this.setHashCodeB(hashCodeB);
-	}
+//	public HashCodeComparator(int hashCodeA, int hashCodeB) {
+//		this.hashCodeA = hashCodeA;
+//		this.hashCodeB = hashCodeB;
+//	}
 	
 	/**
 	 * Getters and setters
@@ -107,25 +80,25 @@ public class HashCodeComparator implements IComparator {
 		return report;
 	}
 
-	public void setReport(String report) {
-		this.report = report;
-	}
+//	public void setReport(String report) {
+//		this.report = report;
+//	}
 
 	public int getHashCodeA() {
 		return hashCodeA;
 	}
 
-	public void setHashCodeA(int hashCodeA) {
-		this.hashCodeA = hashCodeA;
-	}
+//	public void setHashCodeA(int hashCodeA) {
+//		this.hashCodeA = hashCodeA;
+//	}
 
 	public int getHashCodeB() {
 		return hashCodeB;
 	}
 
-	public void setHashCodeB(int hashCodeB) {
-		this.hashCodeB = hashCodeB;
-	}
+//	public void setHashCodeB(int hashCodeB) {
+//		this.hashCodeB = hashCodeB;
+//	}
 
 	/**
 	 * private fields
