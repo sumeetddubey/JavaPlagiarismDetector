@@ -1,7 +1,9 @@
 package comparator.ast;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import TestSamples.SampleFilePaths;
 import algorithms.gst.GreedyStringTilling;
 import algorithms.gst.Match;
 import interfaces.IComparator;
@@ -18,13 +21,12 @@ import utility.Report.ComparisonLayer;
 
 /**
  * ASTComparator that compares two programs and generates report
- * 	1) Read file of programs to Strings
- * 	2) Create list of Node to represent each program  
- * 	3) Convert list of Node to String representation to represent the program
+ * 	1) Create list of Node to represent each program  
+ * 	2) Convert list of Node to String representation to represent the program
  * 	   and compare the String representation by Greedy String Tilling algorithm
- * 	4) Get suspicious pair of block(node list represented by node indexes) in two programs
- * 	5) Get suspicious nodes of each program separately
- * 	6) Generate Report - calculate similarity score and generate message(suspicious line numbers in both programs)
+ * 	3) Get suspicious pair of block(node list represented by node indexes) in two programs
+ * 	4) Get suspicious nodes of each program separately
+ * 	5) Generate Report - calculate similarity score and generate message(suspicious line numbers in both programs)
  * 
  * @author Wenjun
  *
@@ -42,13 +44,16 @@ public class ASTComparator implements IComparator {
 	 */
 	@Override
 	public Report generateReport(String programA, String programB) {
+		if(programA == null || programB == null) {
+			return new Report(ComparisonLayer.AST, (float)0, "[]" + "\n" + "[]");
+		}
+		
 		float score;
 		String message;
 		boolean needToBeContinued = extractListOfNodesFromPrograms(programA, programB);
 		if (!needToBeContinued) {
-			score=0;
 			message="[]" + "\n" + "[]";
-			return new Report(ComparisonLayer.AST, score, message);
+			return new Report(ComparisonLayer.AST, (float)0, message);
 		}
 		 
 		// *************************************************************************/
@@ -100,7 +105,7 @@ public class ASTComparator implements IComparator {
 	}
 	
 	/**
-	 * Read program from files and extract list of Node from programs and decide whether needs to continue 
+	 * Extract list of Node from programs and decide whether needs to continue 
 	 * comparing the two programs
 	 * @param programA
 	 * @param programB

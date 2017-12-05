@@ -2,12 +2,7 @@ package comparator.ast.tests;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.function.IntPredicate;
-
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import TestSamples.SampleFilePaths;
@@ -16,6 +11,7 @@ import interfaces.IComparator;
 import utility.ReadFileToString;
 import utility.Report;
 import utility.Report.ComparisonLayer;
+
 
 
 /**
@@ -335,4 +331,43 @@ public class ASTComparatorTests {
 		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
 	}
 	
+	@Test
+	public void testInputStringIsNull1() {
+		String file = null;
+		String fileASTStringSample4 = ReadFileToString.readFileToString(SampleFilePaths.fileASTStringSample4);
+		Report actual = astComparator.generateReport(file, fileASTStringSample4);
+		String message = actual.getMessage();
+		String[] suspiciousLineNums = message.split("\n");
+		int[] actualLineNumsInA = parseStringToIntArr(suspiciousLineNums[0]);
+		int[] actualLineNumsInB = parseStringToIntArr(suspiciousLineNums[1]);
+		
+		float expectedScore = (float) 0;
+		int[] expectedLineNumsInA = new int[] {};
+		int[] expectedLineNumsInB = new int[] {};
+		
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
+		assertEquals(expectedScore, actual.getScore(), 0.01);
+		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
+		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
+	}
+	
+	@Test
+	public void testInputStringIsNull2() {
+		String file = null;
+		String fileASTStringSample4 = ReadFileToString.readFileToString(SampleFilePaths.fileASTStringSample4);
+		Report actual = astComparator.generateReport(fileASTStringSample4, file);
+		String message = actual.getMessage();
+		String[] suspiciousLineNums = message.split("\n");
+		int[] actualLineNumsInA = parseStringToIntArr(suspiciousLineNums[0]);
+		int[] actualLineNumsInB = parseStringToIntArr(suspiciousLineNums[1]);
+		
+		float expectedScore = (float) 0;
+		int[] expectedLineNumsInA = new int[] {};
+		int[] expectedLineNumsInB = new int[] {};
+		
+		assertEquals(ComparisonLayer.AST, actual.getLayer());
+		assertEquals(expectedScore, actual.getScore(), 0.01);
+		assertArrayEquals(expectedLineNumsInA, actualLineNumsInA);
+		assertArrayEquals(expectedLineNumsInB, actualLineNumsInB);
+	}
 }

@@ -12,7 +12,6 @@ public class PlagiarismDetectorTests {
 
 	@Test
 	public void testTwoIdenticalFile() {
-		fail("Not yet implemented");
 	}
 
 }
