@@ -41,7 +41,7 @@ public class ASTComparator implements IComparator {
 	 * by comparing AST of the two programs
 	 */
 	@Override
-	public Report generateReport(File programA, File programB) throws IOException {
+	public Report generateReport(String programA, String programB) {
 		float score;
 		String message;
 		boolean needToBeContinued = extractListOfNodesFromPrograms(programA, programB);
@@ -106,12 +106,8 @@ public class ASTComparator implements IComparator {
 	 * @param programB
 	 * @return - whether is it worth to continue compare the two programs
 	 */
-	private boolean extractListOfNodesFromPrograms(File programA, File programB) {
-		// read the programs from file to Strings
-		String programAStr = ReadFileToString.readFileToString(programA);
-		String programBStr = ReadFileToString.readFileToString(programB);
-
-		if (programAStr.length() == 0 || programBStr.length() == 0) {
+	private boolean extractListOfNodesFromPrograms(String programA, String programB) {
+		if (programA.length() == 0 || programB.length() == 0) {
 			// if one of the programs is empty, no need to continue comparing
 			return false;
 		} 
@@ -119,8 +115,8 @@ public class ASTComparator implements IComparator {
 		// get node lists of two programs respectively
 		DetectorASTParser parserA = new DetectorASTParser();		
 		DetectorASTParser parserB = new DetectorASTParser();
-		programANodeList = parserA.parseProgramToListOfNodes(programAStr);
-		programBNodeList = parserB.parseProgramToListOfNodes(programBStr);
+		programANodeList = parserA.parseProgramToListOfNodes(programA);
+		programBNodeList = parserB.parseProgramToListOfNodes(programB);
 		
 		if (programANodeList.size() == 0 || programBNodeList.size() == 0) {
 			// if one of the programs does not have any nodes inside of it, no need to continue comparing

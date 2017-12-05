@@ -1,10 +1,6 @@
 package comparator.hashcode;
 
-import java.io.File;
-import java.io.IOException;
-
 import interfaces.IComparator;
-import utility.ReadFileToString;
 import utility.Report;
 import utility.Report.ComparisonLayer;
 
@@ -16,28 +12,21 @@ public class HashCodeComparator implements IComparator {
 
 	/**
 	 * Returns generated report of given programs to PlagiarismDetector
-	 * @throws IOException 
 	 */
-	public Report generateReport(File programA, File programB) throws IOException {
-
-		hashCodeA = generateHashCode(programA);
-		hashCodeB = generateHashCode(programB);
+	public Report generateReport(String programA, String programB) {
+		boolean isSame;
 		
-		boolean isSame = compareHashCode();
+		if(programA == null || programB == null) {
+			return writeReport(false);
+		}
+		
+		hashCodeA = programA.hashCode();
+		hashCodeB = programB.hashCode();
+		
+		isSame = compareHashCode();
 		
 		return writeReport(isSame);
 	}
-	
-	
-	/**
-	 * Returns the hash code of given program file
-	 * @throws IOException 
-	 */
-	private int generateHashCode(File programA) throws IOException {
-		String strProgramA = ReadFileToString.readFileToString(programA);
-		return strProgramA.hashCode();
-	}
-	
 	
 	/**
 	 * Returns true iff two computed hash codes are same
@@ -63,9 +52,6 @@ public class HashCodeComparator implements IComparator {
 		return r;
 	}
 	
-	/**
-	 * private fields
-	 */
-	private int hashCodeA;
-	private int hashCodeB;
+	private int hashCodeA; // hashCode for program A
+	private int hashCodeB; // hashCode for program B
 }
