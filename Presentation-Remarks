@@ -1,0 +1,20 @@
+Score: 95.9
+Comments
+Nice job.  The interface is clear and it's useful to the user.  
+
+on functionality: Handles single java files only
+on UI and usability: Good job of showing the similarities along with the line numbers of different layers.
+on presentation: Good work!
+ on functionality: 1-1 comparison
+Hash codes, AST comparator, Greedy string tilling.
+3 layers- hash code comparison 
+Visitor design pattern.
+
+on UI and usability: Best UI so far, could identify the differences clearly.
+on presentation: Showed the process- Good
+
+Explained the techniques well.  Used greedy string tiling to find the matching substrings and in turn used it along with ASTs to find the similarity. Seems to have followed processes well with proper meeting minutes. The UI is really simple with no login or any other extra stuff. Displays the similarity as three different layers in different tabs which is a bit confusing. The application does not tell us which score should be relied on more. Side by side comparison is well implemented. 
+
+on functionality: Team presented various techniques of handling plagiarism very well!
+on UI and usability: Showed similarities within code - good work on UI - helps the user 
+on presentation: Very good work with the whole presentation!
