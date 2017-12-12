@@ -29,15 +29,17 @@ import driver.PlagiarismDetector;
 @SuppressWarnings("restriction")
 public class PlagiarismDetectorUI extends Application {
 
-    private static final String LAYER_0_INTRO =
+    private static final String LAYER_0_INTRO = 
             "Layer 0 shows the hash code comparison.\n" + 
-            "If both the uploaded files are exactly same, the score will be 100.0, otherwise it will be 0.0.\n";
+            "If both the uploaded files are exactly same, the score will be 100, otherwise it will be 0.\n";
     private static final String LAYER_1_INTRO =
-            "Layer 1 shows the function signature comparison.\n" + 
-            "If the two uploaded files have similar return types and parameter types,the score is computed based on the number of functions that having matching signatures.\n";
+            "Layer 1 shows function signature comparison.\n" + 
+            "If two functions have the same return type and arguments, they are concluded to have matching signatures.\n"+
+            	"Score is calculated as number of functions in program x that match to a function in program y divided by \n"+
+            "the total number of functions in program x. Here program x is the program with lesser number of functions";
     private static final String LAYER_2_INTRO =
             "Layer 2 shows the abstract syntax tree comparison.\n" + 
-            "It constructs Abstract Syntax Trees of the two uploaded files and analyzes the similarity by Greedy String Tiling algorithm.\n";
+            "It constructs Abstract Syntax Trees of the two uploaded files and analyzes the similarity by using Greedy String Tiling algorithm.\n";
 
   
 	private Stage window;
@@ -78,7 +80,7 @@ public class PlagiarismDetectorUI extends Application {
 
         // Stage
         window = primaryStage;
-        window.setTitle("Plagiarism Detector for Java code");
+        window.setTitle("Java Plagiarism Detector");
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
 
@@ -107,16 +109,16 @@ public class PlagiarismDetectorUI extends Application {
         lblFile2.getStyleClass().add("lblFile12");
         lblFile2.setTextAlignment(TextAlignment.CENTER);
 
-        lblAlert = new Label("Two files have the same name! Please check again!");
+        lblAlert = new Label("Warning! Uploaded files have the same name.");
         lblAlert.setTextAlignment(TextAlignment.CENTER);
         lblAlert.setTextFill(Color.RED);
         lblAlert.setVisible(false);
         lblAlert.getStyleClass().add("lblAlert1");
 
-        lblTitle = new Label("Plagiarism Detector for Java Language Code");
+        lblTitle = new Label("Plagiarism Detector For Java");
         lblTitle.getStyleClass().add("lblTitle1");
 
-        lblIntro = new Label("Application for Two Java Files Check");
+        lblIntro = new Label("Application for comparing 2 Java files");
         lblIntro.getStyleClass().add("lblIntro1");
         lblIntro.setPadding(new Insets(50));
 
@@ -308,7 +310,7 @@ public class PlagiarismDetectorUI extends Application {
 
     // Pop up confirm box to ensure the user wants to close the window
     private void closeProgram() {
-        boolean toClose = ConfirmBox.display("Exit", "Do you want to exit now?");
+        boolean toClose = ConfirmBox.display("Exit", "Do you want to exit?");
         if(toClose) {
             window.close();
         }

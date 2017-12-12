@@ -51,8 +51,7 @@ public class HelpPage {
                 "\t* Each comparison corresponds to one layer.\n" +
                 "\t* Each score is calculated based on a different algorithm.\n" + 
                 "\t* Each message is a summary for that layer's comparison.\n" + 
-                "\t* The tables shown in the last layer indicate code blocks which have high similarity.\n\n" + 
-                "If you have any other issue, please contact us at https://github.ccs.neu.edu/cs5500/team-20");
+                "\t* The tables shown in the last layer indicate code blocks which have high similarity.\n\n");
         textArea.getStyleClass().add("text-area1");
         
 

@@ -27,7 +27,7 @@
 
 .lblTitle1
 {
-    -fx-font-size: 30px;
+    -fx-font-size: 20px;
     -fx-font-weight: 800;
     -fx-font-family: sans-serif;
 }
@@ -80,13 +80,13 @@
 
 .btnReturn1
 {
-	-fx-font-size: 20px;
+	-fx-font-size: 12px;
     -fx-background-color:#6bc7a2;
 }
 
 .lblIntro1
 {
-	-fx-font-size: 20px;
+	-fx-font-size: 12px;
 	-fx-font-weight: 700;
 }
 
